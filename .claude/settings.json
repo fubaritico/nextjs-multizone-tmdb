@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(*)",
+      "Write(apps/**)",
+      "Write(packages/**)"
+    ],
+    "deny": [
+      "Bash(pnpm install *)",
+      "Bash(pnpm build)",
+      "Bash(rm -rf *)",
+      "Bash(git push *)",
+      "Write(.claude/**)"
+    ]
+  }
+}

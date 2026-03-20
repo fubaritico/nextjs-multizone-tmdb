@@ -42,6 +42,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# turborepo
+.turbo
+
 # Claude AI work files
 files
 explore-legacy.md

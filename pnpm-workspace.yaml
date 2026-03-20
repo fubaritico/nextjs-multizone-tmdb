@@ -43,5 +43,8 @@ catalog:
   '@vite-mf-monorepo/layouts': 0.0.4
   '@vite-mf-monorepo/shared': 0.0.2
 
+  # Build
+  turbo: 2.8.20
+
   # Utilities
   clsx: 2.1.1

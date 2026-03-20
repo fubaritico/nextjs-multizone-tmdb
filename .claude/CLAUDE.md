@@ -145,12 +145,22 @@ rewrites: {
 - Phase 1: Turborepo + shared tsconfig (`turbo.json`, `tsconfig.base.json`, turbo scripts, `packageManager` field)
 - Removed temp scaffolding (`src/app/*`, `next.config.ts`, `next/react/react-dom` deps)
 
+- Phase 2: Init 5 zone apps (web:3000, home:3001, media:3002, talents:3003, search:3004)
+- apps/web orchestrator with fallback rewrites to zone apps (env-driven URLs)
+- Zone apps: next.config.ts, tsconfig.json, postcss.config.mjs, globals.css (Tailwind v4 prefix), layout.tsx, page.tsx
+- assetPrefix per zone for multi-zone asset loading
+- Fixed ESLint ignore patterns for monorepo (`**/.next/**`, `**/next-env.d.ts`)
+- README.md with architecture docs, multi-zone vs micro-frontend comparison, env setup
+- Fixed all package references to match catalog (`@vite-mf-monorepo/ui`, `@vite-mf-monorepo/layouts`, `@vite-mf-monorepo/shared`, `@fubar-it-co/tmdb-client`)
+- Updated Next.js version references from 15 to 16 across all docs
+
 ### Next
-- Phase 2: Init 5 zone apps (web, home, media, talents, search)
+- Phase 3: Add shared package deps + TanStack Query providers to zone apps (home first)
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
 - env vars: `VITE_*` prefix kept for compatibility with existing tmdb-client package
+- `apps/web/src/app/page.tsx` was removed — web has no root page, relies on fallback rewrite to home
 
 ---
 
@@ -166,6 +176,7 @@ NEXT_PUBLIC_SEARCH_URL=http://localhost:3004
 
 **apps/[zone]/.env.local**
 ```
+NEXT_PUBLIC_ASSET_PREFIX=http://localhost:<zone_port>
 VITE_TMDB_API_TOKEN=your_token_here
 VITE_USE_NETLIFY_CDN=false
 ```

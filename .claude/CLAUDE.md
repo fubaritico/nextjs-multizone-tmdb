@@ -1,7 +1,7 @@
 # nextjs-multizone-tmdb — Claude Code Instructions
 
 ## Project
-TMDB media app. Next.js 15 App Router + Multi-Zones + Turborepo. pnpm workspaces.
+TMDB media app. Next.js 16 App Router + Multi-Zones + Turborepo. pnpm workspaces.
 Migration from vite-mf-monorepo (Module Federation CSR) → SSR/RSC, production-ready, SEO-first.
 A person having pulled the repo MUST be able to install and run the app in development mode without any additional steps.
 
@@ -14,12 +14,11 @@ apps/talents     port 3003 — Talent (Actors, Directors, Filmography, Photos)
 apps/search      port 3004 — Search/Discovery (Search, Filters, Advanced)
 ```
 
-### Shared packages (from npm registry — @fubar-it-co/*)
-- `@fubar-it-co/ui` — design system (Avatar, Badge, Button, Card, Carousel, Icon, Image, Modal, Rating, Skeleton, Spinner, Tabs, Typography, Talent, HeroImage, MovieCard, ConditionalWrapper)
-- `@fubar-it-co/layouts` — Container, Section, Header, Footer, RootLayout
-- `@fubar-it-co/tokens` — design tokens OKLCH/DTCG, CSS vars + Tailwind @theme
-- `@fubar-it-co/shared` — mocks, test-utils, utils (tmdbImage, etc.)
-- `@fubar-it-co/http-client` — TMDB heyAPI generated client + TanStack Query option factories
+### Shared packages (from npm registry)
+- `@vite-mf-monorepo/ui` — design system (Avatar, Badge, Button, Card, Carousel, Icon, Image, Modal, Rating, Skeleton, Spinner, Tabs, Typography, Talent, HeroImage, MovieCard, ConditionalWrapper)
+- `@vite-mf-monorepo/layouts` — Container, Section, Header, Footer, RootLayout
+- `@vite-mf-monorepo/shared` — mocks, test-utils, utils (tmdbImage, etc.)
+- `@fubar-it-co/tmdb-client` — TMDB heyAPI generated client + TanStack Query option factories
 
 > Packages are consumed from npm. To update: edit in vite-mf-monorepo, republish, bump version here.
 
@@ -41,10 +40,10 @@ apps/search      port 3004 — Search/Discovery (Search, Filters, Advanced)
 
 ---
 
-## Architecture: Next.js 15 Multi-Zones
+## Architecture: Next.js 16 Multi-Zones
 
 ### Key Concepts
-- **Server Components** — default in Next.js 15, no `'use client'` unless needed
+- **Server Components** — default in Next.js 16, no `'use client'` unless needed
 - **`'use client'`** — only for interactivity (useState, event handlers, hooks)
 - **`'use server'`** — Server Actions for mutations
 - **Data fetching** — `prefetchQuery` server-side + `HydrationBoundary` + `useQuery` client-side
@@ -58,7 +57,7 @@ Each page Server Component:
 3. Returns `<HydrationBoundary state={dehydrate(queryClient)}>` wrapping sections
 4. Client Components use `useQuery(options)` — guaranteed cache HIT on first render
 
-**CRITICAL**: `prefetchQuery` and `useQuery` MUST use the same options factory from `@fubar-it-co/http-client` to guarantee identical `queryKey` → cache HIT.
+**CRITICAL**: `prefetchQuery` and `useQuery` MUST use the same options factory from `@fubar-it-co/tmdb-client` to guarantee identical `queryKey` → cache HIT.
 
 ```typescript
 // CORRECT — same factory, same queryKey
@@ -105,7 +104,7 @@ rewrites: {
 - Server Actions: `'use server'` in `app/lib/actions.ts`
 
 ### Imports
-- Order: external → @fubar-it-co/* → relative → `import type` (blank line between groups)
+- Order: external → shared packages → relative → `import type` (blank line between groups)
 - Always `next/image` — never `<img>` directly
 - Always `next/link` — never `<a href>` for internal navigation
 
@@ -113,7 +112,7 @@ rewrites: {
 - CSS prefixes per zone: `hm:` (home), `mda:` (media), `tl:` (talents), `sr:` (search)
 - Shared prefixes: `ui:` (packages/ui), `layout:` (layouts)
 - `clsx` for conditional classes
-- Tailwind v4, tokens from `@fubar-it-co/tokens`
+- Tailwind v4, tokens via `@vite-mf-monorepo/ui` and `@vite-mf-monorepo/layouts`
 
 ### TypeScript
 - Strict mode, never explicit `any`
@@ -143,15 +142,15 @@ rewrites: {
 - Vitest + RTL test environment: vitest.config.ts (jsdom, globals, v8 coverage), vitest.setup.ts (jest-dom matchers, ResizeObserver/IntersectionObserver mocks)
 - Test scripts: `test`, `test:watch`, `coverage`
 - Smoke test for temp Home page (src/app/page.test.tsx)
+- Phase 1: Turborepo + shared tsconfig (`turbo.json`, `tsconfig.base.json`, turbo scripts, `packageManager` field)
+- Removed temp scaffolding (`src/app/*`, `next.config.ts`, `next/react/react-dom` deps)
 
 ### Next
-- Phase 1: Setup Turborepo + pnpm workspaces + shared tsconfig
 - Phase 2: Init 5 zone apps (web, home, media, talents, search)
-- Phase 3: Home zone (HeroSection, TrendingSection, PopularSection, FreeToWatchSection, FeaturedActorsSection)
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
-- env vars: `VITE_*` prefix kept for compatibility with existing http-client package
+- env vars: `VITE_*` prefix kept for compatibility with existing tmdb-client package
 
 ---
 
@@ -180,7 +179,7 @@ VITE_USE_NETLIFY_CDN=false
 | `patterns-client-component.md` | Section with tabs/state, carousel, interactive |
 | `patterns-hydration.md` | prefetchQuery + HydrationBoundary + useQuery full pattern |
 | `patterns-server-action.md` | Mutation, useMutation, optimistic update |
-| `patterns-ui.md` | New UI component in @fubar-it-co/ui |
+| `patterns-ui.md` | New UI component in @vite-mf-monorepo/ui |
 | `architecture.md` | Stack, Turborepo, Multi-Zones, rewrites |
 | `troubleshooting.md` | SSR/hydration debug, zone routing issues |
 

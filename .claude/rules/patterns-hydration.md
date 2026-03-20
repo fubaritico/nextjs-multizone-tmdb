@@ -25,7 +25,7 @@ import {
   moviePopularListOptions,
   tvSeriesPopularListOptions,
   discoverMovieOptions,
-} from '@fubar-it-co/http-client'
+} from '@fubar-it-co/tmdb-client'
 
 import TrendingSection from '../components/TrendingSection/TrendingSection'
 import PopularSection from '../components/PopularSection/PopularSection'
@@ -64,7 +64,7 @@ export default async function HomePage() {
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { trendingAllOptions } from '@fubar-it-co/http-client'
+import { trendingAllOptions } from '@fubar-it-co/tmdb-client'
 
 // SAME factory as prefetchQuery → same queryKey → cache HIT guaranteed
 const { data, isLoading } = useQuery(

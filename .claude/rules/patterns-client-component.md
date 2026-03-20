@@ -12,7 +12,7 @@
 // apps/home/src/components/TrendingSection/TrendingSection.tsx
 'use client'
 
-import { Tabs, Typography } from '@fubar-it-co/ui'
+import { Tabs, Typography } from '@vite-mf-monorepo/ui'
 import { useState } from 'react'
 
 import TrendingMoviesCarousel from './TrendingMoviesCarousel'
@@ -56,7 +56,7 @@ const TrendingSection: FC<TrendingSectionProps> = ({ initialTimeWindow }) => {
 export default TrendingSection
 ```
 
-> ⚠️ **Pending migration**: `MovieCard` currently uses `to` prop (React Router). Once `@fubar-it-co/ui` is republished with `next/link` support, this will change to `href`. Check `rules/patterns-ui.md` before using any component with a link prop.
+> ⚠️ **Pending migration**: `MovieCard` currently uses `to` prop (React Router). Once `@vite-mf-monorepo/ui` is republished with `next/link` support, this will change to `href`. Check `rules/patterns-ui.md` before using any component with a link prop.
 
 ## Carousel with useQuery pattern
 
@@ -65,11 +65,11 @@ export default TrendingSection
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { trendingAllOptions } from '@fubar-it-co/http-client'
-import { Carousel, CarouselItem, CarouselLoading, MovieCard } from '@fubar-it-co/ui'
+import { trendingAllOptions } from '@fubar-it-co/tmdb-client'
+import { Carousel, CarouselItem, CarouselLoading, MovieCard } from '@vite-mf-monorepo/ui'
 
 import type { UseQueryResult } from '@tanstack/react-query'
-import type { TrendingAllResponse, TMDBError } from '@fubar-it-co/http-client'
+import type { TrendingAllResponse, TMDBError } from '@fubar-it-co/tmdb-client'
 import type { FC } from 'react'
 
 interface TrendingMoviesCarouselProps {

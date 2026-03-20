@@ -13,7 +13,7 @@ import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query
 import {
   trendingAllOptions,
   moviePopularListOptions,
-} from '@fubar-it-co/http-client'
+} from '@fubar-it-co/tmdb-client'
 
 import HeroSection from '../components/HeroSection/HeroSection'
 import TrendingSection from '../components/TrendingSection/TrendingSection'
@@ -56,7 +56,7 @@ export default async function HomePage() {
 
 ```typescript
 // apps/home/src/app/layout.tsx
-import { RootLayout } from '@fubar-it-co/layouts'
+import { RootLayout } from '@vite-mf-monorepo/layouts'
 
 import type { ReactNode } from 'react'
 
@@ -77,7 +77,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 // so the fetch is deduplicated — no double request to TMDB
 
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
-import { movieDetailsOptions } from '@fubar-it-co/http-client'
+import { movieDetailsOptions } from '@fubar-it-co/tmdb-client'
 
 import type { Metadata } from 'next'
 
@@ -100,7 +100,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const queryClient = await getQueryClient(id)
   const movie = queryClient.getQueryData(
     movieDetailsOptions({ path: { movie_id: Number(id) } }).queryKey
-  ) as Awaited<ReturnType<typeof import('@fubar-it-co/http-client').movieDetailsOptions>>
+  ) as Awaited<ReturnType<typeof import('@fubar-it-co/tmdb-client').movieDetailsOptions>>
 
   return {
     title: `${movie?.title} | TMDB`,
@@ -132,7 +132,7 @@ export default async function MediaPage({ params }: Props) {
 ## Rules
 - No `'use client'` — Server Components are async by default
 - No useState, no useEffect, no event handlers
-- Always `await params` (Next.js 15 — params is a Promise)
+- Always `await params` (Next.js 16 — params is a Promise)
 - Prefetch ALL data needed by child sections in one `Promise.all`
 - `staleTime` must match `revalidate` (both 24h)
 - Always wrap with `<HydrationBoundary>` before passing to Client Components

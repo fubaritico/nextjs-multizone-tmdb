@@ -1,4 +1,4 @@
-# Pattern — UI Component (@fubar-it-co/ui)
+# Pattern — UI Component (@vite-mf-monorepo/ui)
 
 ## Important
 UI components live in the `vite-mf-monorepo` project under `packages/ui`.
@@ -6,12 +6,12 @@ To add or update a component:
 1. Edit in `vite-mf-monorepo/packages/ui`
 2. Run `pnpm build` in that package
 3. Publish to npm
-4. Bump `@fubar-it-co/ui` version in the zone app that needs it
+4. Bump `@vite-mf-monorepo/ui` version in the zone app that needs it
 
 Do NOT create UI components directly in this project.
 
 ## ⚠️ Pending: React Router → Next.js link migration
-Some components in `@fubar-it-co/ui` still use `to` prop (React Router) instead of `href` (next/link).
+Some components in `@vite-mf-monorepo/ui` still use `to` prop (React Router) instead of `href` (next/link).
 This migration is in progress in `vite-mf-monorepo`.
 
 **Before using any component with a link prop:**
@@ -36,7 +36,7 @@ Affected components (known): `Button` (as="link"), `MovieCard` (as="link")
 
 ### Button
 ```typescript
-import { Button } from '@fubar-it-co/ui'
+import { Button } from '@vite-mf-monorepo/ui'
 
 // As button
 <Button variant="primary" onClick={handleClick}>Watch Now</Button>
@@ -47,7 +47,7 @@ import { Button } from '@fubar-it-co/ui'
 
 ### MovieCard
 ```typescript
-import { MovieCard } from '@fubar-it-co/ui'
+import { MovieCard } from '@vite-mf-monorepo/ui'
 
 <MovieCard
   as="link"
@@ -62,7 +62,7 @@ import { MovieCard } from '@fubar-it-co/ui'
 
 ### Carousel
 ```typescript
-import { Carousel, CarouselItem, CarouselLoading } from '@fubar-it-co/ui'
+import { Carousel, CarouselItem, CarouselLoading } from '@vite-mf-monorepo/ui'
 
 // Loading state
 if (isLoading) return <CarouselLoading count={6} />
@@ -82,7 +82,7 @@ if (error) return <Carousel errorMessage="Failed to load" />
 
 ### Tabs
 ```typescript
-import { Tabs } from '@fubar-it-co/ui'
+import { Tabs } from '@vite-mf-monorepo/ui'
 
 <Tabs value={activeTab} onValueChange={setActiveTab} variant="pills" prefix="section-name">
   <Tabs.List>
@@ -96,7 +96,7 @@ import { Tabs } from '@fubar-it-co/ui'
 
 ### Skeleton
 ```typescript
-import { Skeleton } from '@fubar-it-co/ui'
+import { Skeleton } from '@vite-mf-monorepo/ui'
 
 // Always use Skeleton as Suspense fallback — prevents CLS
 <Suspense fallback={<Skeleton variant="card" count={6} />}>
@@ -106,7 +106,7 @@ import { Skeleton } from '@fubar-it-co/ui'
 
 ### Typography
 ```typescript
-import { Typography } from '@fubar-it-co/ui'
+import { Typography } from '@vite-mf-monorepo/ui'
 
 <Typography variant="h2">Section Title</Typography>
 <Typography variant="body">Description text</Typography>
@@ -115,7 +115,7 @@ import { Typography } from '@fubar-it-co/ui'
 ---
 
 ## CSS prefix rule
-All `@fubar-it-co/ui` classes use the `ui:` prefix:
+All `@vite-mf-monorepo/ui` classes use the `ui:` prefix:
 ```html
 <div className="ui:flex ui:items-center ui:gap-4">
 ```

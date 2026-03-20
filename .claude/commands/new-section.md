@@ -1,4 +1,4 @@
-Create a new section component in a zone app following the Next.js 15 SSR patterns.
+Create a new section component in a zone app following the Next.js 16 SSR patterns.
 
 Reference files:
 - `rules/patterns-server-component.md`
@@ -34,7 +34,7 @@ Example: `/new-section home TrendingSection` or `/new-section media CastSection`
    - `useState(initialProp)` — never hardcode default state
    - `useQuery` with the same options factory used in `prefetchQuery` on the page
    - Handle loading (`Skeleton`), error (`Typography` message), empty (`return null`), success states
-   - Use `Section` from `@fubar-it-co/layouts`
+   - Use `Section` from `@vite-mf-monorepo/layouts`
    - Use correct CSS prefix for the zone
 
    **If Server Component**:

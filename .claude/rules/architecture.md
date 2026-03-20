@@ -105,6 +105,10 @@ Examples:
 - `fix(media): resolve hydration mismatch on Cast section`
 - `refactor(talents): extract FilmographyTabs to client component`
 
+## Deploys
+
+No deploys on Vercel. Deploys will be done through the CI to netlify
+
 ## TMDB Image URLs
 ```typescript
 // Construct full URL with size

@@ -3,6 +3,7 @@
 ## Project
 TMDB media app. Next.js 15 App Router + Multi-Zones + Turborepo. pnpm workspaces.
 Migration from vite-mf-monorepo (Module Federation CSR) → SSR/RSC, production-ready, SEO-first.
+A person having pulled the repo MUST be able to install and run the app in development mode without any additional steps.
 
 ### Zone Structure
 ```

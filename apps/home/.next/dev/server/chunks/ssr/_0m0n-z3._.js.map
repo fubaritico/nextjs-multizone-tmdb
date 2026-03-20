@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/stephanecottereau/Desktop/WebstormProjects/nextjs-multizone-tmdb/apps/home/src/app/layout.tsx"],"sourcesContent":["import './globals.css'\n\nimport type { Metadata } from 'next'\nimport type { ReactNode } from 'react'\n\nexport const metadata: Metadata = {\n  title: 'TMDB — Home',\n  description: 'Trending movies, popular TV shows, and more.',\n}\n\nexport default function HomeLayout({ children }: { children: ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body>{children}</body>\n    </html>\n  )\n}\n"],"names":["metadata","title","description","HomeLayout","children","lang"],"mappings":";;;;;;;;;AAKO,MAAMA,WAAqB;IAChCC,OAAO;IACPC,aAAa;AACf;AAEe,SAASC,WAAW,EAAEC,QAAQ,EAA2B;IACtE,qBACE,8OAAC;QAAKC,MAAK;kBACT,cAAA,8OAAC;sBAAMD;;;;;;;;;;;AAGb"}},
-    {"offset": {"line": 41, "column": 0}, "map": {"version":3,"sources":["file:///Users/stephanecottereau/Desktop/WebstormProjects/nextjs-multizone-tmdb/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,4HACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
-}

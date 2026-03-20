@@ -137,8 +137,12 @@ rewrites: {
 - ESLint 9 flat config: typescript-eslint strict/stylistic, eslint-config-next, import ordering, jsx-a11y, prettier integration
 - Prettier: `.prettierrc` (no semi, single quotes), `.prettierignore`
 - Commitlint: conventional commit rules (same as legacy)
-- Husky v9: pre-commit (type-check + lint), commit-msg (commitlint)
+- Husky v9: pre-commit (type-check + lint + test), commit-msg (commitlint)
 - Added `"type": "module"` to package.json
+- pnpm-workspace.yaml with dependency catalog (testing, shared packages, utilities)
+- Vitest + RTL test environment: vitest.config.ts (jsdom, globals, v8 coverage), vitest.setup.ts (jest-dom matchers, ResizeObserver/IntersectionObserver mocks)
+- Test scripts: `test`, `test:watch`, `coverage`
+- Smoke test for temp Home page (src/app/page.test.tsx)
 
 ### Next
 - Phase 1: Setup Turborepo + pnpm workspaces + shared tsconfig

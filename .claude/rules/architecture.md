@@ -60,6 +60,8 @@ Each zone app is a fully standalone Next.js 15 app:
 - Deployed independently
 - `apps/web` orchestrates all zones via fallback rewrites
 
+The agents will use the colocation approach and naming convention for any component ony used in one zone. 
+
 ```typescript
 // apps/web/next.config.ts
 rewrites: {

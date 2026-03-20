@@ -1,4 +1,4 @@
-Create a new UI component in the `@fubar-it-co/ui` package.
+Create a new UI component in the `@vite-mf-monorepo/ui` package.
 
 Reference: `rules/patterns-ui.md`
 
@@ -29,7 +29,7 @@ This command guides you through creating the component there, then consuming it 
 
 ### In nextjs-multizone-tmdb
 
-9. Bump `@fubar-it-co/ui` version in the zone app's `package.json`
+9. Bump `@vite-mf-monorepo/ui` version in the zone app's `package.json`
 10. Run `pnpm install`
 11. Import and use the new component
 

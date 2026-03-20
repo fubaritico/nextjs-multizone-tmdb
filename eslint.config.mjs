@@ -12,12 +12,12 @@ export default defineConfig([
 
   // Global ignores
   globalIgnores([
-    '.next/**',
+    '**/.next/**',
     'out/**',
     'build/**',
     'dist/**',
     'coverage/**',
-    'next-env.d.ts',
+    '**/next-env.d.ts',
     'pnpm-lock.yaml',
     'commitlint.config.js',
   ]),

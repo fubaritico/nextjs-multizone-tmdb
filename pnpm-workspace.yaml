@@ -40,8 +40,9 @@ catalog:
   # Shared packages (private registry)
   '@fubar-it-co/tmdb-client': 0.0.6
   '@vite-mf-monorepo/ui': 0.0.3
-  '@vite-mf-monorepo/layouts': 0.0.4
-  '@vite-mf-monorepo/shared': 0.0.2
+  '@vite-mf-monorepo/layouts': 0.3.4
+  '@vite-mf-monorepo/shared': 0.0.3
+  '@vite-mf-monorepo/tokens': 0.0.4
 
   # Build
   turbo: 2.8.20

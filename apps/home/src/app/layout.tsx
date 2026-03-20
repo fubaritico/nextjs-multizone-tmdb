@@ -1,3 +1,7 @@
+import { RootLayout } from '@vite-mf-monorepo/layouts/next'
+
+import QueryProvider from '../providers/QueryProvider'
+
 import './globals.css'
 
 import type { Metadata } from 'next'
@@ -8,10 +12,16 @@ export const metadata: Metadata = {
   description: 'Trending movies, popular TV shows, and more.',
 }
 
-export default function HomeLayout({ children }: { children: ReactNode }) {
+export default function HomeLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <QueryProvider>
+          <RootLayout>{children}</RootLayout>
+        </QueryProvider>
+      </body>
     </html>
   )
 }

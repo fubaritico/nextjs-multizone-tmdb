@@ -1,1 +1,4 @@
-@import "tailwindcss" prefix(hm);
+@import 'tailwindcss' prefix(hm);
+@import '@vite-mf-monorepo/shared/theme.css' prefix(hm);
+@import '@vite-mf-monorepo/layouts/styles.css';
+@import '@vite-mf-monorepo/ui/styles.css';

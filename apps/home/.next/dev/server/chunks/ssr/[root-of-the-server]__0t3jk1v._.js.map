@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///Users/stephanecottereau/Desktop/WebstormProjects/nextjs-multizone-tmdb/apps/home/src/app/page.tsx"],"sourcesContent":["export default function HomePage() {\n  return (\n    <main>\n      <h1>Home Zone</h1>\n      <p>\n        Port 3001 — Landing, Trending, Popular, FreeToWatch, Featured Actors\n      </p>\n    </main>\n  )\n}\n"],"names":["HomePage"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBACE,8OAAC;;0BACC,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;;;;;;;AAKT"}}]
-}

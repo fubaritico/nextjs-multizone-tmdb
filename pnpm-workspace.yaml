@@ -37,5 +37,11 @@ catalog:
   '@testing-library/user-event': 14.6.1
   jsdom: 26.0.0
 
+  # Shared packages (private registry)
+  '@fubar-it-co/tmdb-client': 0.0.6
+  '@vite-mf-monorepo/ui': 0.0.3
+  '@vite-mf-monorepo/layouts': 0.0.4
+  '@vite-mf-monorepo/shared': 0.0.2
+
   # Utilities
   clsx: 2.1.1

@@ -133,12 +133,16 @@ rewrites: {
 ### Completed
 - Project initialized: nextjs-multizone-tmdb
 - Skills installed: next-best-practices, next-cache-components, next-upgrade, vercel-react-best-practices, vercel-composition-patterns
+- ESLint 9 flat config: typescript-eslint strict/stylistic, eslint-config-next, import ordering, jsx-a11y, prettier integration
+- Prettier: `.prettierrc` (no semi, single quotes), `.prettierignore`
+- Commitlint: conventional commit rules (same as legacy)
+- Husky v9: pre-commit (type-check + lint), commit-msg (commitlint)
+- Added `"type": "module"` to package.json
 
 ### Next
-- Phase 1: Setup Turborepo + pnpm workspaces
-- Phase 2: Configure shared tsconfig, eslint, prettier, husky + commitlint
-- Phase 3: Init 5 zone apps (web, home, media, talents, search)
-- Phase 4: Home zone (HeroSection, TrendingSection, PopularSection, FreeToWatchSection, FeaturedActorsSection)
+- Phase 1: Setup Turborepo + pnpm workspaces + shared tsconfig
+- Phase 2: Init 5 zone apps (web, home, media, talents, search)
+- Phase 3: Home zone (HeroSection, TrendingSection, PopularSection, FreeToWatchSection, FeaturedActorsSection)
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here

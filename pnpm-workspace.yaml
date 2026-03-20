@@ -1,0 +1,41 @@
+packages:
+  - 'apps/*'
+
+catalog:
+  # React ecosystem
+  react: 19.1.0
+  react-dom: 19.1.0
+
+  # Next.js
+  next: 16.2.0
+  eslint-config-next: 16.2.0
+  babel-plugin-react-compiler: 1.0.0
+
+  # TanStack Query
+  '@tanstack/react-query': 5.74.4
+
+  # TypeScript
+  typescript: 5.7.2
+  '@types/react': 19.1.0
+  '@types/react-dom': 19.1.0
+  '@types/node': 22.14.0
+
+  # Tailwind CSS
+  tailwindcss: 4.1.0
+  '@tailwindcss/postcss': 4.1.0
+
+  # Fonts
+  '@fontsource/inter': 5.2.8
+  '@fontsource/roboto': 5.2.9
+  '@fontsource/roboto-condensed': 5.2.8
+
+  # Testing
+  vitest: 3.2.4
+  '@vitest/coverage-v8': 3.2.4
+  '@testing-library/react': 16.3.0
+  '@testing-library/jest-dom': 6.6.3
+  '@testing-library/user-event': 14.6.1
+  jsdom: 26.0.0
+
+  # Utilities
+  clsx: 2.1.1

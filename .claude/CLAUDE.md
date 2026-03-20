@@ -154,13 +154,23 @@ rewrites: {
 - Fixed all package references to match catalog (`@vite-mf-monorepo/ui`, `@vite-mf-monorepo/layouts`, `@vite-mf-monorepo/shared`, `@fubar-it-co/tmdb-client`)
 - Updated Next.js version references from 15 to 16 across all docs
 
+- Phase 3 (home): shared package deps + TanStack Query provider + RootLayout
+- Added deps: @tanstack/react-query, @fubar-it-co/tmdb-client, @vite-mf-monorepo/ui, layouts, shared, tokens, clsx, fonts
+- Created QueryProvider client component (apps/home/src/providers/QueryProvider.tsx)
+- Wired RootLayout from @vite-mf-monorepo/layouts/next into layout.tsx
+- Updated globals.css: theme (bundled fonts+tokens), layouts styles, ui styles
+- Bumped catalog: layouts 0.3.4, shared 0.0.3, added tokens 0.0.4
+- Fixed .gitignore: **/.next/ for all zone apps, removed cached .next from git
+
 ### Next
-- Phase 3: Add shared package deps + TanStack Query providers to zone apps (home first)
+- Phase 3 (continued): Replicate shared deps + QueryProvider + RootLayout to media, talents, search
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
 - env vars: `VITE_*` prefix kept for compatibility with existing tmdb-client package
 - `apps/web/src/app/page.tsx` was removed — web has no root page, relies on fallback rewrite to home
+- Font packages (@fontsource/*) are transitive deps of @vite-mf-monorepo/shared — must be installed explicitly in each zone app (Turbopack CSS resolver can't resolve bare @import from inside node_modules)
+- @vite-mf-monorepo/layouts components using hooks need 'use client' in source — fixed in 0.3.4
 
 ---
 

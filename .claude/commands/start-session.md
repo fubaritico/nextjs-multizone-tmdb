@@ -11,4 +11,4 @@ Gather all necessary written context from the previous session.
    - Working with UI components → `rules/patterns-ui.md`
    - When in doubt → load `rules/architecture.md` as baseline
 3. Confirm to the user which files were loaded and why
-4. Remind the user of the next step from `### Next` in CLAUDE.md
+4. Remind the user of the next step from `### Next` in CLAUDE.md5. Call the `recall` MCP tool with query "project structure and architecture" to warm up the rag-legacy connection.

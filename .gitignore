@@ -48,6 +48,7 @@ next-env.d.ts
 # Claude AI work files
 files
 explore-legacy.md
+.mcp.json
 
 # IDE
 .idea

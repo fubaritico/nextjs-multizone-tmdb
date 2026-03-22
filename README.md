@@ -241,3 +241,54 @@ Tailwind v4 with **per-zone CSS prefixes** for style isolation — each zone's c
 | Linting | ESLint 9 (flat config) + Prettier |
 | Commits | Conventional Commits (commitlint + husky) |
 | Deployment | Netlify |
+
+## Claude Code + Legacy RAG
+
+This project uses a local RAG system ([vite-mf-monorepo-rag](https://github.com/fubaritico/vite-mf-monorepo-rag)) to give Claude Code semantic access to the legacy codebase. Claude Code calls `recall("how was X implemented?")` and gets back the most relevant legacy code chunks — components, hooks, patterns, API calls — ranked by meaning.
+
+### Prerequisites
+
+- [vite-mf-monorepo-rag](https://github.com/fubaritico/vite-mf-monorepo-rag) cloned and set up (see its README)
+- Ollama installed and running with `nomic-embed-text` pulled
+- Legacy codebase indexed (`pnpm index` in `vite-mf-monorepo-rag`)
+
+### First-time setup (once)
+
+Run these steps once after cloning:
+
+**1. Add the env variables for the RAG system** — create `.env.local` at the root of this project:
+```
+MONGODB_URI=mongodb+srv://...
+LEGACY_PATH=/absolute/path/to/vite-mf-monorepo
+```
+
+**2. Generate `.mcp.json`:**
+```bash
+pnpm generate-mcp
+```
+
+**3. Register the MCP server with Claude Code:**
+```bash
+claude mcp add rag-legacy -s project -- pnpm --prefix /absolute/path/to/vite-mf-monorepo-rag run mcp
+```
+
+**4. Open Claude Code in this project** — accept `rag-legacy` when prompted.
+
+`.mcp.json` is gitignored — regenerate it if credentials change (`pnpm generate-mcp`).
+
+### Every session
+
+1. Ollama is running (starts automatically at login)
+2. Run `/mcp` in Claude Code — verify `rag-legacy` shows `connected`
+3. Run `/start-session` — warms up the `recall` connection automatically
+
+### Re-indexing
+
+Run whenever the legacy codebase changes:
+```bash
+cd ../vite-mf-monorepo-rag && pnpm index
+```
+
+### How Claude Code uses it
+
+Claude Code calls `recall` proactively before implementing any feature that may have a legacy equivalent — no manual intervention needed once connected.

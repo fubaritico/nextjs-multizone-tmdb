@@ -14,6 +14,7 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "reset": "./scripts/reset-project.sh",
+    "generate-mcp": "tsx scripts/generate-mcp.ts",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -24,11 +25,12 @@
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@testing-library/user-event": "catalog:",
-    "@types/node": "^20",
+    "@types/node": "^20.19.37",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "catalog:",
     "babel-plugin-react-compiler": "1.0.0",
+    "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.0",
     "eslint-config-prettier": "^10.1.8",
@@ -40,8 +42,9 @@
     "jsdom": "catalog:",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "turbo": "^2.8.20",
-    "typescript": "^5",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.1",
     "vitest": "catalog:"
   }

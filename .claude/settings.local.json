@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": [
+    "rag-legacy"
+  ],
+  "enableAllProjectMcpServers": true
+}

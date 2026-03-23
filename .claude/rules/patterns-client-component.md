@@ -113,6 +113,7 @@ export default TrendingMoviesCarousel
 ```
 
 ## Rules
+- Always use JSDocs to document Server Actions, functions, components, properties, interfaces, types, etc.
 - `'use client'` at the very top of the file
 - Always receive `initial*` props from Server Component parent for default state
 - `useState(initialProp)` — never hardcode default state

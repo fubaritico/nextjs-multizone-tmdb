@@ -130,6 +130,7 @@ export default async function MediaPage({ params }: Props) {
 > Note: Next.js deduplicates identical `fetch()` calls within a request, but sharing the `QueryClient` via a helper function is cleaner and guarantees a single TMDB call regardless.
 
 ## Rules
+- Always use JSDocs to document Server Actions, functions, components, properties, interfaces, types, etc.
 - No `'use client'` — Server Components are async by default
 - No useState, no useEffect, no event handlers
 - Always `await params` (Next.js 16 — params is a Promise)

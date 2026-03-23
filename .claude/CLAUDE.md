@@ -162,8 +162,15 @@ rewrites: {
 - Bumped catalog: layouts 0.3.4, shared 0.0.3, added tokens 0.0.4
 - Fixed .gitignore: **/.next/ for all zone apps, removed cached .next from git
 
+- Multi-agent migration workflow: orchestrator.md (7-batch plan), dev.md (merged dev+reviewer+test-writer), scaffold-dev.md
+- Removed reviewer.md and test-writer.md (merged into dev.md)
+- Shared deps added to media, talents, search (tanstack, ui, layouts, shared, tokens, clsx, fonts)
+- Test infra (vitest.config.ts + vitest.setup.ts + passWithNoTests) added to all 4 zone apps
+- Test devDeps added to all 4 zones (vitest, RTL, jest-dom, user-event)
+- Workflow state files: `.workflow/state/shared-context.md`, `.workflow/state/task-log.json`
+
 ### Next
-- Phase 3 (continued): Replicate shared deps + QueryProvider + RootLayout to media, talents, search
+- Run the migration orchestrator workflow (new conversation → follow `.claude/agents/orchestrator.md`)
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
@@ -171,6 +178,7 @@ rewrites: {
 - `apps/web/src/app/page.tsx` was removed — web has no root page, relies on fallback rewrite to home
 - Font packages (@fontsource/*) are transitive deps of @vite-mf-monorepo/shared — must be installed explicitly in each zone app (Turbopack CSS resolver can't resolve bare @import from inside node_modules)
 - @vite-mf-monorepo/layouts components using hooks need 'use client' in source — fixed in 0.3.4
+- Vitest requires `passWithNoTests: true` in config — zones have no test files yet
 
 ---
 

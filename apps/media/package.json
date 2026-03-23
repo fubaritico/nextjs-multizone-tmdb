@@ -8,19 +8,36 @@
     "build": "next build",
     "start": "next start --port 3002",
     "lint": "eslint .",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@fontsource/inter": "catalog:",
+    "@fontsource/roboto": "catalog:",
+    "@fontsource/roboto-condensed": "catalog:",
+    "@fubar-it-co/tmdb-client": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@vite-mf-monorepo/layouts": "catalog:",
+    "@vite-mf-monorepo/shared": "catalog:",
+    "@vite-mf-monorepo/tokens": "catalog:",
+    "@vite-mf-monorepo/ui": "catalog:",
+    "clsx": "catalog:",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",
-    "tailwindcss": "catalog:",
-    "typescript": "catalog:",
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@testing-library/user-event": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:"
+    "@types/react-dom": "catalog:",
+    "jsdom": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

@@ -111,6 +111,7 @@ export default FavoriteButton
 ```
 
 ## Rules
+- Always use JSDocs to document Server Actions, functions, components, properties, interfaces, types, etc.
 - Server Actions live in `app/lib/actions.ts` — always `'use server'` at the top
 - Always return a typed discriminated union result: `{ success: true } | { success: false; error: string }`
 - Never throw from a Server Action — return error result instead

@@ -18,7 +18,7 @@ Client (section/carousel)
 ## Complete example
 
 ### Server (page.tsx)
-```typescript
+```typescript jsx
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import {
   trendingAllOptions,

@@ -7,7 +7,7 @@
 
 ## Server Action (app/lib/actions.ts)
 
-```typescript
+```typescript jsx
 // apps/home/src/app/lib/actions.ts
 'use server'
 
@@ -50,7 +50,7 @@ export async function addToFavorites(movieId: number): Promise<AddToFavoritesRes
 
 ## Client Component with useMutation + optimistic update
 
-```typescript
+```typescript jsx
 // apps/home/src/components/FavoriteButton/FavoriteButton.tsx
 'use client'
 

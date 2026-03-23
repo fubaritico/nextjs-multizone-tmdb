@@ -16,18 +16,93 @@
 ## Project Structure
 ```
 apps/
-├── web/      port 3000 — Orchestrator, rewrites only (no UI)
-├── home/     port 3001 — Landing, Trending, Popular, FreeToWatch, Featured Actors
-├── media/    port 3002 — Movie/TV detail, Cast, Crew, Photos
-├── talents/  port 3003 — Actor/Director detail, Filmography, Photos
-└── search/   port 3004 — Search, Filters, Discovery
+├── web/               port 3000 — Orchestrator (no UI, pure routing)
+│   └── src/app/
+│       └── layout.tsx
+│
+├── home/              port 3001 — Landing & Discovery
+│   └── src/
+│       ├── app/
+│       │   ├── layout.tsx              ← RootLayout + QueryProvider
+│       │   └── page.tsx                ← prefetch: trending, popular, freeToWatch
+│       ├── components/
+│       │   ├── HeroSection/            ← Full-width hero banner (Server)
+│       │   ├── TrendingSection/        ← Tabs (day/week) + carousel (Client)
+│       │   ├── PopularSection/         ← Tabs (movie/tv) + carousel (Client)
+│       │   ├── FreeToWatchSection/     ← Tabs (movie/tv) + carousel (Client)
+│       │   └── FeaturedActorsSection/  ← Actor cards carousel (Client)
+│       └── providers/
+│           └── QueryProvider.tsx
+│
+├── media/             port 3002 — Movie & TV Detail
+│   └── src/
+│       ├── app/
+│       │   ├── layout.tsx
+│       │   ├── movie/[id]/
+│       │   │   ├── page.tsx            ← prefetch: details, credits, images, similar, recommended, videos
+│       │   │   └── photos/[index]/
+│       │   │       └── page.tsx        ← Photo viewer modal (intercepted route)
+│       │   └── tv/[id]/
+│       │       ├── page.tsx            ← prefetch: details, credits, images, similar, recommended
+│       │       └── photos/[index]/
+│       │           └── page.tsx
+│       ├── components/
+│       │   ├── HeroSection/            ← Backdrop + title + metadata (Server)
+│       │   ├── CastSection/            ← Cast carousel (Client)
+│       │   ├── SimilarSection/         ← Similar media carousel (Client)
+│       │   ├── RecommendedSection/     ← Recommended carousel (Client)
+│       │   ├── BackdropSection/        ← Photo grid + link to modal (Client)
+│       │   ├── VideoSection/           ← YouTube trailers (Client)
+│       │   └── PhotoViewer/            ← Modal with prev/next navigation (Client)
+│       ├── hooks/                      ← useMovieVideos, useMovieSimilar, etc.
+│       └── utils/
+│           └── typeGuards.ts           ← isMovie() discriminated union guard
+│
+├── talents/           port 3003 — Actor & Director Detail
+│   └── src/
+│       ├── app/
+│       │   ├── layout.tsx
+│       │   ├── actor/[id]/
+│       │   │   ├── page.tsx            ← prefetch: person details, credits, images
+│       │   │   └── photos/[index]/
+│       │   │       └── page.tsx
+│       │   └── director/[id]/
+│       │       ├── page.tsx
+│       │       └── photos/[index]/
+│       │           └── page.tsx
+│       └── components/
+│           ├── BioSection/             ← Profile image + biography (Server)
+│           ├── FilmographySection/     ← Tabs (movies/tv) + list (Client)
+│           ├── PhotosSection/          ← Photo grid (Client)
+│           └── PhotoViewer/            ← Modal (Client)
+│
+└── search/            port 3004 — Search & Discovery
+    └── src/
+        ├── app/
+        │   ├── layout.tsx
+        │   └── search/
+        │       └── page.tsx            ← prefetch: multi-search with query params
+        └── components/
+            ├── SearchBar/              ← Input + debounce (Client)
+            ├── SearchResults/          ← Grid of results (Client)
+            └── FilterPanel/            ← Genre, year, rating filters (Client)
 
-turbo.json        — task definitions, pipeline, caching
+turbo.json            — task definitions, pipeline, caching
 pnpm-workspace.yaml
 tsconfig.base.json
 eslint.config.mjs
 .prettierrc
 ```
+
+### Key differences from legacy (vite-mf-monorepo)
+| Aspect | Legacy | New |
+|---|---|---|
+| `photos` app | Standalone remote (`apps/photos`) | Absorbed as nested route in media & talents |
+| `talents` zone | Didn't exist | New zone — actors/directors extracted from host |
+| `search` zone | Didn't exist | New zone — dedicated search & filters |
+| `FeaturedActorsSection` | Lived in `host` | Moves to `home` zone |
+| Hooks per zone | Custom hooks wrapping `useQuery` | Same pattern, co-located in `hooks/` |
+| Utils | Shared in `packages/shared` | Zone-specific in `utils/`, shared stays in package |
 
 ## Shared Packages (npm)
 All packages come from the npm registry. Never create local packages here.

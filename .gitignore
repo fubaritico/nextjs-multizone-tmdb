@@ -49,6 +49,7 @@ next-env.d.ts
 files
 explore-legacy.md
 .mcp.json
+.workflow/
 
 # IDE
 .idea

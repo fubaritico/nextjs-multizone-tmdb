@@ -8,7 +8,7 @@
 
 ## Section with Tabs pattern
 
-```typescript
+```typescript jsx
 // apps/home/src/components/TrendingSection/TrendingSection.tsx
 'use client'
 
@@ -60,7 +60,7 @@ export default TrendingSection
 
 ## Carousel with useQuery pattern
 
-```typescript
+```typescript jsx
 // apps/home/src/components/TrendingSection/TrendingMoviesCarousel.tsx
 'use client'
 

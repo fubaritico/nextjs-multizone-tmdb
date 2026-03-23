@@ -35,7 +35,7 @@ Affected components (known): `Button` (as="link"), `MovieCard` (as="link")
 ## Usage patterns in zone apps
 
 ### Button
-```typescript
+```typescript jsx
 import { Button } from '@vite-mf-monorepo/ui'
 
 // As button
@@ -46,7 +46,7 @@ import { Button } from '@vite-mf-monorepo/ui'
 ```
 
 ### MovieCard
-```typescript
+```typescript jsx
 import { MovieCard } from '@vite-mf-monorepo/ui'
 
 <MovieCard
@@ -61,7 +61,7 @@ import { MovieCard } from '@vite-mf-monorepo/ui'
 ```
 
 ### Carousel
-```typescript
+```typescript jsx
 import { Carousel, CarouselItem, CarouselLoading } from '@vite-mf-monorepo/ui'
 
 // Loading state
@@ -81,7 +81,7 @@ if (error) return <Carousel errorMessage="Failed to load" />
 ```
 
 ### Tabs
-```typescript
+```typescript jsx
 import { Tabs } from '@vite-mf-monorepo/ui'
 
 <Tabs value={activeTab} onValueChange={setActiveTab} variant="pills" prefix="section-name">
@@ -95,7 +95,7 @@ import { Tabs } from '@vite-mf-monorepo/ui'
 ```
 
 ### Skeleton
-```typescript
+```typescript jsx
 import { Skeleton } from '@vite-mf-monorepo/ui'
 
 // Always use Skeleton as Suspense fallback — prevents CLS
@@ -105,7 +105,7 @@ import { Skeleton } from '@vite-mf-monorepo/ui'
 ```
 
 ### Typography
-```typescript
+```typescript jsx
 import { Typography } from '@vite-mf-monorepo/ui'
 
 <Typography variant="h2">Section Title</Typography>
@@ -121,8 +121,8 @@ All `@vite-mf-monorepo/ui` classes use the `ui:` prefix:
 ```
 
 Zone apps use their own prefix for layout adjustments:
-```html
+```typescript jsx
 <div className="hm:flex hm:flex-col">   <!-- home zone -->
-  <MovieCard ... />
+  <MovieCard />
 </div>
 ```

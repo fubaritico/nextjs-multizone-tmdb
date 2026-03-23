@@ -7,7 +7,7 @@
 
 ## Page pattern (with React Query prefetch)
 
-```typescript
+```typescript jsx
 // apps/home/src/app/page.tsx
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import {
@@ -71,7 +71,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 
 ## Dynamic metadata (detail pages)
 
-```typescript
+```typescript jsx
 // apps/media/src/app/movie/[id]/page.tsx
 // Share the same QueryClient between generateMetadata and the page
 // so the fetch is deduplicated — no double request to TMDB

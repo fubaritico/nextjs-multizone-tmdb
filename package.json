@@ -47,5 +47,11 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.1",
     "vitest": "catalog:"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "$@types/react",
+      "@types/react-dom": "$@types/react-dom"
+    }
   }
 }

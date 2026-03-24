@@ -2,12 +2,8 @@
 
 import { tvSeriesPopularListOptions } from '@fubar-it-co/tmdb-client'
 import { useQuery } from '@tanstack/react-query'
-import {
-  Carousel,
-  CarouselItem,
-  CarouselLoading,
-  MovieCard,
-} from '@vite-mf-monorepo/ui'
+import { Carousel, CarouselItem, CarouselLoading } from '@vite-mf-monorepo/ui'
+import { MovieCard } from '@vite-mf-monorepo/ui/next'
 
 import type { TvSeriesPopularListResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
@@ -39,7 +35,7 @@ const PopularTVCarousel: FC = () => {
           <div style={{ width: 150 }}>
             <MovieCard
               as="link"
-              to={`/tv/${String(show.id)}`}
+              href={`/tv/${String(show.id)}`}
               id={show.id ?? 0}
               title={show.name ?? 'Unknown'}
               posterUrl={show.poster_path ?? ''}

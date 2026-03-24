@@ -169,8 +169,18 @@ rewrites: {
 - Test devDeps added to all 4 zones (vitest, RTL, jest-dom, user-event)
 - Workflow state files: `.workflow/state/shared-context.md`, `.workflow/state/task-log.json`
 
+- Batch 1-3 migration (unstaged — needs commit):
+  - Home zone: page.tsx with SSR prefetch (HydrationBoundary), QueryProvider, error.tsx, not-found.tsx
+  - Home components: HeroSection, TrendingSection, PopularSection, FreeToWatchSection, FeaturedActorsSection (all with carousels + tests)
+  - Home types: home.ts (media type defaults)
+  - Media zone: layout.tsx (RootLayout + QueryProvider), globals.css, error.tsx, not-found.tsx, providers/QueryProvider.tsx, types/
+  - Talents zone: layout.tsx, globals.css, error.tsx, not-found.tsx, providers/, actor/[id]/, director/[id]/
+  - Search zone: layout.tsx, globals.css, error.tsx, providers/, search/ route
+  - Code quality: Readonly<Props> on all error.tsx, DS token button styles on not-found.tsx, `as Mock` pattern for test type safety
+  - Catalog bumps in pnpm-workspace.yaml, .gitignore updates
+
 ### Next
-- Run the migration orchestrator workflow (new conversation → follow `.claude/agents/orchestrator.md`)
+- Rewrite HeroSection.tsx to match legacy exactly (Carousel variant="hero", 6 movies, CarouselItem isHero, heroControlsClassName, hero-height, text-shadow) — then verify remaining home components vs legacy, fix lint errors, and commit all unstaged work in logical conventional commits
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
@@ -178,7 +188,9 @@ rewrites: {
 - `apps/web/src/app/page.tsx` was removed — web has no root page, relies on fallback rewrite to home
 - Font packages (@fontsource/*) are transitive deps of @vite-mf-monorepo/shared — must be installed explicitly in each zone app (Turbopack CSS resolver can't resolve bare @import from inside node_modules)
 - @vite-mf-monorepo/layouts components using hooks need 'use client' in source — fixed in 0.3.4
-- Vitest requires `passWithNoTests: true` in config — zones have no test files yet
+- HeroSection.tsx does NOT match legacy yet — currently shows single movie, legacy uses Carousel variant="hero" with 6 auto-rotating movies
+- All Batch 1-3 work is unstaged (git reset HEAD was run) — needs logical commits
+- `ui:` prefixed classes only work inside @vite-mf-monorepo/ui package — zone source files must use zone prefix (hm:, mda:, tl:, sr:)
 
 ---
 
@@ -210,6 +222,7 @@ VITE_USE_NETLIFY_CDN=false
 | `patterns-server-action.md` | Mutation, useMutation, optimistic update |
 | `patterns-ui.md` | New UI component in @vite-mf-monorepo/ui |
 | `architecture.md` | Stack, Turborepo, Multi-Zones, rewrites |
+| `patterns-testing.md` | Vitest + RTL + MSW test patterns |
 | `troubleshooting.md` | SSR/hydration debug, zone routing issues |
 
 **Before coding**: ask which reference files are needed — do NOT start coding without the relevant files loaded.

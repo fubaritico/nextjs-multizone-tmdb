@@ -3,8 +3,8 @@ packages:
 
 catalog:
   # React ecosystem
-  react: 19.1.0
-  react-dom: 19.1.0
+  react: 19.2.4
+  react-dom: 19.2.4
 
   # Next.js
   next: 16.2.0
@@ -16,8 +16,8 @@ catalog:
 
   # TypeScript
   typescript: 5.7.2
-  '@types/react': 19.1.0
-  '@types/react-dom': 19.1.0
+  '@types/react': 19.2.14
+  '@types/react-dom': 19.2.3
   '@types/node': 22.14.0
 
   # Tailwind CSS
@@ -38,10 +38,10 @@ catalog:
   jsdom: 26.0.0
 
   # Shared packages (private registry)
-  '@fubar-it-co/tmdb-client': 0.0.6
-  '@vite-mf-monorepo/ui': 0.0.3
-  '@vite-mf-monorepo/layouts': 0.3.4
-  '@vite-mf-monorepo/shared': 0.0.3
+  '@fubar-it-co/tmdb-client': 0.0.8
+  '@vite-mf-monorepo/ui': 0.1.1
+  '@vite-mf-monorepo/layouts': 0.4.1
+  '@vite-mf-monorepo/shared': 0.0.5
   '@vite-mf-monorepo/tokens': 0.0.4
 
   # Build

@@ -3,21 +3,17 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import type { FC, ReactNode } from 'react'
+import { CACHE_TIME_MS } from '../types/home'
 
-const STALE_TIME_24H = 1000 * 60 * 60 * 24
+import type { ReactNode } from 'react'
 
-interface QueryProviderProps {
-  children: ReactNode
-}
-
-const QueryProvider: FC<QueryProviderProps> = ({ children }) => {
+export default function QueryProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: STALE_TIME_24H,
+            staleTime: CACHE_TIME_MS,
           },
         },
       })
@@ -27,5 +23,3 @@ const QueryProvider: FC<QueryProviderProps> = ({ children }) => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
-
-export default QueryProvider

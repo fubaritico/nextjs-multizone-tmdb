@@ -56,7 +56,7 @@ const TrendingSection: FC<TrendingSectionProps> = ({ initialTimeWindow }) => {
 export default TrendingSection
 ```
 
-> ⚠️ **Pending migration**: `MovieCard` currently uses `to` prop (React Router). Once `@vite-mf-monorepo/ui` is republished with `next/link` support, this will change to `href`. Check `rules/patterns-ui.md` before using any component with a link prop.
+> **Link components**: Import `MovieCard` and `Button` from `@vite-mf-monorepo/ui/next` (uses `next/link` + `href` prop). Non-link components stay on `@vite-mf-monorepo/ui`.
 
 ## Carousel with useQuery pattern
 
@@ -66,7 +66,8 @@ export default TrendingSection
 
 import { useQuery } from '@tanstack/react-query'
 import { trendingAllOptions } from '@fubar-it-co/tmdb-client'
-import { Carousel, CarouselItem, CarouselLoading, MovieCard } from '@vite-mf-monorepo/ui'
+import { Carousel, CarouselItem, CarouselLoading } from '@vite-mf-monorepo/ui'
+import { MovieCard } from '@vite-mf-monorepo/ui/next'
 
 import type { UseQueryResult } from '@tanstack/react-query'
 import type { TrendingAllResponse, TMDBError } from '@fubar-it-co/tmdb-client'
@@ -91,7 +92,7 @@ const TrendingMoviesCarousel: FC<TrendingMoviesCarouselProps> = ({ timeWindow })
           <div style={{ width: 150 }}>
             <MovieCard
               as="link"
-              to={`/movie/${String(item.id)}`}
+              href={`/movie/${String(item.id)}`}
               id={item.id ?? 0}
               title={'title' in item ? (item.title ?? 'Unknown') : (item.name ?? 'Unknown')}
               posterUrl={item.poster_path ?? ''}

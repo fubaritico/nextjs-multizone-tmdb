@@ -22,24 +22,11 @@ test: {
 }
 ```
 
-## Vitest: React Router context crash in UI components
+## Vitest: React Router context crash in UI components (RESOLVED)
 
-**Symptom**: `TypeError: Cannot destructure property 'basename' of 'React10.useContext(...)' as it is null` from `react-router`
+**Status**: Fixed in `@vite-mf-monorepo/ui` 0.2.0+
 
-**Cause**: `@vite-mf-monorepo/ui` imports `Link` from `react-router-dom` (legacy). Components like `MovieCard as="link"` use React Router's `<Link>` which requires a Router context.
-
-**Fix**: Mock `react-router-dom` globally in `vitest.setup.ts`:
-```typescript
-import { createElement } from 'react'
-import { vi } from 'vitest'
-
-vi.mock('react-router-dom', () => ({
-  Link: ({ to, children, ...props }: Record<string, unknown>) =>
-    createElement('a', { href: to, ...props }, children),
-  useNavigate: () => vi.fn(),
-  useLocation: () => ({ pathname: '/', search: '', hash: '' }),
-}))
-```
+**Solution**: Import link components from `@vite-mf-monorepo/ui/next` instead of `@vite-mf-monorepo/ui`. The `/next` export uses `next/link` + `href` prop. No `react-router-dom` mock needed.
 
 ## Vitest: JSX in .ts setup file
 

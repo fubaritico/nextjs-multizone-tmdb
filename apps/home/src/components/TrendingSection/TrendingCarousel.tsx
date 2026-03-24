@@ -2,14 +2,10 @@
 
 import { trendingAllOptions } from '@fubar-it-co/tmdb-client'
 import { useQuery } from '@tanstack/react-query'
-import {
-  Carousel,
-  CarouselItem,
-  CarouselLoading,
-  MovieCard,
-} from '@vite-mf-monorepo/ui'
+import { Carousel, CarouselItem, CarouselLoading } from '@vite-mf-monorepo/ui'
+import { MovieCard } from '@vite-mf-monorepo/ui/next'
 
-import type { TimeWindow } from '../../types/home'
+import type { TimeWindow } from '@/types/home'
 import type { TrendingAllResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
 import type { FC } from 'react'
@@ -55,7 +51,7 @@ const TrendingCarousel: FC<TrendingCarouselProps> = ({ timeWindow }) => {
           <div style={{ width: 150 }}>
             <MovieCard
               as="link"
-              to={`/${item.media_type === 'tv' ? 'tv' : 'movie'}/${String(item.id)}`}
+              href={`/${item.media_type === 'tv' ? 'tv' : 'movie'}/${String(item.id)}`}
               id={item.id ?? 0}
               title={item.title ?? 'Unknown'}
               posterUrl={item.poster_path ?? ''}

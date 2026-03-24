@@ -2,12 +2,8 @@
 
 import { moviePopularListOptions } from '@fubar-it-co/tmdb-client'
 import { useQuery } from '@tanstack/react-query'
-import {
-  Carousel,
-  CarouselItem,
-  CarouselLoading,
-  MovieCard,
-} from '@vite-mf-monorepo/ui'
+import { Carousel, CarouselItem, CarouselLoading } from '@vite-mf-monorepo/ui'
+import { MovieCard } from '@vite-mf-monorepo/ui/next'
 
 import type { MoviePopularListResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
@@ -39,7 +35,7 @@ const PopularMovieCarousel: FC = () => {
           <div style={{ width: 150 }}>
             <MovieCard
               as="link"
-              to={`/movie/${String(movie.id)}`}
+              href={`/movie/${String(movie.id)}`}
               id={movie.id ?? 0}
               title={movie.title ?? 'Unknown'}
               posterUrl={movie.poster_path ?? ''}

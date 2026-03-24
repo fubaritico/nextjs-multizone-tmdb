@@ -180,9 +180,18 @@ rewrites: {
 - Media zone scaffolded: layout, QueryProvider, error/not-found, types
 - Talents zone scaffolded: layout, QueryProvider, error/not-found, actor/[id]/, director/[id]/ route stubs
 - Search zone scaffolded: layout, QueryProvider, error, search/ route stub
-- Test infra: MSW + real UI pattern, vitest.setup.ts with react-router-dom global mock, server.deps.inline for ESM
-- Documentation: patterns-testing.md, troubleshooting.md, fixes/ (MovieCard + Button as="link" upstream issues)
+- Test infra: MSW + real UI pattern, server.deps.inline for ESM
+- Documentation: patterns-testing.md, troubleshooting.md
 - Updated auto-memory (MEMORY.md) with migration workflow state and testing gotchas
+
+- Upstream fix: @vite-mf-monorepo/ui 0.2.0 — MovieCard/Button link components now have /next export (next/link + href)
+  - `ffb838f` refactor(home): migrate MovieCard imports to @vite-mf-monorepo/ui/next
+  - `117dc54` docs(claude): update rules for ui/next exports and remove resolved fix files
+- Migrated all 5 carousel components from `to` prop → `href` prop (ui/next export)
+- Removed react-router-dom mock from apps/home/vitest.setup.ts
+- Deleted .claude/fixes/ui-button-react-router-link.md and ui-moviecard-react-router-link.md (resolved)
+- Updated patterns-ui.md, patterns-client-component.md, troubleshooting.md for ui/next exports
+- Added "lint:fix after every modification" rule to CLAUDE.md
 
 ### Next
 1. Rewrite HeroSection.tsx to match legacy exactly (Carousel variant="hero", 6 movies, CarouselItem isHero, heroControlsClassName, hero-height, text-shadow) — manual fix, not a workflow task

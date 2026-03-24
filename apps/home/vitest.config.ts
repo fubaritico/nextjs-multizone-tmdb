@@ -13,5 +13,15 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
     passWithNoTests: true,
+    server: {
+      deps: {
+        inline: [
+          '@fubar-it-co/tmdb-client',
+          '@vite-mf-monorepo/layouts',
+          '@vite-mf-monorepo/ui',
+          '@vite-mf-monorepo/shared',
+        ],
+      },
+    },
   },
 })

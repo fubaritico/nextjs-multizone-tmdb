@@ -35,6 +35,7 @@ apps/search      port 3004 — Search/Discovery (Search, Filters, Advanced)
 - **Secrets** — live in `.env*` files — never in rules, memory, or code
 - **Never `console.log`** — use `console.warn` / `console.error`
 - **Never explicit `any`** — strict TypeScript
+- **After every file modification**, run `pnpm lint:fix` to fix ESLint + Prettier format errors in changed files
 - **Always run** lint + typecheck + test before commit
 - **Model**: Haiku for questions/research, Sonnet for code/commits — suggest Haiku when appropriate
 
@@ -169,18 +170,27 @@ rewrites: {
 - Test devDeps added to all 4 zones (vitest, RTL, jest-dom, user-event)
 - Workflow state files: `.workflow/state/shared-context.md`, `.workflow/state/task-log.json`
 
-- Batch 1-3 migration (unstaged — needs commit):
-  - Home zone: page.tsx with SSR prefetch (HydrationBoundary), QueryProvider, error.tsx, not-found.tsx
-  - Home components: HeroSection, TrendingSection, PopularSection, FreeToWatchSection, FeaturedActorsSection (all with carousels + tests)
-  - Home types: home.ts (media type defaults)
-  - Media zone: layout.tsx (RootLayout + QueryProvider), globals.css, error.tsx, not-found.tsx, providers/QueryProvider.tsx, types/
-  - Talents zone: layout.tsx, globals.css, error.tsx, not-found.tsx, providers/, actor/[id]/, director/[id]/
-  - Search zone: layout.tsx, globals.css, error.tsx, providers/, search/ route
-  - Code quality: Readonly<Props> on all error.tsx, DS token button styles on not-found.tsx, `as Mock` pattern for test type safety
-  - Catalog bumps in pnpm-workspace.yaml, .gitignore updates
+- Batch 1-3 migration (committed):
+  - `766efe1` build(workspace): bump catalog deps and fix gitignore for monorepo
+  - `06b96a1` feat(home): add home page with SSR prefetch and all section components
+  - `b415684` test(home): rewrite all tests with MSW + real UI components (42 tests, 15 files)
+  - `148e48b` feat(workspace): add layouts, providers, and error pages to media, talents, search zones
+  - `554f2d9` docs(claude): add testing rules, troubleshooting, and upstream fix docs
+- Home zone complete: page.tsx (SSR prefetch), QueryProvider, error/not-found, all 5 sections with carousels + tests
+- Media zone scaffolded: layout, QueryProvider, error/not-found, types
+- Talents zone scaffolded: layout, QueryProvider, error/not-found, actor/[id]/, director/[id]/ route stubs
+- Search zone scaffolded: layout, QueryProvider, error, search/ route stub
+- Test infra: MSW + real UI pattern, vitest.setup.ts with react-router-dom global mock, server.deps.inline for ESM
+- Documentation: patterns-testing.md, troubleshooting.md, fixes/ (MovieCard + Button as="link" upstream issues)
+- Updated auto-memory (MEMORY.md) with migration workflow state and testing gotchas
 
 ### Next
-- Rewrite HeroSection.tsx to match legacy exactly (Carousel variant="hero", 6 movies, CarouselItem isHero, heroControlsClassName, hero-height, text-shadow) — then verify remaining home components vs legacy, fix lint errors, and commit all unstaged work in logical conventional commits
+1. Rewrite HeroSection.tsx to match legacy exactly (Carousel variant="hero", 6 movies, CarouselItem isHero, heroControlsClassName, hero-height, text-shadow) — manual fix, not a workflow task
+2. Verify remaining home components vs legacy (use `recall` MCP tool)
+3. Resume migration workflow: say **"run the orchestrator"** → picks up at Batch 4 (M-2 through M-6 are unblocked)
+   - Workflow state: `.workflow/state/task-log.json` + `.workflow/state/shared-context.md`
+   - Orchestrator instructions: `.claude/agents/orchestrator.md`
+   - Batches 1-3 DONE (S-1, S-2, H-1–H-7, M-1), Batch 4+ PENDING
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
@@ -189,8 +199,8 @@ rewrites: {
 - Font packages (@fontsource/*) are transitive deps of @vite-mf-monorepo/shared — must be installed explicitly in each zone app (Turbopack CSS resolver can't resolve bare @import from inside node_modules)
 - @vite-mf-monorepo/layouts components using hooks need 'use client' in source — fixed in 0.3.4
 - HeroSection.tsx does NOT match legacy yet — currently shows single movie, legacy uses Carousel variant="hero" with 6 auto-rotating movies
-- All Batch 1-3 work is unstaged (git reset HEAD was run) — needs logical commits
 - `ui:` prefixed classes only work inside @vite-mf-monorepo/ui package — zone source files must use zone prefix (hm:, mda:, tl:, sr:)
+- `MovieCard` and `Button` with `as="link"` must be imported from `@vite-mf-monorepo/ui/next` (uses `next/link` + `href` prop) — fixed in ui 0.2.0
 
 ---
 

@@ -10,15 +10,20 @@ To add or update a component:
 
 Do NOT create UI components directly in this project.
 
-## ⚠️ Pending: React Router → Next.js link migration
-Some components in `@vite-mf-monorepo/ui` still use `to` prop (React Router) instead of `href` (next/link).
-This migration is in progress in `vite-mf-monorepo`.
+## Next.js variants (`@vite-mf-monorepo/ui/next`)
 
-**Before using any component with a link prop:**
-1. Check whether it has been republished with `href` support
-2. If not — use `/explore-legacy` to see the current prop shape, then open the component in `vite-mf-monorepo` and migrate it first
+Components that render links have a `/next` export that uses `next/link` + `href` prop instead of `react-router-dom` + `to`:
 
-Affected components (known): `Button` (as="link"), `MovieCard` (as="link")
+```typescript
+// In Next.js zone apps — always use /next for link components
+import { MovieCard } from '@vite-mf-monorepo/ui/next'
+import { Button } from '@vite-mf-monorepo/ui/next'
+
+// Non-link components stay on the main export
+import { Carousel, Typography, Tabs } from '@vite-mf-monorepo/ui'
+```
+
+Affected components: `Button` (as="link"), `MovieCard` (as="link")
 
 ---
 
@@ -36,22 +41,22 @@ Affected components (known): `Button` (as="link"), `MovieCard` (as="link")
 
 ### Button
 ```typescript jsx
+// As button (main export)
 import { Button } from '@vite-mf-monorepo/ui'
-
-// As button
 <Button variant="primary" onClick={handleClick}>Watch Now</Button>
 
-// As link (next/link internally)
-<Button as="link" to="/movie/123">View Details</Button>
+// As link (next export — uses next/link)
+import { Button } from '@vite-mf-monorepo/ui/next'
+<Button as="link" href="/movie/123">View Details</Button>
 ```
 
 ### MovieCard
 ```typescript jsx
-import { MovieCard } from '@vite-mf-monorepo/ui'
+import { MovieCard } from '@vite-mf-monorepo/ui/next'
 
 <MovieCard
   as="link"
-  to={`/movie/${String(item.id)}`}
+  href={`/movie/${String(item.id)}`}
   id={item.id ?? 0}
   title={item.title ?? 'Unknown'}
   posterUrl={item.poster_path ?? ''}

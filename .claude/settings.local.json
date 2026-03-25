@@ -68,7 +68,9 @@
       "Bash(grep -c \"from 'react-router\" node_modules/@vite-mf-monorepo/ui/dist/index.js)",
       "Bash(grep -B2 -A10 \"from 'react-router\" node_modules/@vite-mf-monorepo/ui/dist/index.js)",
       "Bash(cd apps/home && pnpm lint:fix 2>&1)",
-      "Bash(pnpm lint:fix 2>&1 | tail -20)"
+      "Bash(pnpm lint:fix 2>&1 | tail -20)",
+      "Bash(pnpm lint:fix -- --filter=apps/home/src/components/HeroSection/ 2>&1 | tail -20)",
+      "Bash(pnpm vitest:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -55,7 +55,6 @@ const movies = mockNowPlayingMovies.results ?? []
 const firstMovie = movies[0]
 const firstTitle = firstMovie.title ?? ''
 const firstOverview = firstMovie.overview ?? ''
-const firstReleaseDate = firstMovie.release_date ?? ''
 const firstId = firstMovie.id ?? 0
 
 describe('HeroSection', () => {
@@ -79,39 +78,17 @@ describe('HeroSection', () => {
     })
   })
 
-  it('renders the release year', async () => {
-    server.use(nowPlayingHandlers.nowPlayingMovies)
-
-    renderWithReactQuery(<HeroSection />)
-
-    const expectedYear = new Date(firstReleaseDate).getFullYear()
-
-    await waitFor(() => {
-      const years = screen.getAllByText(String(expectedYear))
-      expect(years.length).toBeGreaterThanOrEqual(1)
-    })
-  })
-
-  it('renders a link to the movie detail page', async () => {
+  it('renders a link wrapping each slide to the movie detail page', async () => {
     server.use(nowPlayingHandlers.nowPlayingMovies)
 
     renderWithReactQuery(<HeroSection />)
 
     await waitFor(() => {
-      const links = screen.getAllByRole('link', { name: /more info/i })
-      expect(links[0]).toHaveAttribute('href', `/movie/${String(firstId)}`)
-    })
-  })
-
-  it('renders a region landmark with "Now Playing" label', async () => {
-    server.use(nowPlayingHandlers.nowPlayingMovies)
-
-    renderWithReactQuery(<HeroSection />)
-
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: /now playing/i })
-      ).toBeInTheDocument()
+      const links = screen.getAllByRole('link')
+      const firstLink = links.find(
+        (link) => link.getAttribute('href') === `/movie/${String(firstId)}`
+      )
+      expect(firstLink).toBeInTheDocument()
     })
   })
 

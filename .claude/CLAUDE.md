@@ -28,15 +28,15 @@ apps/search      port 3004 — Search/Discovery (Search, Filters, Advanced)
 - **Be concise** — no recap, no enumerations, no unsolicited explanations. Act, then report briefly if needed.
 - **Discuss approach FIRST** — never code without confirming approach
 - **Review → Test → Commit** per change — no accumulation
-- **Never execute commands** — propose only. Exception: user says "execute", "run", etc.
+- **Never execute commands** — propose only. Exceptions: (1) user says "execute", "run", etc. (2) `pnpm type-check && pnpm lint && pnpm test` from root — MUST run after every code change, never skip
 - **Risky actions** (git push, reset --hard, rm -rf) require explicit permission EVERY TIME
+- **Always run** lint + typecheck + test once a set of modifications is done
 - **Never hallucinate** — if uncertain, read code first
 - **Always use context7** for any question about an API, library, or package
 - **Secrets** — live in `.env*` files — never in rules, memory, or code
 - **Never `console.log`** — use `console.warn` / `console.error`
 - **Never explicit `any`** — strict TypeScript
 - **After every file modification**, run `pnpm lint:fix` to fix ESLint + Prettier format errors in changed files
-- **Always run** lint + typecheck + test before commit
 - **Model**: Haiku for questions/research, Sonnet for code/commits — suggest Haiku when appropriate
 
 ---

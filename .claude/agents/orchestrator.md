@@ -154,18 +154,16 @@ BATCH 3 — Home page + Media prerequisite (parallel, 2 agents)
   H-7  dev  page.tsx — prefetchQuery all + HydrationBoundary
   M-1  dev  QueryProvider + layout + error + globals.css + types/media.ts
 
-BATCH 4 — Media structure + sections (parallel, 5 agents)
-  M-2  dev  movie/[id]/layout + tv/[id]/layout — slot wiring + @modal/default.tsx
-  M-3  dev  not-found + error pages
-  M-4  dev  MediaHero
-  M-5  dev  Synopsis
-  M-6  dev  Crew
+BATCH 4 — Media structure + sections (parallel, 4 agents)
+  M-2  dev  movie/[id]/layout + tv/[id]/layout — slot wiring + @modal + route-level error/not-found
+  M-4  dev  MediaHero — MovieHero + TVHero (separate variants)
+  M-5  dev  Synopsis + Crew (merged — both tiny)
+  M-7  dev  Cast — MovieCastCarousel + TVCastCarousel
 
-BATCH 5 — Media sections + PhotoViewer (parallel, 5 agents)
-  M-7  dev  Cast
-  M-8  dev  SimilarSection
-  M-9  dev  RecommendedSection
-  M-10 dev  TrailersSection
+BATCH 5 — Media sections + PhotoViewer (parallel, 4 agents)
+  M-8  dev  SimilarSection — MovieSimilarCarousel + TVSimilarCarousel
+  M-9  dev  RecommendedSection — MovieRecommendedCarousel + TVRecommendedCarousel
+  M-10 dev  TrailersSection — MovieTrailersCarousel + TVTrailersCarousel
   P-1  dev  PhotoViewer component          ← unblocked: M-2 done in Batch 4
 
 BATCH 6 — Media page + Photos pages (parallel, 4 agents)
@@ -180,10 +178,15 @@ BATCH 7 — Verification
 
 Notes:
 - H-7 and M-1 can run in parallel because M-1 has no dependency on home tasks
+- M-3 absorbed into M-2 (route-level error/not-found part of layout task)
+- M-5 and M-6 merged into M-5 (Synopsis + Crew — both trivial components)
+- Strategy B: separate Movie/TV variants per section (no shared conditional components)
+- TV variants with missing mock handlers: implement code, skip tests, add TODO
+- M-7 moved to Batch 4 (unblocked, no reason to wait)
 - P-1 only depends on M-2 — it starts in Batch 5 (not waiting for all M-* tasks)
 - Batch 6 runs M-11 and P-2/P-3/P-4 in parallel — different dependency chains converge
 - P-5 is manual verification, not an agent task
-- 7 batches total (was 9 before optimization)
+- 7 batches total, optimized from original plan
 
 ---
 
@@ -232,3 +235,8 @@ When composing the inline brief for each task:
 6. For tasks with tabs (H-3, H-4, H-5): specify the initial prop name, type, and default constant
 7. For media tasks: remind agent about CSS prefix `mda:` (easy to forget)
 8. For photo tasks: remind about @modal folder name (exactly `@modal`) and (.) prefix
+9. For media sections: include home zone reference files (see shared-context.md POST-HOME section)
+10. For media sections: explicitly state "NO hooks/ directory — call option factories directly"
+11. For media sections: explicitly state "NO tabs pattern — sections receive `id: number` only"
+12. For media sections: state "Strategy B — separate Movie/TV variant components"
+13. For TV variants with missing mocks: state "implement code, skip MSW tests, add TODO comment"

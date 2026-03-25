@@ -207,12 +207,54 @@ rewrites: {
 - Upstream: @vite-mf-monorepo/ui — HeroImage /next variant published
 - Task plan for legacy: .claude/tasks/heroimage-next-variant.md
 
+- Image optimization strategy decided (next/image for all zones):
+  - Analyzed legacy MovieCard, Image component, carousel lazy loading
+  - Compared with Odalys SafeImage pattern (next/image wrapper, dual blur, SVG fallback)
+  - Researched next/image lazy loading in horizontal carousels (Chrome 121+ native support)
+  - Researched @plaiceholder/next — maintenance mode, incompatible with Turbopack/Next.js 16
+  - Wrote task plan for legacy: `.claude/tasks/moviecard-next-image.md`
+    - NextImage reusable wrapper, MovieCardContent /next variant, HeroImage refactor
+  - Upstream: @vite-mf-monorepo/ui 0.4.0 published (NextImage, next/image in MovieCard+HeroImage)
+  - `4f74480` build(workspace): upgrade ui to 0.4.0 and add TMDB image remote patterns
+  - `553a329` docs(claude): update session state and add legacy-rag rule
+  - All 4 zone next.config.ts have images.remotePatterns for image.tmdb.org
+
+- Workflow optimization (pre-Batch 4 review):
+  - Analyzed home zone as implementation reference for media agents
+  - Inventoried media mock data: movie fully covered, TV missing credits/images/videos handlers
+  - Decided Strategy B: separate Movie/TV variant components (no shared conditionals)
+  - Removed M-3 (absorbed route-level error/not-found into M-2)
+  - Merged M-5 + M-6 into single task "Synopsis + Crew"
+  - Moved M-7 (Cast) up to Batch 4 (was Batch 5, no dependency reason to wait)
+  - Updated shared-context.md with POST-HOME lessons (no hooks/, no tabs, section order, TV gaps, home references)
+  - Updated orchestrator.md batch plan + 5 new brief-writing rules (9–13)
+  - Updated task-log.json with revised task structure and notes
+
+- Batch 4-6 media zone migration (1 commit):
+  - `82f2908` feat(media): add movie/tv detail pages with all sections and photo viewer
+  - 59 files, 5040 insertions — 126 media tests pass + 12 todo
+- Batch 4 — M-2 (layouts+slots), M-4 (MediaHero), M-5 (Synopsis+Crew), M-7 (Cast):
+  - movie/[id]/layout.tsx + tv/[id]/layout.tsx with @modal parallel route slot
+  - @modal/default.tsx, error.tsx, not-found.tsx for both movie and tv
+  - MovieHero + TVHero (useQuery + HeroImage from ui/next)
+  - MovieSynopsis + TVSynopsis, MovieCrew + TVCrew (Director + Writing filter)
+  - MovieCastCarousel + TVCastCarousel (Talent + Carousel UI)
+- Batch 5 — M-8 (Similar), M-9 (Recommended), M-10 (Trailers), P-1 (PhotoViewer):
+  - MovieSimilarCarousel + TVSimilarCarousel (MovieCard carousel)
+  - MovieRecommendedCarousel + TVRecommendedCarousel
+  - MovieTrailersSection + TVTrailersSection (YouTube iframe, official trailer filter)
+  - PhotoViewer (full-screen, keyboard nav, prev/next, close)
+- Batch 6 — M-11 (pages), P-2 (standalone photos), P-3 (modal photos), P-4 (BackdropSection):
+  - movie/[id]/page.tsx + tv/[id]/page.tsx (prefetchQuery all + HydrationBoundary + generateMetadata)
+  - Standalone photo pages (movie + tv) — Server Components
+  - Intercepted @modal photo pages — Client Components with use(params)
+  - MovieBackdropSection + TVBackdropSection (photo grid with links)
+- Subagent permission setup: .claude/settings.json allow rules for Write/Bash
+
 ### Next
-1. Decide image optimization strategy for carousel posters (next/image vs raw paths vs getOptimizedImageUrl) — deferred from this session
-2. Resume migration workflow: say **"run the orchestrator"** → picks up at Batch 4 (M-2 through M-6 are unblocked)
-   - Workflow state: `.workflow/state/task-log.json` + `.workflow/state/shared-context.md`
-   - Orchestrator instructions: `.claude/agents/orchestrator.md`
-   - Batches 1-3 DONE (S-1, S-2, H-1–H-7, M-1), Batch 4+ PENDING
+1. Manual E2E verification (P-5): run the app, test movie/tv detail pages, photo modal/standalone/back navigation
+2. Post-migration fix: CastSection should be a list, not a carousel (noted during M-7)
+3. Resume migration: talents zone (Batch 7+) or search zone
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
@@ -223,8 +265,13 @@ rewrites: {
 - `ui:` prefixed classes only work inside @vite-mf-monorepo/ui package — zone source files must use zone prefix (hm:, mda:, tl:, sr:)
 - `MovieCard` and `Button` with `as="link"` must be imported from `@vite-mf-monorepo/ui/next` (uses `next/link` + `href` prop) — fixed in ui 0.2.0
 - `HeroImage` must be imported from `@vite-mf-monorepo/ui/next` (uses `next/image`) — fixed in ui 0.3.0
+- `NextImage` exported from `@vite-mf-monorepo/ui/next` (reusable next/image wrapper) — added in ui 0.4.0
 - `revalidate` must be a static literal in page.tsx — Next.js can't analyze imported constants
 - FeaturedActorsSection exists but is not wired into page.tsx yet (not in legacy Home.tsx either)
+- `blurDataURL` React warnings in test stderr are cosmetic — next/image mock passes all props to DOM `<img>` which doesn't recognize `blurDataURL`
+- Do NOT use `@plaiceholder/next` — maintenance mode, Turbopack incompatible, Next.js 16 untested. Use `sharp` directly for server-side blur generation
+- TV mock data gaps: shared/mocks missing tvSeriesCredits, tvSeriesImages, tvSeriesVideos handlers — TV variants for Cast, Photos, Trailers untestable until upstream publishes
+- CastSection (M-7) is implemented as a carousel but should be a list — post-migration fix needed
 
 ---
 

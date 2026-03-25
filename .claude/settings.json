@@ -3,7 +3,18 @@
     "allow": [
       "Read(*)",
       "Write(apps/**)",
-      "Write(packages/**)"
+      "Write(packages/**)",
+      "Bash(cd * && pnpm *)",
+      "Bash(pnpm lint:fix *)",
+      "Bash(pnpm lint:fix)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm test)",
+      "Bash(pnpm type-check *)",
+      "Bash(pnpm type-check)",
+      "Bash(ls *)",
+      "Bash(mkdir *)"
     ],
     "deny": [
       "Bash(pnpm install *)",

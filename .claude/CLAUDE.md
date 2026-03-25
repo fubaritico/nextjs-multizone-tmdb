@@ -33,6 +33,7 @@ apps/search      port 3004 — Search/Discovery (Search, Filters, Advanced)
 - **Always run** lint + typecheck + test once a set of modifications is done
 - **Never hallucinate** — if uncertain, read code first
 - **Always use context7** for any question about an API, library, or package
+- **Always use legacy-rag** for any question about an API, library, or package from the legacy project, if response for RAG is not clear enough, use '/explore-legacy' command
 - **Secrets** — live in `.env*` files — never in rules, memory, or code
 - **Never `console.log`** — use `console.warn` / `console.error`
 - **Never explicit `any`** — strict TypeScript
@@ -193,10 +194,22 @@ rewrites: {
 - Updated patterns-ui.md, patterns-client-component.md, troubleshooting.md for ui/next exports
 - Added "lint:fix after every modification" rule to CLAUDE.md
 
+- Home zone alignment with legacy (3 commits):
+  - `6986c30` refactor(home): align HeroSection with legacy
+    - Whole slide wrapped in Link, h2+body-sm typography
+    - No rating/year/button, matched overlay/skeleton/error
+  - `0173e69` refactor(home): align page layout with legacy
+    - Container variant="default|muted" + Section in page.tsx
+    - Removed Section from section components
+    - Fixed FreeToWatch prefix "free-to-watch"→"free"
+    - Extracted getQueryClient(), inlined revalidate
+  - `fa5a349` refactor(home): import HeroImage from ui/next
+- Upstream: @vite-mf-monorepo/ui — HeroImage /next variant published
+- Task plan for legacy: .claude/tasks/heroimage-next-variant.md
+
 ### Next
-1. Rewrite HeroSection.tsx to match legacy exactly (Carousel variant="hero", 6 movies, CarouselItem isHero, heroControlsClassName, hero-height, text-shadow) — manual fix, not a workflow task
-2. Verify remaining home components vs legacy (use `recall` MCP tool)
-3. Resume migration workflow: say **"run the orchestrator"** → picks up at Batch 4 (M-2 through M-6 are unblocked)
+1. Decide image optimization strategy for carousel posters (next/image vs raw paths vs getOptimizedImageUrl) — deferred from this session
+2. Resume migration workflow: say **"run the orchestrator"** → picks up at Batch 4 (M-2 through M-6 are unblocked)
    - Workflow state: `.workflow/state/task-log.json` + `.workflow/state/shared-context.md`
    - Orchestrator instructions: `.claude/agents/orchestrator.md`
    - Batches 1-3 DONE (S-1, S-2, H-1–H-7, M-1), Batch 4+ PENDING
@@ -207,9 +220,11 @@ rewrites: {
 - `apps/web/src/app/page.tsx` was removed — web has no root page, relies on fallback rewrite to home
 - Font packages (@fontsource/*) are transitive deps of @vite-mf-monorepo/shared — must be installed explicitly in each zone app (Turbopack CSS resolver can't resolve bare @import from inside node_modules)
 - @vite-mf-monorepo/layouts components using hooks need 'use client' in source — fixed in 0.3.4
-- HeroSection.tsx does NOT match legacy yet — currently shows single movie, legacy uses Carousel variant="hero" with 6 auto-rotating movies
 - `ui:` prefixed classes only work inside @vite-mf-monorepo/ui package — zone source files must use zone prefix (hm:, mda:, tl:, sr:)
 - `MovieCard` and `Button` with `as="link"` must be imported from `@vite-mf-monorepo/ui/next` (uses `next/link` + `href` prop) — fixed in ui 0.2.0
+- `HeroImage` must be imported from `@vite-mf-monorepo/ui/next` (uses `next/image`) — fixed in ui 0.3.0
+- `revalidate` must be a static literal in page.tsx — Next.js can't analyze imported constants
+- FeaturedActorsSection exists but is not wired into page.tsx yet (not in legacy Home.tsx either)
 
 ---
 

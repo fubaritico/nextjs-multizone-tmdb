@@ -1,4 +1,3 @@
-import { Section } from '@vite-mf-monorepo/layouts'
 import { Typography } from '@vite-mf-monorepo/ui'
 
 import FeaturedActorsCarousel from './FeaturedActorsCarousel'
@@ -15,11 +14,9 @@ import FeaturedActorsCarousel from './FeaturedActorsCarousel'
  */
 export default function FeaturedActorsSection() {
   return (
-    <Section>
-      <div className="hm:flex hm:flex-col hm:gap-4">
-        <Typography variant="h2">Featured Actors</Typography>
-        <FeaturedActorsCarousel />
-      </div>
-    </Section>
+    <div className="hm:flex hm:flex-col hm:gap-4">
+      <Typography variant="h2">Featured Actors</Typography>
+      <FeaturedActorsCarousel />
+    </div>
   )
 }

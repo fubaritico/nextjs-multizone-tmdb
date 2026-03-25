@@ -1,6 +1,5 @@
 'use client'
 
-import { Section } from '@vite-mf-monorepo/layouts'
 import { Tabs, Typography } from '@vite-mf-monorepo/ui'
 import { useState } from 'react'
 
@@ -35,7 +34,7 @@ const TrendingSection: FC<TrendingSectionProps> = ({
   const [timeWindow, setTimeWindow] = useState<TimeWindow>(initialTimeWindow)
 
   return (
-    <Section spacing="lg" maxWidth="xl">
+    <div className="hm:flex hm:flex-col hm:gap-4">
       <Typography variant="h2">Trending</Typography>
       <Tabs
         value={timeWindow}
@@ -56,7 +55,7 @@ const TrendingSection: FC<TrendingSectionProps> = ({
           <TrendingCarousel timeWindow="week" />
         </Tabs.Panel>
       </Tabs>
-    </Section>
+    </div>
   )
 }
 

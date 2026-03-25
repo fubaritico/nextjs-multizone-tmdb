@@ -11,6 +11,7 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query'
+import { Container, Section } from '@vite-mf-monorepo/layouts'
 
 import FreeToWatchSection from '../components/FreeToWatchSection/FreeToWatchSection'
 import HeroSection from '../components/HeroSection/HeroSection'
@@ -18,7 +19,6 @@ import PopularSection from '../components/PopularSection/PopularSection'
 import TrendingSection from '../components/TrendingSection/TrendingSection'
 import {
   CACHE_TIME_MS,
-  CACHE_TIME_S,
   DEFAULT_FREE_TO_WATCH_MEDIA_TYPE,
   DEFAULT_POPULAR_MEDIA_TYPE,
   DEFAULT_TRENDING_TIME_WINDOW,
@@ -26,7 +26,8 @@ import {
 
 import type { Metadata } from 'next'
 
-export const revalidate = CACHE_TIME_S
+/** 24h ISR — must match CACHE_TIME_S from types/home.ts */
+export const revalidate = 86400
 
 export const metadata: Metadata = {
   title: 'TMDB — Discover Movies & TV',
@@ -46,7 +47,11 @@ export const metadata: Metadata = {
  * ISR `revalidate` and TanStack Query `staleTime` are both sourced from the
  * same `CACHE_TIME_*` constants so they never drift apart.
  */
-export default async function HomePage() {
+/**
+ * Creates a QueryClient and prefetches all data needed by the home page
+ * sections in parallel. Returns the hydrated QueryClient.
+ */
+async function getQueryClient() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { staleTime: CACHE_TIME_MS },
@@ -70,12 +75,39 @@ export default async function HomePage() {
     ),
   ])
 
+  return queryClient
+}
+
+export default async function HomePage() {
+  const queryClient = await getQueryClient()
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* Hero Section - Full width, no container */}
       <HeroSection />
-      <TrendingSection initialTimeWindow={DEFAULT_TRENDING_TIME_WINDOW} />
-      <PopularSection initialMediaType={DEFAULT_POPULAR_MEDIA_TYPE} />
-      <FreeToWatchSection initialMediaType={DEFAULT_FREE_TO_WATCH_MEDIA_TYPE} />
+
+      {/* Trending Section - White background */}
+      <Container variant="default">
+        <Section spacing="lg" maxWidth="xl">
+          <TrendingSection initialTimeWindow={DEFAULT_TRENDING_TIME_WINDOW} />
+        </Section>
+      </Container>
+
+      {/* What's Popular Section - Gray background */}
+      <Container variant="muted">
+        <Section spacing="lg" maxWidth="xl">
+          <PopularSection initialMediaType={DEFAULT_POPULAR_MEDIA_TYPE} />
+        </Section>
+      </Container>
+
+      {/* Free to Watch Section - White background */}
+      <Container variant="default">
+        <Section spacing="lg" maxWidth="xl">
+          <FreeToWatchSection
+            initialMediaType={DEFAULT_FREE_TO_WATCH_MEDIA_TYPE}
+          />
+        </Section>
+      </Container>
     </HydrationBoundary>
   )
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import { Section } from '@vite-mf-monorepo/layouts'
 import { Tabs, Typography } from '@vite-mf-monorepo/ui'
 import { useState } from 'react'
 
@@ -37,30 +36,28 @@ const FreeToWatchSection: FC<FreeToWatchSectionProps> = ({
   const [mediaType, setMediaType] = useState<MediaType>(initialMediaType)
 
   return (
-    <Section>
-      <div className="hm:flex hm:flex-col hm:gap-4">
-        <Typography variant="h2">Free To Watch</Typography>
-        <Tabs
-          value={mediaType}
-          onValueChange={(v) => {
-            setMediaType(v as MediaType)
-          }}
-          variant="pills"
-          prefix="free-to-watch"
-        >
-          <Tabs.List>
-            <Tabs.Trigger value="movie">Movies</Tabs.Trigger>
-            <Tabs.Trigger value="tv">TV Shows</Tabs.Trigger>
-          </Tabs.List>
-          <Tabs.Panel value="movie">
-            <FreeToWatchMovieCarousel />
-          </Tabs.Panel>
-          <Tabs.Panel value="tv">
-            <FreeToWatchTVCarousel />
-          </Tabs.Panel>
-        </Tabs>
-      </div>
-    </Section>
+    <div className="hm:flex hm:flex-col hm:gap-4">
+      <Typography variant="h2">Free To Watch</Typography>
+      <Tabs
+        value={mediaType}
+        onValueChange={(v) => {
+          setMediaType(v as MediaType)
+        }}
+        variant="pills"
+        prefix="free"
+      >
+        <Tabs.List>
+          <Tabs.Trigger value="movie">Movies</Tabs.Trigger>
+          <Tabs.Trigger value="tv">TV Shows</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Panel value="movie">
+          <FreeToWatchMovieCarousel />
+        </Tabs.Panel>
+        <Tabs.Panel value="tv">
+          <FreeToWatchTVCarousel />
+        </Tabs.Panel>
+      </Tabs>
+    </div>
   )
 }
 

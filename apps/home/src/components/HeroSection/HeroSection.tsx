@@ -6,7 +6,6 @@ import {
   Carousel,
   CarouselItem,
   HeroImage,
-  Rating,
   Skeleton,
   Typography,
 } from '@vite-mf-monorepo/ui'
@@ -15,9 +14,6 @@ import Link from 'next/link'
 import type { MovieNowPlayingListResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
 import type { FC } from 'react'
-
-/** Number of now-playing movies to display in the hero carousel. */
-const HERO_SLIDE_COUNT = 6
 
 /**
  * HeroSection displays an auto-rotating carousel of now-playing movies as a
@@ -31,107 +27,64 @@ const HERO_SLIDE_COUNT = 6
  * HIT so no loading state is shown to the user.
  */
 const HeroSection: FC = () => {
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, error } = useQuery(
     movieNowPlayingListOptions()
   ) as UseQueryResult<MovieNowPlayingListResponse>
 
   if (isLoading) {
     return (
-      <div className="hm:relative hm:w-full hm:overflow-hidden hm:aspect-[21/9] hm:lg:aspect-auto hm:lg:max-h-[440px] hm:lg:h-[440px]">
-        <Skeleton
-          variant="rectangle"
-          width="hm:w-full"
-          height="hm:h-full"
-          rounded={false}
-        />
-      </div>
+      <Skeleton
+        variant="rectangle"
+        className="hm:w-full hm:hero-height"
+        aspectRatio="21/9"
+        rounded={false}
+      />
     )
   }
 
-  const movies = data?.results?.slice(0, HERO_SLIDE_COUNT) ?? []
-
-  if (movies.length === 0) {
-    return null
+  if (error || !data) {
+    const errorMsg = error?.message ?? (!data ? 'No data' : 'Failed to load')
+    return <Carousel variant="hero" rounded={false} errorMessage={errorMsg} />
   }
 
   return (
-    <section
-      className="hm:relative hm:w-full hm:overflow-hidden hm:aspect-[21/9] hm:lg:aspect-auto hm:lg:max-h-[440px] hm:lg:h-[440px]"
-      aria-label="Now Playing"
+    <Carousel
+      variant="hero"
+      rounded={false}
+      gap={0}
+      heroControlsClassName="hm:max-w-screen-xl hm:px-5 hm:sm:px-5 hm:md:px-5 hm:lg:px-6"
     >
-      <Carousel
-        variant="hero"
-        gap={0}
-        rounded={false}
-        heroControlsClassName="hm:z-10"
-      >
-        {movies.map((movie) => {
-          const releaseYear = movie.release_date
-            ? new Date(movie.release_date).getFullYear()
-            : null
+      {data.results?.slice(0, 6).map((item) => (
+        <CarouselItem key={item.id} isHero>
+          <Link
+            href={`/movie/${String(item.id)}`}
+            className="hm:block hm:no-underline"
+          >
+            <div className="hm:relative hm:hero-height hm:w-full hm:overflow-hidden">
+              <HeroImage backdropPath={item.backdrop_path} title={item.title} />
 
-          return (
-            <CarouselItem key={movie.id} isHero>
-              <div className="hm:relative hm:w-full hm:h-full">
-                <HeroImage
-                  backdropPath={movie.backdrop_path}
-                  title={movie.title}
-                />
-
-                {/* Content overlay */}
-                <div className="hm:absolute hm:inset-0 hm:z-10 hm:flex hm:items-end hm:pb-8 hm:px-6 hm:max-w-screen-xl hm:mx-auto hm:left-0 hm:right-0">
-                  <div className="hm:flex hm:flex-col hm:gap-3 hm:max-w-2xl">
-                    {releaseYear && (
-                      <Typography
-                        variant="caption"
-                        className="hm:text-white/70 hm:text-shadow-medium"
-                      >
-                        {releaseYear}
-                      </Typography>
-                    )}
-
-                    <Typography
-                      variant="h1"
-                      className="hm:text-white hm:text-shadow-strong"
-                    >
-                      {movie.title ?? 'Unknown Title'}
-                    </Typography>
-
-                    {movie.vote_average != null && movie.vote_average > 0 && (
-                      <Rating
-                        value={movie.vote_average}
-                        max={10}
-                        variant="circle"
-                        size="md"
-                        showValue
-                      />
-                    )}
-
-                    {movie.overview && (
-                      <Typography
-                        variant="body"
-                        className="hm:text-white/90 hm:line-clamp-3 hm:text-shadow-medium"
-                      >
-                        {movie.overview}
-                      </Typography>
-                    )}
-
-                    {movie.id != null && (
-                      <Link
-                        href={`/movie/${String(movie.id)}`}
-                        className="hm:mt-2 hm:inline-flex hm:items-center hm:gap-2 hm:rounded-full hm:bg-white hm:px-5 hm:py-2 hm:text-sm hm:font-semibold hm:text-black hm:transition-opacity hover:hm:opacity-80 hm:w-fit"
-                      >
-                        More info
-                      </Link>
-                    )}
-                  </div>
+              {/* Content Overlay */}
+              <div className="hm:absolute hm:left-1/2 hm:-translate-x-1/2 hm:z-2 hm:w-full hm:max-w-screen-xl hm:px-4 hm:sm:px-5 hm:md:px-5 hm:lg:px-5 hm:bottom-8 hm:sm:bottom-8 hm:md:bottom-8 hm:lg:bottom-10 hm:flex hm:justify-start hm:items-end">
+                <div className="hm:flex hm:flex-col hm:w-full hm:max-w-lg">
+                  <Typography
+                    variant="h2"
+                    className="hm:mb-2 hm:text-white! hm:text-shadow-medium"
+                  >
+                    {item.title ?? 'Unknown'}
+                  </Typography>
+                  <Typography
+                    variant="body-sm"
+                    className="hm:text-white! hm:text-shadow-strong"
+                  >
+                    {item.overview ?? ''}
+                  </Typography>
                 </div>
               </div>
-            </CarouselItem>
-          )
-        })}
-      </Carousel>
-    </section>
+            </div>
+          </Link>
+        </CarouselItem>
+      ))}
+    </Carousel>
   )
 }
 

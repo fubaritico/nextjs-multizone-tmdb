@@ -5,10 +5,10 @@ import { useQuery } from '@tanstack/react-query'
 import {
   Carousel,
   CarouselItem,
-  HeroImage,
   Skeleton,
   Typography,
 } from '@vite-mf-monorepo/ui'
+import { HeroImage } from '@vite-mf-monorepo/ui/next'
 import Link from 'next/link'
 
 import type { MovieNowPlayingListResponse } from '@fubar-it-co/tmdb-client'

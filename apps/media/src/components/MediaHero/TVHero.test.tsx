@@ -1,0 +1,116 @@
+import { screen, waitFor } from '@testing-library/react'
+import {
+  mockTVSeriesDetails,
+  tvSeriesDetailsHandlers,
+} from '@vite-mf-monorepo/shared/mocks'
+import { renderWithReactQuery } from '@vite-mf-monorepo/shared/test-utils'
+import { setupServer } from 'msw/node'
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+
+import TVHero from './TVHero'
+
+vi.mock('next/link', () => ({
+  default: ({
+    href,
+    children,
+    ...props
+  }: {
+    href: string
+    children: React.ReactNode
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}))
+
+vi.mock('next/image', () => ({
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    // eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element
+    <img {...props} />
+  ),
+}))
+
+const server = setupServer()
+
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' })
+})
+afterEach(() => {
+  server.resetHandlers()
+})
+afterAll(() => {
+  server.close()
+})
+
+describe('TVHero', () => {
+  it('renders the TV series name', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetails)
+
+    renderWithReactQuery(<TVHero id={549} />)
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(mockTVSeriesDetails.name ?? '')
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('renders the first air year', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetails)
+
+    renderWithReactQuery(<TVHero id={549} />)
+
+    const year = mockTVSeriesDetails.first_air_date
+      ? new Date(mockTVSeriesDetails.first_air_date).getFullYear()
+      : null
+
+    await waitFor(() => {
+      if (year) {
+        expect(screen.getByText(new RegExp(String(year)))).toBeInTheDocument()
+      }
+    })
+  })
+
+  it('renders genre badges', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetails)
+
+    renderWithReactQuery(<TVHero id={549} />)
+
+    await waitFor(() => {
+      for (const genre of mockTVSeriesDetails.genres ?? []) {
+        expect(screen.getByText(genre.name ?? '')).toBeInTheDocument()
+      }
+    })
+  })
+
+  it('renders the loading skeleton while fetching', () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetailsLoading)
+
+    renderWithReactQuery(<TVHero id={549} />)
+
+    // The skeleton is rendered immediately before data arrives
+    const skeletons = document.querySelectorAll('[class*="skeleton"]')
+    expect(skeletons.length).toBeGreaterThan(0)
+  })
+
+  it('renders an error message on API failure', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetailsError)
+
+    renderWithReactQuery(<TVHero id={549} />)
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/failed to load tv series details/i)
+      ).toBeInTheDocument()
+    })
+  })
+})

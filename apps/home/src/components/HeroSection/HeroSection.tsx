@@ -59,7 +59,7 @@ const HeroSection: FC = () => {
             href={`/movie/${String(item.id)}`}
             className="hm:block hm:no-underline"
           >
-            <div className="hm:relative hm:hero-height hm:w-full hm:overflow-hidden">
+            <div className="hm:relative hm:aspect-[21/9] hm:lg:max-h-[440px] hm:w-full hm:overflow-hidden">
               <HeroImage backdropPath={item.backdrop_path} title={item.title} />
 
               {/* Content Overlay */}

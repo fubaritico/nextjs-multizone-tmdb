@@ -251,14 +251,29 @@ rewrites: {
   - MovieBackdropSection + TVBackdropSection (photo grid with links)
 - Subagent permission setup: .claude/settings.json allow rules for Write/Bash
 
+- E2E debugging: fixed multi-zone hydration and asset loading (2 commits):
+  - `c9b0b31` fix(workspace): switch to path-based assetPrefix and expose TMDB env var
+  - `5cd434a` chore(workspace): add CSS utilities and improve reset script
+- Fixed VITE_TMDB_API_TOKEN not available client-side — added `env` config to all zone next.config.ts
+- Fixed duplicate VITE_TMDB_API_TOKEN in apps/home/.env.local
+- Fixed images 404 through orchestrator — added images.remotePatterns to apps/web/next.config.ts
+- Fixed hydration not working through multi-zone orchestrator:
+  - Root cause: full-URL assetPrefix breaks hydration — JS loads from zone directly but RSC flight data goes through orchestrator
+  - Fix: path-based assetPrefix (/home-static, /media-static, /talents-static, /search-static)
+  - Added beforeFiles rewrites in web to proxy /<zone>-static/_next/:path+ to zone apps
+- Upstream: @vite-mf-monorepo/ui 0.4.10 — per-file build output (preserves 'use client'), NextImage cache detection fix
+- Upstream: @fubar-it-co/tmdb-client 0.0.14 — env var fix for Next.js (process.env fallback)
+- Added CSS utilities (text-shadow, hero-height) to all zone globals.css
+- Improved reset-project.sh to also clean .turbo folders
+- Removed NEXT_PUBLIC_ASSET_PREFIX from all .env.local files (no longer needed)
+
 ### Next
-1. Manual E2E verification (P-5): run the app, test movie/tv detail pages, photo modal/standalone/back navigation
+1. Continue P-5 manual E2E verification on port 3000: test movie/tv detail pages, photo modal/standalone/back navigation
 2. Post-migration fix: CastSection should be a list, not a carousel (noted during M-7)
 3. Resume migration: talents zone (Batch 7+) or search zone
 
 ### Known Issues
 - Packages from npm: if a component needs updating, edit in vite-mf-monorepo, republish, bump version here
-- env vars: `VITE_*` prefix kept for compatibility with existing tmdb-client package
 - `apps/web/src/app/page.tsx` was removed — web has no root page, relies on fallback rewrite to home
 - Font packages (@fontsource/*) are transitive deps of @vite-mf-monorepo/shared — must be installed explicitly in each zone app (Turbopack CSS resolver can't resolve bare @import from inside node_modules)
 - @vite-mf-monorepo/layouts components using hooks need 'use client' in source — fixed in 0.3.4
@@ -272,6 +287,10 @@ rewrites: {
 - Do NOT use `@plaiceholder/next` — maintenance mode, Turbopack incompatible, Next.js 16 untested. Use `sharp` directly for server-side blur generation
 - TV mock data gaps: shared/mocks missing tvSeriesCredits, tvSeriesImages, tvSeriesVideos handlers — TV variants for Cast, Photos, Trailers untestable until upstream publishes
 - CastSection (M-7) is implemented as a carousel but should be a list — post-migration fix needed
+- Multi-zones: `assetPrefix` must be **path-based** (e.g. `/home-static`), not a full URL — full URL breaks hydration through orchestrator
+- Multi-zones: orchestrator needs `beforeFiles` rewrites for `/<zone>-static/_next/:path+` to proxy static assets to zone apps
+- Upstream: `@vite-mf-monorepo/ui` must use per-file output (not bundled) to preserve `'use client'` directives — barrel `next/index.ts` needs `'use client'`
+- `VITE_TMDB_API_TOKEN` exposed to browser via `env` config in each zone's `next.config.ts` (Next.js doesn't auto-expose `VITE_*` vars like Vite does)
 
 ---
 
@@ -287,7 +306,6 @@ NEXT_PUBLIC_SEARCH_URL=http://localhost:3004
 
 **apps/[zone]/.env.local**
 ```
-NEXT_PUBLIC_ASSET_PREFIX=http://localhost:<zone_port>
 VITE_TMDB_API_TOKEN=your_token_here
 VITE_USE_NETLIFY_CDN=false
 ```

@@ -26,7 +26,7 @@ interface PhotosProps {
 /**
  * Displays a bento-grid of up to 4 backdrop images + a CTA tile for a movie or TV series.
  *
- * Each image links to the photo viewer at `/{mediaType}/{id}/photos/{photoId}`.
+ * Each image links to the photo viewer at `/{mediaType}/{id}/photos/{index}`.
  * The first image spans 2 columns and 2 rows on desktop for visual emphasis.
  * The last cell shows the total photo count and links to the viewer.
  *
@@ -76,10 +76,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
 
   if (error ?? !data?.backdrops?.length) return null
 
-  const backdrops = (data.backdrops ?? []).map((b) => ({
-    ...b,
-    photoId: b.file_path?.replace(/^\//, '').replace(/\.[^/.]+$/, '') ?? '',
-  }))
+  const backdrops = data.backdrops ?? []
   const photos = backdrops.slice(0, PHOTOS_IN_GRID)
   const total = backdrops.length
   const basePath = `/${mediaType}/${String(id)}`
@@ -92,7 +89,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
       <div className="mda:grid mda:grid-cols-2 mda:md:grid-cols-4 mda:md:grid-rows-2 mda:md:h-72 mda:gap-2">
         {/* Large photo — col-span-2 row-span-2 on desktop */}
         <Link
-          href={`${basePath}/photos/${photos[0]?.photoId ?? ''}`}
+          href={`${basePath}/photos/0`}
           className="mda:relative mda:col-span-2 mda:md:row-span-2 mda:aspect-video mda:md:aspect-auto mda:overflow-hidden mda:rounded-md mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
           aria-label="View photo 1"
         >
@@ -109,7 +106,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
         {photos.slice(1).map((photo, i) => (
           <Link
             key={photo.file_path}
-            href={`${basePath}/photos/${photo.photoId}`}
+            href={`${basePath}/photos/${String(i + 1)}`}
             className="mda:relative mda:aspect-video mda:md:aspect-auto mda:overflow-hidden mda:rounded-md mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
             aria-label={`View photo ${String(i + 2)}`}
           >
@@ -125,7 +122,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
 
         {/* CTA tile — "X photos" */}
         <Link
-          href={`${basePath}/photos/${photos[0]?.photoId ?? ''}`}
+          href={`${basePath}/photos/0`}
           className="mda:aspect-video mda:md:aspect-auto mda:flex mda:flex-col mda:items-center mda:justify-center mda:gap-2 mda:rounded-md mda:bg-muted mda:transition-colors hover:mda:bg-muted/70 mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
           aria-label={`View all ${String(total)} photos`}
         >

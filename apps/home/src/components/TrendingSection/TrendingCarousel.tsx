@@ -50,7 +50,7 @@ const TrendingCarousel: FC<TrendingCarouselProps> = ({ timeWindow }) => {
         <CarouselItem key={item.id}>
           <div style={{ width: 150 }}>
             <MovieCard
-              as="link"
+              as="zone-link"
               href={`/${item.media_type === 'tv' ? 'tv' : 'movie'}/${String(item.id)}`}
               id={item.id ?? 0}
               title={item.title ?? 'Unknown'}

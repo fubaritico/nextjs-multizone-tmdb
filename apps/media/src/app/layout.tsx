@@ -19,7 +19,7 @@ export default function MediaLayout({
     <html lang="en">
       <body>
         <QueryProvider>
-          <RootLayout>{children}</RootLayout>
+          <RootLayout crossZoneHome>{children}</RootLayout>
         </QueryProvider>
       </body>
     </html>

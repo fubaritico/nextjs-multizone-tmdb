@@ -34,7 +34,7 @@ const FreeToWatchMovieCarousel: FC = () => {
         <CarouselItem key={movie.id}>
           <div style={{ width: 150 }}>
             <MovieCard
-              as="link"
+              as="zone-link"
               href={`/movie/${String(movie.id)}`}
               id={movie.id ?? 0}
               title={movie.title ?? 'Unknown'}

@@ -34,7 +34,7 @@ const PopularTVCarousel: FC = () => {
         <CarouselItem key={show.id}>
           <div style={{ width: 150 }}>
             <MovieCard
-              as="link"
+              as="zone-link"
               href={`/tv/${String(show.id)}`}
               id={show.id ?? 0}
               title={show.name ?? 'Unknown'}

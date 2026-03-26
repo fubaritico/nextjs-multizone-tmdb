@@ -8,7 +8,6 @@ import {
   CarouselLoading,
   Talent,
 } from '@vite-mf-monorepo/ui'
-import Link from 'next/link'
 
 import type {
   PersonPopularListResponse,
@@ -51,7 +50,7 @@ const FeaturedActorsCarousel: FC = () => {
     <Carousel rounded={false}>
       {data.results?.map((actor) => (
         <CarouselItem key={actor.id}>
-          <Link href={`/actor/${String(actor.id)}`} className="hm:block">
+          <a href={`/actor/${String(actor.id)}`} className="hm:block">
             <Talent
               name={actor.name ?? 'Unknown'}
               role={actor.known_for_department ?? ''}
@@ -62,7 +61,7 @@ const FeaturedActorsCarousel: FC = () => {
               }
               variant="vertical"
             />
-          </Link>
+          </a>
         </CarouselItem>
       ))}
     </Carousel>

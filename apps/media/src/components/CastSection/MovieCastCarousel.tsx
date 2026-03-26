@@ -9,7 +9,6 @@ import {
   Talent,
   Typography,
 } from '@vite-mf-monorepo/ui'
-import Link from 'next/link'
 
 import type { MovieCreditsResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
@@ -68,7 +67,7 @@ const MovieCastCarousel: FC<MovieCastCarouselProps> = ({ id }) => {
       <Carousel rounded={false}>
         {cast.map((member) => (
           <CarouselItem key={member.credit_id ?? member.id}>
-            <Link href={`/actor/${String(member.id)}`} className="mda:block">
+            <a href={`/actor/${String(member.id)}`} className="mda:block">
               <Talent
                 name={member.name ?? 'Unknown'}
                 role={member.character ?? ''}
@@ -79,7 +78,7 @@ const MovieCastCarousel: FC<MovieCastCarouselProps> = ({ id }) => {
                 }
                 variant="vertical"
               />
-            </Link>
+            </a>
           </CarouselItem>
         ))}
       </Carousel>

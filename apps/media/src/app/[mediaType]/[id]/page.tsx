@@ -20,7 +20,7 @@ import {
 import { Container, Section } from '@vite-mf-monorepo/layouts'
 import { notFound } from 'next/navigation'
 
-import CastCarousel from '@/components/CastSection'
+import Cast from '@/components/Cast'
 import Crew from '@/components/Crew'
 import MediaHero from '@/components/MediaHero'
 import Photos from '@/components/Photos'
@@ -172,17 +172,17 @@ export default async function MediaPage({ params }: Readonly<Props>) {
         </Section>
       </Container>
 
-      {/* 4. Photos */}
+      {/* 4. Cast */}
       <Container variant="default">
         <Section spacing="lg" maxWidth="xl">
-          <Photos id={contentId} mediaType={mediaType} />
+          <Cast id={contentId} mediaType={mediaType} />
         </Section>
       </Container>
 
-      {/* 5. Cast */}
+      {/* 5. Photos */}
       <Container variant="default">
         <Section spacing="lg" maxWidth="xl">
-          <CastCarousel id={contentId} mediaType={mediaType} />
+          <Photos id={contentId} mediaType={mediaType} />
         </Section>
       </Container>
 

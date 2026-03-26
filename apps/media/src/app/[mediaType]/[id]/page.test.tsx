@@ -1,24 +1,27 @@
-import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import {
+  movieCreditsOptions,
+  movieDetailsOptions,
+  movieImagesOptions,
+  movieRecommendationsOptions,
+  movieSimilarOptions,
+  movieVideosOptions,
+  tvSeriesCreditsOptions,
+  tvSeriesDetailsOptions,
+  tvSeriesImagesOptions,
+  tvSeriesRecommendationsOptions,
+  tvSeriesSimilarOptions,
+  tvSeriesVideosOptions,
+} from '@fubar-it-co/tmdb-client'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-/**
- * Smoke test for the MediaPage Server Component.
- *
- * The component is an async function — we call it directly and render the
- * resolved JSX. All `prefetchQuery` calls on the internal `QueryClient` are
- * mocked so the test doesn't need a real TMDB token.
- *
- * Deep behaviour (cache HIT, section rendering, carousels) is covered by the
- * individual section and carousel test suites.
- */
+const prefetchQuery = vi.fn().mockResolvedValue(undefined)
 
-// Mock @tanstack/react-query so prefetchQuery resolves immediately.
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
   return {
     ...actual,
     QueryClient: vi.fn().mockImplementation(() => ({
-      prefetchQuery: vi.fn().mockResolvedValue(undefined),
+      prefetchQuery,
       getDefaultOptions: vi.fn().mockReturnValue({}),
       getQueryData: vi.fn().mockReturnValue(undefined),
     })),
@@ -29,132 +32,106 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   }
 })
 
-// Mock all child section components to isolate page shell logic.
-vi.mock('../../../components/MediaHero/MediaHero', () => ({
-  default: () => <section data-testid="media-hero" />,
+const mockNotFound = vi.fn()
+vi.mock('next/navigation', () => ({
+  notFound: () => {
+    mockNotFound()
+    throw new Error('NEXT_NOT_FOUND')
+  },
 }))
 
-vi.mock('../../../components/Synopsis/Synopsis', () => ({
-  default: () => <section data-testid="synopsis" />,
-}))
+import MediaPage, { generateMetadata } from './page'
 
-vi.mock('../../../components/Crew/Crew', () => ({
-  default: () => <section data-testid="crew" />,
-}))
-
-vi.mock('../../../components/Photos/Photos', () => ({
-  default: () => <section data-testid="photos" />,
-}))
-
-vi.mock('../../../components/CastSection/CastCarousel', () => ({
-  default: () => <section data-testid="cast" />,
-}))
-
-vi.mock('../../../components/TrailersSection/TrailersSection', () => ({
-  default: () => <section data-testid="trailers-section" />,
-}))
-
-vi.mock('../../../components/SimilarSection/SimilarCarousel', () => ({
-  default: () => <section data-testid="similar-section" />,
-}))
-
-vi.mock('../../../components/RecommendedSection/RecommendedCarousel', () => ({
-  default: () => <section data-testid="recommended-section" />,
-}))
-
-// Mock factory functions — return value is irrelevant since prefetchQuery is mocked.
-vi.mock('@fubar-it-co/tmdb-client', () => ({
-  movieDetailsOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  movieCreditsOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  movieSimilarOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  movieRecommendationsOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  movieVideosOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  movieImagesOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  tvSeriesDetailsOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  tvSeriesCreditsOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  tvSeriesSimilarOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  tvSeriesRecommendationsOptions: vi
-    .fn()
-    .mockReturnValue({ queryKey: ['mock'] }),
-  tvSeriesVideosOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-  tvSeriesImagesOptions: vi.fn().mockReturnValue({ queryKey: ['mock'] }),
-}))
-
-import MediaPage from './page'
+/** Extract queryKeys from all prefetchQuery calls. */
+function getPrefetchedKeys() {
+  return (prefetchQuery.mock.calls as [{ queryKey: unknown[] }][]).map(
+    (call) => call[0].queryKey
+  )
+}
 
 describe('MediaPage', () => {
-  it('renders movie page without throwing', async () => {
-    const jsx = await MediaPage({
-      params: Promise.resolve({ mediaType: 'movie', id: '278' }),
-    })
-    render(jsx)
+  beforeEach(() => {
+    prefetchQuery.mockClear()
+    mockNotFound.mockClear()
   })
 
-  it('renders tv page without throwing', async () => {
-    const jsx = await MediaPage({
-      params: Promise.resolve({ mediaType: 'tv', id: '1396' }),
+  describe('movie prefetch', () => {
+    it('prefetches all 6 movie queries in parallel', async () => {
+      const movieId = 278
+      const path = { movie_id: movieId }
+
+      await MediaPage({
+        params: Promise.resolve({ mediaType: 'movie', id: String(movieId) }),
+      })
+
+      expect(prefetchQuery).toHaveBeenCalledTimes(6)
+
+      const keys = getPrefetchedKeys()
+      expect(keys).toContainEqual(movieDetailsOptions({ path }).queryKey)
+      expect(keys).toContainEqual(movieCreditsOptions({ path }).queryKey)
+      expect(keys).toContainEqual(movieSimilarOptions({ path }).queryKey)
+      expect(keys).toContainEqual(
+        movieRecommendationsOptions({ path }).queryKey
+      )
+      expect(keys).toContainEqual(movieVideosOptions({ path }).queryKey)
+      expect(keys).toContainEqual(movieImagesOptions({ path }).queryKey)
     })
-    render(jsx)
   })
 
-  it('renders all section test IDs for movie', async () => {
-    const jsx = await MediaPage({
-      params: Promise.resolve({ mediaType: 'movie', id: '278' }),
-    })
-    render(jsx)
+  describe('tv prefetch', () => {
+    it('prefetches all 6 tv queries in parallel', async () => {
+      const seriesId = 1396
+      const path = { series_id: seriesId }
 
-    expect(screen.getByTestId('media-hero')).toBeInTheDocument()
-    expect(screen.getByTestId('synopsis')).toBeInTheDocument()
-    expect(screen.getByTestId('crew')).toBeInTheDocument()
-    expect(screen.getByTestId('photos')).toBeInTheDocument()
-    expect(screen.getByTestId('cast')).toBeInTheDocument()
-    expect(screen.getByTestId('trailers-section')).toBeInTheDocument()
-    expect(screen.getByTestId('similar-section')).toBeInTheDocument()
-    expect(screen.getByTestId('recommended-section')).toBeInTheDocument()
+      await MediaPage({
+        params: Promise.resolve({ mediaType: 'tv', id: String(seriesId) }),
+      })
+
+      expect(prefetchQuery).toHaveBeenCalledTimes(6)
+
+      const keys = getPrefetchedKeys()
+      expect(keys).toContainEqual(tvSeriesDetailsOptions({ path }).queryKey)
+      expect(keys).toContainEqual(tvSeriesCreditsOptions({ path }).queryKey)
+      expect(keys).toContainEqual(
+        tvSeriesSimilarOptions({ path: { series_id: String(seriesId) } })
+          .queryKey
+      )
+      expect(keys).toContainEqual(
+        tvSeriesRecommendationsOptions({ path }).queryKey
+      )
+      expect(keys).toContainEqual(tvSeriesVideosOptions({ path }).queryKey)
+      expect(keys).toContainEqual(tvSeriesImagesOptions({ path }).queryKey)
+    })
   })
 
-  it('renders all section test IDs for tv', async () => {
-    const jsx = await MediaPage({
-      params: Promise.resolve({ mediaType: 'tv', id: '1396' }),
-    })
-    render(jsx)
+  describe('invalid mediaType', () => {
+    it('calls notFound for invalid mediaType', async () => {
+      await expect(
+        MediaPage({
+          params: Promise.resolve({ mediaType: 'invalid', id: '123' }),
+        })
+      ).rejects.toThrow('NEXT_NOT_FOUND')
 
-    expect(screen.getByTestId('media-hero')).toBeInTheDocument()
-    expect(screen.getByTestId('synopsis')).toBeInTheDocument()
-    expect(screen.getByTestId('crew')).toBeInTheDocument()
-    expect(screen.getByTestId('photos')).toBeInTheDocument()
-    expect(screen.getByTestId('cast')).toBeInTheDocument()
-    expect(screen.getByTestId('trailers-section')).toBeInTheDocument()
-    expect(screen.getByTestId('similar-section')).toBeInTheDocument()
-    expect(screen.getByTestId('recommended-section')).toBeInTheDocument()
+      expect(mockNotFound).toHaveBeenCalled()
+      expect(prefetchQuery).not.toHaveBeenCalled()
+    })
   })
 
-  it('renders sections in correct order', async () => {
-    const jsx = await MediaPage({
-      params: Promise.resolve({ mediaType: 'movie', id: '278' }),
+  describe('generateMetadata', () => {
+    it('returns fallback title for invalid mediaType', async () => {
+      const meta = await generateMetadata({
+        params: Promise.resolve({ mediaType: 'invalid', id: '123' }),
+      })
+
+      expect(meta.title).toBe('Not Found | TMDB')
     })
-    const { container } = render(jsx)
 
-    const testIds = Array.from(container.querySelectorAll('[data-testid]')).map(
-      (el) => el.getAttribute('data-testid')
-    )
+    it('prefetches details for movie metadata', async () => {
+      await generateMetadata({
+        params: Promise.resolve({ mediaType: 'movie', id: '278' }),
+      })
 
-    const expectedOrder = [
-      'media-hero',
-      'synopsis',
-      'crew',
-      'photos',
-      'cast',
-      'trailers-section',
-      'similar-section',
-      'recommended-section',
-    ]
-
-    let lastIndex = -1
-    for (const testId of expectedOrder) {
-      const idx = testIds.indexOf(testId)
-      expect(idx).toBeGreaterThan(lastIndex)
-      lastIndex = idx
-    }
+      expect(prefetchQuery).toHaveBeenCalled()
+    })
   })
 })

@@ -203,7 +203,10 @@ VITE_USE_NETLIFY_CDN=false
 
 ## Legacy code recall
 
-Always use the `recall` MCP tool when working on any feature that may exist in the legacy project (`vite-mf-monorepo`). Use it proactively — before implementing components, hooks, API calls, patterns, or logic — to check how it was done in the legacy codebase. Use a natural language query. Never use regex search or `/explore-legacy`.
+Always use the `recall` MCP tool when working on any feature that may exist in the legacy project (`vite-mf-monorepo`). 
+Use it before implementing components, hooks, API calls, patterns, or logic — to check how it was done in the legacy codebase. 
+Use a natural language query. Use regex search or `/explore-legacy` as a fallback.
+NEVER use the `recall` MCP tool on startup, it will only slow you down.
 
 ## Migration Workflow
 See `.claude/agents/orchestrator.md`

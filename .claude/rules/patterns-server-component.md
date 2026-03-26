@@ -85,7 +85,7 @@ interface Props {
   params: Promise<{ id: string }>
 }
 
-async function getQueryClient(id: string) {
+async function createPrefetchedQueryClient(id: string) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 60 * 60 * 24 } },
   })
@@ -97,7 +97,7 @@ async function getQueryClient(id: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
-  const queryClient = await getQueryClient(id)
+  const queryClient = await createPrefetchedQueryClient(id)
   const movie = queryClient.getQueryData(
     movieDetailsOptions({ path: { movie_id: Number(id) } }).queryKey
   ) as Awaited<ReturnType<typeof import('@fubar-it-co/tmdb-client').movieDetailsOptions>>
@@ -117,7 +117,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function MediaPage({ params }: Props) {
   const { id } = await params
-  const queryClient = await getQueryClient(id)
+  const queryClient = await createPrefetchedQueryClient(id)
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

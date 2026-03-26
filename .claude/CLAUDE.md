@@ -133,142 +133,12 @@ rewrites: {
 ## Session State (updated by `/end-session`)
 
 ### Completed
-- Project initialized: nextjs-multizone-tmdb
-- Skills installed: next-best-practices, next-cache-components, next-upgrade, vercel-react-best-practices, vercel-composition-patterns
-- ESLint 9 flat config: typescript-eslint strict/stylistic, eslint-config-next, import ordering, jsx-a11y, prettier integration
-- Prettier: `.prettierrc` (no semi, single quotes), `.prettierignore`
-- Commitlint: conventional commit rules (same as legacy)
-- Husky v9: pre-commit (type-check + lint + test), commit-msg (commitlint)
-- Added `"type": "module"` to package.json
-- pnpm-workspace.yaml with dependency catalog (testing, shared packages, utilities)
-- Vitest + RTL test environment: vitest.config.ts (jsdom, globals, v8 coverage), vitest.setup.ts (jest-dom matchers, ResizeObserver/IntersectionObserver mocks)
-- Test scripts: `test`, `test:watch`, `coverage`
-- Smoke test for temp Home page (src/app/page.test.tsx)
-- Phase 1: Turborepo + shared tsconfig (`turbo.json`, `tsconfig.base.json`, turbo scripts, `packageManager` field)
-- Removed temp scaffolding (`src/app/*`, `next.config.ts`, `next/react/react-dom` deps)
+Full history with commit hashes: `.claude/session-history.md`
 
-- Phase 2: Init 5 zone apps (web:3000, home:3001, media:3002, talents:3003, search:3004)
-- apps/web orchestrator with fallback rewrites to zone apps (env-driven URLs)
-- Zone apps: next.config.ts, tsconfig.json, postcss.config.mjs, globals.css (Tailwind v4 prefix), layout.tsx, page.tsx
-- assetPrefix per zone for multi-zone asset loading
-- Fixed ESLint ignore patterns for monorepo (`**/.next/**`, `**/next-env.d.ts`)
-- README.md with architecture docs, multi-zone vs micro-frontend comparison, env setup
-- Fixed all package references to match catalog (`@vite-mf-monorepo/ui`, `@vite-mf-monorepo/layouts`, `@vite-mf-monorepo/shared`, `@fubar-it-co/tmdb-client`)
-- Updated Next.js version references from 15 to 16 across all docs
-
-- Phase 3 (home): shared package deps + TanStack Query provider + RootLayout
-- Added deps: @tanstack/react-query, @fubar-it-co/tmdb-client, @vite-mf-monorepo/ui, layouts, shared, tokens, clsx, fonts
-- Created QueryProvider client component (apps/home/src/providers/QueryProvider.tsx)
-- Wired RootLayout from @vite-mf-monorepo/layouts/next into layout.tsx
-- Updated globals.css: theme (bundled fonts+tokens), layouts styles, ui styles
-- Bumped catalog: layouts 0.3.4, shared 0.0.3, added tokens 0.0.4
-- Fixed .gitignore: **/.next/ for all zone apps, removed cached .next from git
-
-- Multi-agent migration workflow: orchestrator.md (7-batch plan), dev.md (merged dev+reviewer+test-writer), scaffold-dev.md
-- Removed reviewer.md and test-writer.md (merged into dev.md)
-- Shared deps added to media, talents, search (tanstack, ui, layouts, shared, tokens, clsx, fonts)
-- Test infra (vitest.config.ts + vitest.setup.ts + passWithNoTests) added to all 4 zone apps
-- Test devDeps added to all 4 zones (vitest, RTL, jest-dom, user-event)
-- Workflow state files: `.workflow/state/shared-context.md`, `.workflow/state/task-log.json`
-
-- Batch 1-3 migration (committed):
-  - `766efe1` build(workspace): bump catalog deps and fix gitignore for monorepo
-  - `06b96a1` feat(home): add home page with SSR prefetch and all section components
-  - `b415684` test(home): rewrite all tests with MSW + real UI components (42 tests, 15 files)
-  - `148e48b` feat(workspace): add layouts, providers, and error pages to media, talents, search zones
-  - `554f2d9` docs(claude): add testing rules, troubleshooting, and upstream fix docs
-- Home zone complete: page.tsx (SSR prefetch), QueryProvider, error/not-found, all 5 sections with carousels + tests
-- Media zone scaffolded: layout, QueryProvider, error/not-found, types
-- Talents zone scaffolded: layout, QueryProvider, error/not-found, actor/[id]/, director/[id]/ route stubs
-- Search zone scaffolded: layout, QueryProvider, error, search/ route stub
-- Test infra: MSW + real UI pattern, server.deps.inline for ESM
-- Documentation: patterns-testing.md, troubleshooting.md
-- Updated auto-memory (MEMORY.md) with migration workflow state and testing gotchas
-
-- Upstream fix: @vite-mf-monorepo/ui 0.2.0 — MovieCard/Button link components now have /next export (next/link + href)
-  - `ffb838f` refactor(home): migrate MovieCard imports to @vite-mf-monorepo/ui/next
-  - `117dc54` docs(claude): update rules for ui/next exports and remove resolved fix files
-- Migrated all 5 carousel components from `to` prop → `href` prop (ui/next export)
-- Removed react-router-dom mock from apps/home/vitest.setup.ts
-- Deleted .claude/fixes/ui-button-react-router-link.md and ui-moviecard-react-router-link.md (resolved)
-- Updated patterns-ui.md, patterns-client-component.md, troubleshooting.md for ui/next exports
-- Added "lint:fix after every modification" rule to CLAUDE.md
-
-- Home zone alignment with legacy (3 commits):
-  - `6986c30` refactor(home): align HeroSection with legacy
-    - Whole slide wrapped in Link, h2+body-sm typography
-    - No rating/year/button, matched overlay/skeleton/error
-  - `0173e69` refactor(home): align page layout with legacy
-    - Container variant="default|muted" + Section in page.tsx
-    - Removed Section from section components
-    - Fixed FreeToWatch prefix "free-to-watch"→"free"
-    - Extracted getQueryClient(), inlined revalidate
-  - `fa5a349` refactor(home): import HeroImage from ui/next
-- Upstream: @vite-mf-monorepo/ui — HeroImage /next variant published
-- Task plan for legacy: .claude/tasks/heroimage-next-variant.md
-
-- Image optimization strategy decided (next/image for all zones):
-  - Analyzed legacy MovieCard, Image component, carousel lazy loading
-  - Compared with Odalys SafeImage pattern (next/image wrapper, dual blur, SVG fallback)
-  - Researched next/image lazy loading in horizontal carousels (Chrome 121+ native support)
-  - Researched @plaiceholder/next — maintenance mode, incompatible with Turbopack/Next.js 16
-  - Wrote task plan for legacy: `.claude/tasks/moviecard-next-image.md`
-    - NextImage reusable wrapper, MovieCardContent /next variant, HeroImage refactor
-  - Upstream: @vite-mf-monorepo/ui 0.4.0 published (NextImage, next/image in MovieCard+HeroImage)
-  - `4f74480` build(workspace): upgrade ui to 0.4.0 and add TMDB image remote patterns
-  - `553a329` docs(claude): update session state and add legacy-rag rule
-  - All 4 zone next.config.ts have images.remotePatterns for image.tmdb.org
-
-- Workflow optimization (pre-Batch 4 review):
-  - Analyzed home zone as implementation reference for media agents
-  - Inventoried media mock data: movie fully covered, TV missing credits/images/videos handlers
-  - Decided Strategy B: separate Movie/TV variant components (no shared conditionals)
-  - Removed M-3 (absorbed route-level error/not-found into M-2)
-  - Merged M-5 + M-6 into single task "Synopsis + Crew"
-  - Moved M-7 (Cast) up to Batch 4 (was Batch 5, no dependency reason to wait)
-  - Updated shared-context.md with POST-HOME lessons (no hooks/, no tabs, section order, TV gaps, home references)
-  - Updated orchestrator.md batch plan + 5 new brief-writing rules (9–13)
-  - Updated task-log.json with revised task structure and notes
-
-- Batch 4-6 media zone migration (1 commit):
-  - `82f2908` feat(media): add movie/tv detail pages with all sections and photo viewer
-  - 59 files, 5040 insertions — 126 media tests pass + 12 todo
-- Batch 4 — M-2 (layouts+slots), M-4 (MediaHero), M-5 (Synopsis+Crew), M-7 (Cast):
-  - movie/[id]/layout.tsx + tv/[id]/layout.tsx with @modal parallel route slot
-  - @modal/default.tsx, error.tsx, not-found.tsx for both movie and tv
-  - MovieHero + TVHero (useQuery + HeroImage from ui/next)
-  - MovieSynopsis + TVSynopsis, MovieCrew + TVCrew (Director + Writing filter)
-  - MovieCastCarousel + TVCastCarousel (Talent + Carousel UI)
-- Batch 5 — M-8 (Similar), M-9 (Recommended), M-10 (Trailers), P-1 (PhotoViewer):
-  - MovieSimilarCarousel + TVSimilarCarousel (MovieCard carousel)
-  - MovieRecommendedCarousel + TVRecommendedCarousel
-  - MovieTrailersSection + TVTrailersSection (YouTube iframe, official trailer filter)
-  - PhotoViewer (full-screen, keyboard nav, prev/next, close)
-- Batch 6 — M-11 (pages), P-2 (standalone photos), P-3 (modal photos), P-4 (BackdropSection):
-  - movie/[id]/page.tsx + tv/[id]/page.tsx (prefetchQuery all + HydrationBoundary + generateMetadata)
-  - Standalone photo pages (movie + tv) — Server Components
-  - Intercepted @modal photo pages — Client Components with use(params)
-  - MovieBackdropSection + TVBackdropSection (photo grid with links)
-- Subagent permission setup: .claude/settings.json allow rules for Write/Bash
-
-- E2E debugging: fixed multi-zone hydration and asset loading (2 commits):
-  - `c9b0b31` fix(workspace): switch to path-based assetPrefix and expose TMDB env var
-  - `5cd434a` chore(workspace): add CSS utilities and improve reset script
-- Fixed VITE_TMDB_API_TOKEN not available client-side — added `env` config to all zone next.config.ts
-- Fixed duplicate VITE_TMDB_API_TOKEN in apps/home/.env.local
-- Fixed images 404 through orchestrator — added images.remotePatterns to apps/web/next.config.ts
-- Fixed hydration not working through multi-zone orchestrator:
-  - Root cause: full-URL assetPrefix breaks hydration — JS loads from zone directly but RSC flight data goes through orchestrator
-  - Fix: path-based assetPrefix (/home-static, /media-static, /talents-static, /search-static)
-  - Added beforeFiles rewrites in web to proxy /<zone>-static/_next/:path+ to zone apps
-- Upstream: @vite-mf-monorepo/ui 0.4.10 — per-file build output (preserves 'use client'), NextImage cache detection fix
-- Upstream: @fubar-it-co/tmdb-client 0.0.14 — env var fix for Next.js (process.env fallback)
-- Added CSS utilities (text-shadow, hero-height) to all zone globals.css
-- Improved reset-project.sh to also clean .turbo folders
-- Removed NEXT_PUBLIC_ASSET_PREFIX from all .env.local files (no longer needed)
+**Summary**: Phases 1-3 done (project setup, 5 zone apps, home foundation). Batches 1-6 done (home zone complete with 42 tests, media zone complete with 126 tests + 12 todo). E2E fixes done (hydration, asset loading, cross-zone navigation). Upstream packages updated through ui 0.4.12, layouts 0.4.4, tmdb-client 0.0.14.
 
 ### Next
-1. Continue P-5 manual E2E verification on port 3000: test movie/tv detail pages, photo modal/standalone/back navigation
+1. Continue P-5 manual E2E verification on port 3000: test remaining media sections, photo modal/standalone/back navigation
 2. Post-migration fix: CastSection should be a list, not a carousel (noted during M-7)
 3. Resume migration: talents zone (Batch 7+) or search zone
 
@@ -291,6 +161,11 @@ rewrites: {
 - Multi-zones: orchestrator needs `beforeFiles` rewrites for `/<zone>-static/_next/:path+` to proxy static assets to zone apps
 - Upstream: `@vite-mf-monorepo/ui` must use per-file output (not bundled) to preserve `'use client'` directives — barrel `next/index.ts` needs `'use client'`
 - `VITE_TMDB_API_TOKEN` exposed to browser via `env` config in each zone's `next.config.ts` (Next.js doesn't auto-expose `VITE_*` vars like Vite does)
+- Upstream: `HeroImage` from `@vite-mf-monorepo/ui/next` doesn't set `object-fit: cover` on the `next/image` element — workaround via `.hero-height img { object-fit: cover }` in zone globals.css
+- `hero-height` CSS utility must NOT use `aspect-ratio: auto` on lg+ when wrapping `next/image fill` — absolute images don't contribute to container height
+- Multi-zones: cross-zone links MUST use `<a>` (or `as="zone-link"`) — `next/link` hangs on routes belonging to other zones
+- `MovieCard`/`Button` with `as="zone-link"` from `ui/next` renders `<a>` for cross-zone nav — use `as="link"` only for same-zone routes
+- `RootLayout` from `layouts/next` needs `crossZoneHome` prop on non-home zones — logo link uses `<a href="/">` instead of `<Link>`
 
 ---
 

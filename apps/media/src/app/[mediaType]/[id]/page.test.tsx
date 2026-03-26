@@ -42,7 +42,7 @@ vi.mock('../../../components/Crew/Crew', () => ({
   default: () => <section data-testid="crew" />,
 }))
 
-vi.mock('../../../components/BackdropSection/BackdropSection', () => ({
+vi.mock('../../../components/Photos/Photos', () => ({
   default: () => <section data-testid="photos" />,
 }))
 

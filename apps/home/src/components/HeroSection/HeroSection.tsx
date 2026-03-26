@@ -9,7 +9,6 @@ import {
   Typography,
 } from '@vite-mf-monorepo/ui'
 import { HeroImage } from '@vite-mf-monorepo/ui/next'
-import Link from 'next/link'
 
 import type { MovieNowPlayingListResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
@@ -56,7 +55,7 @@ const HeroSection: FC = () => {
     >
       {data.results?.slice(0, 6).map((item) => (
         <CarouselItem key={item.id} isHero>
-          <Link
+          <a
             href={`/movie/${String(item.id)}`}
             className="hm:block hm:no-underline"
           >
@@ -81,7 +80,7 @@ const HeroSection: FC = () => {
                 </div>
               </div>
             </div>
-          </Link>
+          </a>
         </CarouselItem>
       ))}
     </Carousel>

@@ -37,8 +37,8 @@ catalogs:
       specifier: 22.14.0
       version: 22.14.0
     '@vite-mf-monorepo/layouts':
-      specifier: 0.4.1
-      version: 0.4.1
+      specifier: 0.4.4
+      version: 0.4.4
     '@vite-mf-monorepo/shared':
       specifier: 0.0.5
       version: 0.0.5
@@ -46,8 +46,8 @@ catalogs:
       specifier: 0.0.4
       version: 0.0.4
     '@vite-mf-monorepo/ui':
-      specifier: 0.4.11
-      version: 0.4.11
+      specifier: 0.4.12
+      version: 0.4.12
     '@vitest/coverage-v8':
       specifier: 3.2.4
       version: 3.2.4
@@ -191,7 +191,7 @@ importers:
         version: 5.74.4(react@19.2.4)
       '@vite-mf-monorepo/layouts':
         specifier: 'catalog:'
-        version: 0.4.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 0.4.4(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       '@vite-mf-monorepo/shared':
         specifier: 'catalog:'
         version: 0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
@@ -200,7 +200,7 @@ importers:
         version: 0.0.4
       '@vite-mf-monorepo/ui':
         specifier: 'catalog:'
-        version: 0.4.11(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
+        version: 0.4.12(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -267,7 +267,7 @@ importers:
         version: 5.74.4(react@19.2.4)
       '@vite-mf-monorepo/layouts':
         specifier: 'catalog:'
-        version: 0.4.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 0.4.4(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       '@vite-mf-monorepo/shared':
         specifier: 'catalog:'
         version: 0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
@@ -276,7 +276,7 @@ importers:
         version: 0.0.4
       '@vite-mf-monorepo/ui':
         specifier: 'catalog:'
-        version: 0.4.11(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
+        version: 0.4.12(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -340,7 +340,7 @@ importers:
         version: 5.74.4(react@19.2.4)
       '@vite-mf-monorepo/layouts':
         specifier: 'catalog:'
-        version: 0.4.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 0.4.4(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       '@vite-mf-monorepo/shared':
         specifier: 'catalog:'
         version: 0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
@@ -349,7 +349,7 @@ importers:
         version: 0.0.4
       '@vite-mf-monorepo/ui':
         specifier: 'catalog:'
-        version: 0.4.11(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
+        version: 0.4.12(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -413,7 +413,7 @@ importers:
         version: 5.74.4(react@19.2.4)
       '@vite-mf-monorepo/layouts':
         specifier: 'catalog:'
-        version: 0.4.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 0.4.4(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       '@vite-mf-monorepo/shared':
         specifier: 'catalog:'
         version: 0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
@@ -422,7 +422,7 @@ importers:
         version: 0.0.4
       '@vite-mf-monorepo/ui':
         specifier: 'catalog:'
-        version: 0.4.11(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
+        version: 0.4.12(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -918,9 +918,6 @@ packages:
 
   '@fubar-it-co/tmdb-client@0.0.14':
     resolution: {integrity: sha512-QYGjsLzROgM9dtfi4s0szz+5SVcNZFlO92gvGOL10OKNpXKZWN7cvriIyuerJOiIhJBPxoEOqewoXrGwyYL5qw==}
-
-  '@fubar-it-co/tmdb-client@0.0.6':
-    resolution: {integrity: sha512-EY2jdqJT9AC5ofHiwT7XVzZQjo84cQ8QG/Sn12WFAbQSlcR+AG5uHR5Ppu4WNWyZpPYWSnAzGEErUOs3Zll0Kg==}
 
   '@fubar-it-co/tmdb-client@0.0.8':
     resolution: {integrity: sha512-iDYkPRsQ6s1D44ceXyIDO/+731M3WSXV/4+DKHwRWpeYh5jpuQuPHzJptZomLa/VZAl6eBn2V4iRNhk5nrcWdA==}
@@ -1810,8 +1807,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@vite-mf-monorepo/layouts@0.4.1':
-    resolution: {integrity: sha512-T75/E8AXifMSkbxfuPPUWarTwmS2wXqRLnU99dMXDRH7ifCk3ybzFr/AqrkUvqvrCiF2e9dpxchpDOpITimYGg==}
+  '@vite-mf-monorepo/layouts@0.4.4':
+    resolution: {integrity: sha512-siGx7M0hu4oqY+JNtuQ+pDEbpMVHbTn6278cb1OlXse0ScVJ0giknOKIN7qEMPS9nzB2wmPww23pg3E1yy9pqg==}
     peerDependencies:
       next: '>=14'
       react: 19.2.4
@@ -1822,12 +1819,6 @@ packages:
         optional: true
       react-router-dom:
         optional: true
-
-  '@vite-mf-monorepo/shared@0.0.3':
-    resolution: {integrity: sha512-NjEkQDDaZ6V/74gCC5rK5n7Obsz8ETYdg6L8tdBp4bw0QIIY+/K6vWD6B3+et4wQfc9fmpT0jmJaRaab6qo+Ow==}
-    peerDependencies:
-      '@tanstack/react-query': 5.74.4
-      '@testing-library/react': 16.3.0
 
   '@vite-mf-monorepo/shared@0.0.5':
     resolution: {integrity: sha512-cxKdHPxlEwVGRVGjRK4c2rRPjO6cZgzMNA74YTUcu3bW893DA262oZTmRRaujx0ef4vSBVLLLCp3P+vZRvuf8Q==}
@@ -1841,15 +1832,8 @@ packages:
   '@vite-mf-monorepo/tokens@0.0.4':
     resolution: {integrity: sha512-ntoP8Po7mtguqxZI6xttqDZxG/+0wen/1BTUZpypG7LxSPRg5x579PdWDto7GG/OlMWinAcYmZ1rSIOtLtIEsw==}
 
-  '@vite-mf-monorepo/ui@0.1.1':
-    resolution: {integrity: sha512-8TcFAfiYz3Ma2AWVAnN4D4kpt2uKYW3x3xYPb4eLvaaoSY6MVq8qBUmB8UMrDdqAO+SJeERUXwD0/uWndUdaTw==}
-    peerDependencies:
-      react: 19.2.4
-      react-dom: 19.2.4
-      react-router-dom: 7.5.2
-
-  '@vite-mf-monorepo/ui@0.4.11':
-    resolution: {integrity: sha512-tzJ+skCaBJnN4Ycn9GkEr8qvQgnSS2lT2jyr9mH+AwlJK0ETfp4jFMgjWt66Yt0ok4kWppZPblsDFH2RE5VDPw==}
+  '@vite-mf-monorepo/ui@0.4.12':
+    resolution: {integrity: sha512-DyZeOt2E60Ys7+DwxaB0GpulbXZXKjdPFnqV9MLvecTx+sW5BVwYeJYBWF233E4PcxvLhXqGnMeNnEtUtIuU2A==}
     peerDependencies:
       next: '>=14'
       react: 19.2.4
@@ -3633,11 +3617,6 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  react-dom@19.1.0:
-    resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
-    peerDependencies:
-      react: ^19.1.0
-
   react-dom@19.2.4:
     resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
@@ -3665,10 +3644,6 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
-
-  react@19.1.0:
-    resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
-    engines: {node: '>=0.10.0'}
 
   react@19.2.4:
     resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
@@ -3773,9 +3748,6 @@ packages:
   saxes@6.0.0:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
-
-  scheduler@0.26.0:
-    resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
@@ -4816,12 +4788,6 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  '@fubar-it-co/tmdb-client@0.0.6(react@19.1.0)':
-    dependencies:
-      '@tanstack/react-query': 5.74.4(react@19.1.0)
-    transitivePeerDependencies:
-      - react
-
   '@fubar-it-co/tmdb-client@0.0.8(react@19.2.4)':
     dependencies:
       '@tanstack/react-query': 5.74.4(react@19.2.4)
@@ -5319,11 +5285,6 @@ snapshots:
 
   '@tanstack/query-core@5.74.4': {}
 
-  '@tanstack/react-query@5.74.4(react@19.1.0)':
-    dependencies:
-      '@tanstack/query-core': 5.74.4
-      react: 19.1.0
-
   '@tanstack/react-query@5.74.4(react@19.2.4)':
     dependencies:
       '@tanstack/query-core': 5.74.4
@@ -5582,10 +5543,10 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vite-mf-monorepo/layouts@0.4.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
+  '@vite-mf-monorepo/layouts@0.4.4(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)':
     dependencies:
-      '@vite-mf-monorepo/shared': 0.0.3(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
-      '@vite-mf-monorepo/ui': 0.1.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+      '@vite-mf-monorepo/shared': 0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
+      '@vite-mf-monorepo/ui': 0.4.12(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
       clsx: 2.1.1
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
@@ -5595,21 +5556,9 @@ snapshots:
     transitivePeerDependencies:
       - '@tanstack/react-query'
       - '@testing-library/react'
+      - '@types/node'
       - supports-color
-
-  '@vite-mf-monorepo/shared@0.0.3(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
-    dependencies:
-      '@fubar-it-co/tmdb-client': 0.0.6(react@19.1.0)
-      '@tanstack/react-query': 5.74.4(react@19.2.4)
-      '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@vite-mf-monorepo/tokens': 0.0.4
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-      react-router-dom: 7.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      svg-to-jsx: 1.0.4
-      svgr: 2.0.0
-    transitivePeerDependencies:
-      - supports-color
+      - typescript
 
   '@vite-mf-monorepo/shared@0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)':
     dependencies:
@@ -5630,20 +5579,7 @@ snapshots:
 
   '@vite-mf-monorepo/tokens@0.0.4': {}
 
-  '@vite-mf-monorepo/ui@0.1.1(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
-    dependencies:
-      '@heroicons/react': 2.2.0(react@19.2.4)
-      '@vite-mf-monorepo/shared': 0.0.3(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
-      clsx: 2.1.1
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-      react-router-dom: 7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-    transitivePeerDependencies:
-      - '@tanstack/react-query'
-      - '@testing-library/react'
-      - supports-color
-
-  '@vite-mf-monorepo/ui@0.4.11(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)':
+  '@vite-mf-monorepo/ui@0.4.12(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(next@16.2.0(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)':
     dependencies:
       '@heroicons/react': 2.2.0(react@19.2.4)
       '@vite-mf-monorepo/shared': 0.0.5(@tanstack/react-query@5.74.4(react@19.2.4))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/node@22.14.0)(react-dom@19.2.4(react@19.2.4))(react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.7.2)
@@ -7602,11 +7538,6 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-dom@19.1.0(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-      scheduler: 0.26.0
-
   react-dom@19.2.4(react@19.2.4):
     dependencies:
       react: 19.2.4
@@ -7616,26 +7547,11 @@ snapshots:
 
   react-is@17.0.2: {}
 
-  react-router-dom@7.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-      react-router: 7.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-
   react-router-dom@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
       react-router: 7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-
-  react-router@7.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      cookie: 1.1.1
-      react: 19.1.0
-      set-cookie-parser: 2.7.2
-      turbo-stream: 2.4.0
-    optionalDependencies:
-      react-dom: 19.1.0(react@19.1.0)
 
   react-router@7.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
@@ -7645,8 +7561,6 @@ snapshots:
       turbo-stream: 2.4.0
     optionalDependencies:
       react-dom: 19.2.4(react@19.2.4)
-
-  react@19.1.0: {}
 
   react@19.2.4: {}
 
@@ -7808,8 +7722,6 @@ snapshots:
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
-
-  scheduler@0.26.0: {}
 
   scheduler@0.27.0: {}
 

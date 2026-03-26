@@ -19,7 +19,7 @@ export default function SearchLayout({
     <html lang="en">
       <body>
         <QueryProvider>
-          <RootLayout>{children}</RootLayout>
+          <RootLayout crossZoneHome>{children}</RootLayout>
         </QueryProvider>
       </body>
     </html>

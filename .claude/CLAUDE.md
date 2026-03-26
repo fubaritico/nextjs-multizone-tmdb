@@ -135,7 +135,7 @@ rewrites: {
 ### Completed
 Full history with commit hashes: `.claude/session-history.md`
 
-**Summary**: Phases 1-3 done (project setup, 5 zone apps, home foundation). Batches 1-6 done (home zone complete with 42 tests, media zone complete with 126 tests + 12 todo). E2E fixes done (hydration, asset loading, cross-zone navigation). Upstream packages updated through ui 0.4.12, layouts 0.4.4, tmdb-client 0.0.14.
+**Summary**: Phases 1-3 done (project setup, 5 zone apps, home foundation). Batches 1-6 done (home zone complete with 42 tests, media zone complete with 126 tests + 12 todo). E2E fixes done (hydration, asset loading, cross-zone navigation). Upstream packages updated through ui 0.4.12, layouts 0.4.4, tmdb-client 0.0.14. Media zone refactored: unified movie/tv into dynamic `[mediaType]` route, merged Movie/TV component variants into generic components, added barrel index.ts files + utils.
 
 ### Next
 1. Continue P-5 manual E2E verification on port 3000: test remaining media sections, photo modal/standalone/back navigation

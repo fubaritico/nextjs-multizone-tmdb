@@ -6,6 +6,9 @@
  * must reference these values to stay aligned.
  */
 
+/** Supported media types for the media zone. */
+export type MediaType = 'movie' | 'tv'
+
 /**
  * Cache TTL in seconds — used for Next.js ISR `revalidate`.
  * Keep in sync with {@link CACHE_TIME_MS}.

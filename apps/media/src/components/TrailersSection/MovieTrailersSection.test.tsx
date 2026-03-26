@@ -1,4 +1,5 @@
 import { screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import {
   mockMovieVideos,
   movieVideosHandlers,
@@ -59,18 +60,46 @@ describe('MovieTrailersSection', () => {
     })
   })
 
-  it('renders iframe with correct YouTube embed URL', async () => {
+  it('renders trailer thumbnail with play button', async () => {
     server.use(movieVideosHandlers.movieVideos)
 
     renderWithReactQuery(<MovieTrailersSection id={278} />)
 
     await waitFor(() => {
-      const iframe = screen.getByTitle(officialTrailer?.name ?? 'Trailer')
-      expect(iframe).toBeInTheDocument()
-      expect((iframe as HTMLIFrameElement).src).toBe(
-        `https://www.youtube.com/embed/${officialTrailer?.key ?? ''}`
-      )
+      const playButton = screen.getByRole('button', {
+        name: `Play ${officialTrailer?.name ?? 'Trailer'}`,
+      })
+      expect(playButton).toBeInTheDocument()
     })
+  })
+
+  it('opens modal with iframe on thumbnail click', async () => {
+    const user = userEvent.setup()
+    server.use(movieVideosHandlers.movieVideos)
+
+    const { container } = renderWithReactQuery(
+      <MovieTrailersSection id={278} />
+    )
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', {
+          name: `Play ${officialTrailer?.name ?? 'Trailer'}`,
+        })
+      ).toBeInTheDocument()
+    })
+
+    await user.click(
+      screen.getByRole('button', {
+        name: `Play ${officialTrailer?.name ?? 'Trailer'}`,
+      })
+    )
+
+    const iframe = container.querySelector('iframe')
+    expect(iframe).toBeInTheDocument()
+    expect(iframe?.src).toBe(
+      `https://www.youtube.com/embed/${officialTrailer?.key ?? ''}`
+    )
   })
 
   it('renders the trailers section with correct data-testid', async () => {
@@ -90,25 +119,7 @@ describe('MovieTrailersSection', () => {
       <MovieTrailersSection id={278} />
     )
 
-    // During loading, skeleton placeholders render but no iframes yet
     expect(container.querySelector('iframe')).toBeNull()
-  })
-
-  it('renders nothing when no trailers match the filter', async () => {
-    // mockMovieVideos only has 1 Trailer; the others are Clip + Featurette
-    // We verify the component renders the trailer when data arrives
-    server.use(movieVideosHandlers.movieVideos)
-
-    const { container } = renderWithReactQuery(
-      <MovieTrailersSection id={278} />
-    )
-
-    await waitFor(() => {
-      // trailer rendered — section is present
-      expect(
-        container.querySelector('[data-testid="trailers-section"]')
-      ).not.toBeNull()
-    })
   })
 
   it('renders nothing on error', async () => {

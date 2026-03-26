@@ -2,7 +2,7 @@
 
 import { tvSeriesVideosOptions } from '@fubar-it-co/tmdb-client'
 import { useQuery } from '@tanstack/react-query'
-import { Skeleton, Typography } from '@vite-mf-monorepo/ui'
+import { Skeleton, TrailerCard, Typography } from '@vite-mf-monorepo/ui'
 
 import type { TvSeriesVideosResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
@@ -42,10 +42,10 @@ const TVTrailersSection: FC<TVTrailersSectionProps> = ({ id }) => {
   if (isLoading) {
     return (
       <section data-testid="trailers-section">
-        <Typography variant="h2" className="mda:mb-4">
+        <Typography variant="h2" className="mda:mb-6">
           Trailers
         </Typography>
-        <div className="mda:grid mda:grid-cols-1 mda:gap-4 md:mda:grid-cols-2 lg:mda:grid-cols-3">
+        <div className="mda:grid mda:gap-4 mda:grid-cols-1 mda:md:grid-cols-2 mda:lg:grid-cols-3">
           {Array.from({ length: MAX_TRAILERS }).map((_, index) => (
             <Skeleton
               key={index}
@@ -73,21 +73,17 @@ const TVTrailersSection: FC<TVTrailersSectionProps> = ({ id }) => {
 
   return (
     <section data-testid="trailers-section">
-      <Typography variant="h2" className="mda:mb-4">
+      <Typography variant="h2" className="mda:mb-6">
         Trailers
       </Typography>
-      <div className="mda:grid mda:grid-cols-1 mda:gap-4 md:mda:grid-cols-2 lg:mda:grid-cols-3">
+      <div className="mda:grid mda:gap-4 mda:grid-cols-1 mda:md:grid-cols-2 mda:lg:grid-cols-3">
         {trailers.map((trailer) => (
-          <div key={trailer.id} className="mda:aspect-video mda:w-full">
-            <iframe
-              src={`https://www.youtube.com/embed/${trailer.key ?? ''}`}
-              title={trailer.name ?? 'Trailer'}
-              className="mda:h-full mda:w-full mda:rounded-lg"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
+          <TrailerCard
+            key={trailer.id}
+            videoKey={trailer.key ?? ''}
+            title={trailer.name ?? 'Trailer'}
+            type={trailer.type ?? 'Trailer'}
+          />
         ))}
       </div>
     </section>

@@ -1,5 +1,13 @@
 import '@testing-library/jest-dom/vitest'
 
+// jsdom doesn't implement HTMLDialogElement methods — needed by TrailerCard/Modal
+HTMLDialogElement.prototype.showModal = function showModal() {
+  this.setAttribute('open', '')
+}
+HTMLDialogElement.prototype.close = function close() {
+  this.removeAttribute('open')
+}
+
 globalThis.ResizeObserver = class ResizeObserver {
   observe() {
     // noop

@@ -13,9 +13,12 @@
     .hm\:hero-height {
         aspect-ratio: 21/9;
     }
+    .hm\:hero-height img {
+        object-fit: cover;
+        object-position: center;
+    }
     @media (min-width: 1024px) {
         .hm\:hero-height {
-            aspect-ratio: auto;
             max-height: 440px;
         }
     }

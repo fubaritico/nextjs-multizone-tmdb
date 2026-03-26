@@ -52,7 +52,7 @@ const TVHero: FC<TVHeroProps> = ({ id }) => {
     return (
       <Skeleton
         variant="rectangle"
-        className="mda:w-full"
+        className="mda:w-full mda:hero-height"
         aspectRatio="21/9"
         rounded={false}
       />
@@ -65,7 +65,7 @@ const TVHero: FC<TVHeroProps> = ({ id }) => {
         ? error.message
         : 'Failed to load TV series details'
     return (
-      <div className="mda:flex mda:items-center mda:justify-center mda:w-full mda:aspect-[21/9] mda:bg-black/80">
+      <div className="mda:flex mda:items-center mda:justify-center mda:w-full mda:hero-height mda:bg-black/80">
         <Typography variant="body" className="mda:text-white!">
           {errorMsg}
         </Typography>
@@ -78,51 +78,132 @@ const TVHero: FC<TVHeroProps> = ({ id }) => {
     : null
   const episodeRuntime = formatEpisodeRuntime(data.episode_run_time)
   const genreNames = data.genres?.map((g) => g.name) ?? []
-  const subtitleParts = [year ? String(year) : null, episodeRuntime].filter(
-    (v): v is string => v !== null
-  )
+
+  const numberOfSeasons = data.number_of_seasons
+  const numberOfEpisodes = data.number_of_episodes
 
   return (
-    <div className="mda:relative mda:w-full mda:aspect-[21/9] mda:overflow-hidden">
-      <HeroImage backdropPath={data.backdrop_path} title={data.name} />
+    <div className="mda:relative mda:w-full">
+      <div className="mda:relative mda:hero-height mda:w-full mda:overflow-hidden">
+        <HeroImage backdropPath={data.backdrop_path} title={data.name} />
 
-      {/* Content overlay */}
-      <div className="mda:absolute mda:inset-0 mda:bg-gradient-to-t mda:from-black/80 mda:via-black/20 mda:to-transparent mda:flex mda:items-end">
-        <div className="mda:w-full mda:max-w-screen-xl mda:mx-auto mda:px-4 mda:sm:px-5 mda:lg:px-6 mda:pb-8 mda:sm:pb-10">
-          <div className="mda:flex mda:flex-col mda:gap-3 mda:max-w-2xl">
-            {/* Title */}
-            <Typography
-              variant="h1"
-              className="mda:text-white! mda:text-shadow-medium"
-            >
-              {data.name ?? 'Unknown'}
-            </Typography>
+        {/* Content overlay — no gradient here, HeroImage renders its own */}
+        <div className="mda:absolute mda:inset-0 mda:z-2 mda:flex mda:items-end">
+          <div className="mda:w-full mda:max-w-screen-xl mda:mx-auto mda:px-4 mda:sm:px-5 mda:lg:px-6 mda:pb-4 mda:sm:pb-5 mda:md:pb-6 mda:lg:pb-8">
+            <div className="mda:flex mda:flex-col mda:w-full">
+              {/* Title */}
+              <Typography
+                variant="h1"
+                className="mda:mb-1 mda:sm:mb-2 mda:text-white! mda:text-shadow-medium"
+              >
+                {data.name ?? 'Unknown'}
+              </Typography>
 
-            {/* Meta row: year · episode runtime · rating */}
-            <div className="mda:flex mda:items-center mda:gap-3 mda:flex-wrap">
-              {subtitleParts.length > 0 && (
+              {/* Tagline */}
+              {data.tagline && (
                 <Typography
-                  variant="body-sm"
-                  className="mda:text-white! mda:text-shadow-strong"
+                  variant="lead"
+                  className="mda:mb-2 mda:sm:mb-3 mda:md:mb-4 mda:italic mda:text-white! mda:opacity-90 mda:text-shadow-strong"
                 >
-                  {subtitleParts.join(' · ')}
+                  {data.tagline}
                 </Typography>
               )}
-              {data.vote_average !== undefined && data.vote_average > 0 && (
-                <Rating value={data.vote_average} size="sm" variant="circle" />
+
+              {/* Meta row: year · seasons · episodes · runtime · rating */}
+              <div className="mda:mb-2 mda:sm:mb-3 mda:md:mb-4 mda:flex mda:items-center mda:gap-2 mda:text-white!">
+                {year && (
+                  <Typography
+                    as="span"
+                    variant="body"
+                    className="mda:text-white! mda:text-shadow-strong"
+                  >
+                    {String(year)}
+                  </Typography>
+                )}
+                {numberOfSeasons && (
+                  <>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      •
+                    </Typography>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      {numberOfSeasons} Season{numberOfSeasons > 1 ? 's' : ''}
+                    </Typography>
+                  </>
+                )}
+                {numberOfEpisodes && (
+                  <>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      •
+                    </Typography>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      {numberOfEpisodes} Episode
+                      {numberOfEpisodes > 1 ? 's' : ''}
+                    </Typography>
+                  </>
+                )}
+                {episodeRuntime && (
+                  <>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      •
+                    </Typography>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      {episodeRuntime}
+                    </Typography>
+                  </>
+                )}
+                {data.vote_average !== undefined && data.vote_average > 0 && (
+                  <>
+                    <Typography
+                      as="span"
+                      variant="body"
+                      className="mda:text-white! mda:text-shadow-strong"
+                    >
+                      •
+                    </Typography>
+                    <Rating
+                      value={data.vote_average}
+                      size="sm"
+                      variant="circle"
+                    />
+                  </>
+                )}
+              </div>
+
+              {/* Genre badges */}
+              {genreNames.length > 0 && (
+                <div className="mda:flex mda:flex-wrap mda:gap-2">
+                  {genreNames.map((genre) => (
+                    <Badge key={genre} variant="secondary" size="sm">
+                      {genre}
+                    </Badge>
+                  ))}
+                </div>
               )}
             </div>
-
-            {/* Genre badges */}
-            {genreNames.length > 0 && (
-              <div className="mda:flex mda:flex-wrap mda:gap-2">
-                {genreNames.map((genre) => (
-                  <Badge key={genre} variant="secondary" size="sm">
-                    {genre}
-                  </Badge>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

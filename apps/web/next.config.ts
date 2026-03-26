@@ -1,6 +1,15 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+        pathname: '/t/p/**',
+      },
+    ],
+  },
   rewrites() {
     const homeUrl = process.env.NEXT_PUBLIC_HOME_URL ?? 'http://localhost:3001'
     const mediaUrl =
@@ -11,6 +20,25 @@ const nextConfig: NextConfig = {
       process.env.NEXT_PUBLIC_SEARCH_URL ?? 'http://localhost:3004'
 
     return {
+      beforeFiles: [
+        // Static asset rewrites — proxy _next requests to the correct zone
+        {
+          source: '/home-static/_next/:path+',
+          destination: `${homeUrl}/home-static/_next/:path+`,
+        },
+        {
+          source: '/media-static/_next/:path+',
+          destination: `${mediaUrl}/media-static/_next/:path+`,
+        },
+        {
+          source: '/talents-static/_next/:path+',
+          destination: `${talentsUrl}/talents-static/_next/:path+`,
+        },
+        {
+          source: '/search-static/_next/:path+',
+          destination: `${searchUrl}/search-static/_next/:path+`,
+        },
+      ],
       fallback: [
         { source: '/', destination: `${homeUrl}/` },
         {

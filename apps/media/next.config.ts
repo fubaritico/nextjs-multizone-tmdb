@@ -1,7 +1,10 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
+  assetPrefix: '/media-static',
+  env: {
+    VITE_TMDB_API_TOKEN: process.env.VITE_TMDB_API_TOKEN,
+  },
   images: {
     remotePatterns: [
       {

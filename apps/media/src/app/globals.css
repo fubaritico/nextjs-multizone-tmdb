@@ -4,18 +4,21 @@
 @import '@vite-mf-monorepo/ui/styles.css';
 
 @layer utilities {
-    .hm\:text-shadow-strong {
+    .mda\:text-shadow-strong {
         text-shadow: 0 0 10px rgb(0 0 0 / 0.75);
     }
-    .hm\:text-shadow-medium {
+    .mda\:text-shadow-medium {
         text-shadow: 0 0 5px rgb(0 0 0 / 0.5);
     }
-    .hm\:hero-height {
+    .mda\:hero-height {
         aspect-ratio: 21/9;
     }
+    .mda\:hero-height img {
+        object-fit: cover;
+        object-position: center;
+    }
     @media (min-width: 1024px) {
-        .hm\:hero-height {
-            aspect-ratio: auto;
+        .mda\:hero-height {
             max-height: 440px;
         }
     }

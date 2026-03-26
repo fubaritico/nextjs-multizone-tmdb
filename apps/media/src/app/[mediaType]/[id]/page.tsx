@@ -20,10 +20,10 @@ import {
 import { Container, Section } from '@vite-mf-monorepo/layouts'
 import { notFound } from 'next/navigation'
 
-import BackdropSection from '@/components/BackdropSection'
 import CastCarousel from '@/components/CastSection'
 import Crew from '@/components/Crew'
 import MediaHero from '@/components/MediaHero'
+import Photos from '@/components/Photos'
 import RecommendedCarousel from '@/components/RecommendedSection'
 import SimilarCarousel from '@/components/SimilarSection'
 import Synopsis from '@/components/Synopsis'
@@ -138,7 +138,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * 1. MediaHero — full-width, outside Container
  * 2. Synopsis — inside Container + Section
  * 3. Crew — inside Container + Section
- * 4. Photos/BackdropSection — inside Container + Section
+ * 4. Photos — inside Container + Section
  * 5. Cast — inside Container + Section
  * 6. Trailers — inside Container + Section
  * 7. Similar — inside Container + Section
@@ -175,7 +175,7 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       {/* 4. Photos */}
       <Container variant="default">
         <Section spacing="lg" maxWidth="xl">
-          <BackdropSection id={contentId} mediaType={mediaType} />
+          <Photos id={contentId} mediaType={mediaType} />
         </Section>
       </Container>
 

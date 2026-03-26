@@ -15,6 +15,10 @@ find . -name "node_modules" -type d -prune -exec rm -rf {} + 2>/dev/null || true
 echo "  -> Removing .next folders..."
 find . -name ".next" -type d -prune -exec rm -rf {} + 2>/dev/null || true
 
+# Remove all .next build folders
+echo "  -> Removing .turbo folders..."
+find . -name ".turbo" -type d -prune -exec rm -rf {} + 2>/dev/null || true
+
 # Remove pnpm lockfile
 echo "  -> Removing pnpm-lock.yaml..."
 rm -f pnpm-lock.yaml

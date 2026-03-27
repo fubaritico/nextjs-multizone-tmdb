@@ -1,25 +1,14 @@
 'use client'
 
-import {
-  movieDetailsOptions,
-  tvSeriesDetailsOptions,
-} from '@fubar-it-co/tmdb-client'
-import { useQuery } from '@tanstack/react-query'
 import { Badge, Rating, Skeleton, Typography } from '@vite-mf-monorepo/ui'
 import { HeroImage } from '@vite-mf-monorepo/ui/next'
 import clsx from 'clsx'
 
+import { useMediaDetails } from '@/hooks'
 import { formatRuntime, isMovie } from '@/utils'
 
-import type {
-  MovieDetailsResponse,
-  TvSeriesDetailsResponse,
-} from '@fubar-it-co/tmdb-client'
-import type { UseQueryResult } from '@tanstack/react-query'
+import type { MediaType } from '@/types/media'
 import type { FC } from 'react'
-
-/** Supported media types for the hero component. */
-type MediaType = 'movie' | 'tv'
 
 /** Props for {@link MediaHero}. */
 interface MediaHeroProps {
@@ -34,29 +23,9 @@ interface MediaHeroProps {
  *
  * Unified component handling both Movie and TV series details via the
  * `mediaType` prop and the {@link isMovie} type guard.
- *
- * Uses `HeroImage` from `@vite-mf-monorepo/ui` (non-next variant) which renders
- * a flow-based `<img>` with `object-cover` — guarantees vertical centering.
- *
- * @param id - TMDB content ID.
- * @param mediaType - Whether this is a movie or TV series.
  */
 const MediaHero: FC<MediaHeroProps> = ({ id, mediaType }) => {
-  const movieQuery = useQuery({
-    ...movieDetailsOptions({ path: { movie_id: id } }),
-    enabled: mediaType === 'movie',
-  }) as UseQueryResult<MovieDetailsResponse>
-
-  const tvQuery = useQuery({
-    ...tvSeriesDetailsOptions({ path: { series_id: id } }),
-    enabled: mediaType === 'tv',
-  }) as UseQueryResult<TvSeriesDetailsResponse>
-
-  const {
-    data: media,
-    isLoading,
-    error,
-  } = mediaType === 'movie' ? movieQuery : tvQuery
+  const { data: media, isLoading, error } = useMediaDetails(mediaType, id)
 
   if (isLoading) {
     return (

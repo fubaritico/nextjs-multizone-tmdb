@@ -165,11 +165,7 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       <Crew id={contentId} mediaType={mediaType} />
 
       {/* 4. Cast */}
-      <Container variant="default">
-        <Section spacing="lg" maxWidth="xl">
-          <Cast id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <Cast id={contentId} mediaType={mediaType} />
 
       {/* 5. Photos */}
       <Container variant="default">

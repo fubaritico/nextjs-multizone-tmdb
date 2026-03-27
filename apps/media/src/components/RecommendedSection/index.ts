@@ -1,1 +1,1 @@
-export { default } from './RecommendedCarousel'
+export { default as RecommendedSection } from './RecommendedSection'

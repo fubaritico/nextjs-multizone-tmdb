@@ -1,17 +1,12 @@
 'use client'
 
-import {
-  movieCreditsOptions,
-  tvSeriesCreditsOptions,
-} from '@fubar-it-co/tmdb-client'
-import { useQuery } from '@tanstack/react-query'
-import { Skeleton, Typography } from '@vite-mf-monorepo/ui'
+import { Container, Section } from '@vite-mf-monorepo/layouts'
+import { getImageUrl } from '@vite-mf-monorepo/shared'
+import { Skeleton, Talent, Typography } from '@vite-mf-monorepo/ui'
+
+import { useMediaCredits } from '@/hooks'
 
 import type { MediaType } from '@/types/media'
-import type {
-  MovieCreditsResponse,
-  TvSeriesCreditsResponse,
-} from '@fubar-it-co/tmdb-client'
 import type { FC } from 'react'
 
 /** Props for {@link Crew}. */
@@ -22,79 +17,86 @@ interface CrewProps {
   mediaType: MediaType
 }
 
-/** Crew member shape — same structure in both movie and TV credits. */
-type CrewMember = NonNullable<
-  NonNullable<MovieCreditsResponse | TvSeriesCreditsResponse>['crew']
->[number]
-
-/** @internal */
-const DIRECTOR_JOBS = new Set(['Director'])
-
-/** @internal */
-const WRITING_DEPARTMENT = 'Writing'
-
-/** Returns `true` if a crew member is a Director or Writer. */
-function isRelevantCrewMember(member: CrewMember): boolean {
-  return (
-    (member.department === 'Directing' &&
-      DIRECTOR_JOBS.has(member.job ?? '')) ||
-    member.department === WRITING_DEPARTMENT
-  )
-}
-
 /**
  * Renders the key crew members (Director + Writing credits) for a movie or TV series.
  *
- * Branches the `useQuery` call based on `mediaType` — same factory as server prefetch.
- * Returns `null` when no relevant crew members are found.
+ * Shows vertical Talent cards with avatar, name, and role.
+ * Returns `null` when no director or writers are found.
  */
 const Crew: FC<CrewProps> = ({ id, mediaType }) => {
-  const movieQuery = useQuery({
-    ...movieCreditsOptions({ path: { movie_id: id } }),
-    enabled: mediaType === 'movie',
-  })
-
-  const tvQuery = useQuery({
-    ...tvSeriesCreditsOptions({ path: { series_id: id } }),
-    enabled: mediaType === 'tv',
-  })
-
-  const { data, isLoading } = mediaType === 'movie' ? movieQuery : tvQuery
+  const { data: credits, isLoading, error } = useMediaCredits(mediaType, id)
 
   if (isLoading) {
     return (
-      <div data-testid="crew" className="mda:flex mda:flex-col mda:gap-4">
-        <Typography variant="h2">Crew</Typography>
-        <div className="mda:flex mda:flex-wrap mda:gap-6">
-          <Skeleton variant="rectangle" width="120px" height="48px" />
-          <Skeleton variant="rectangle" width="120px" height="48px" />
-          <Skeleton variant="rectangle" width="120px" height="48px" />
-        </div>
-      </div>
+      <Container variant="muted">
+        <Section maxWidth="xl" spacing="lg">
+          <div data-testid="crew">
+            <Typography variant="h2" className="mda:mb-6">
+              Crew
+            </Typography>
+            <div className="mda:flex mda:gap-6">
+              <Skeleton variant="circle" width="80px" height="80px" />
+              <Skeleton variant="circle" width="80px" height="80px" />
+              <Skeleton variant="circle" width="80px" height="80px" />
+            </div>
+          </div>
+        </Section>
+      </Container>
     )
   }
 
-  const relevantCrew = data?.crew?.filter(isRelevantCrewMember) ?? []
+  if (error || !credits?.crew) {
+    return null
+  }
 
-  if (relevantCrew.length === 0) return null
+  const director = credits.crew.find((c) => c.job === 'Director')
+  const writers = credits.crew
+    .filter((c) => c.department === 'Writing')
+    .slice(0, 2)
+
+  if (!director && writers.length === 0) {
+    return null
+  }
 
   return (
-    <div data-testid="crew" className="mda:flex mda:flex-col mda:gap-4">
-      <Typography variant="h2">Crew</Typography>
-      <ul className="mda:flex mda:flex-wrap mda:gap-6 mda:list-none mda:p-0 mda:m-0">
-        {relevantCrew.map((member) => (
-          <li
-            key={member.credit_id}
-            className="mda:flex mda:flex-col mda:gap-1"
-          >
-            <Typography variant="body-sm" className="mda:font-bold">
-              {member.name}
-            </Typography>
-            <Typography variant="body-sm">{member.job}</Typography>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Container variant="muted">
+      <Section maxWidth="xl" spacing="lg">
+        <div data-testid="crew">
+          <Typography variant="h2" className="mda:mb-6">
+            Crew
+          </Typography>
+          <div className="mda:flex mda:flex-row mda:flex-wrap mda:gap-6 mda:justify-start">
+            {director && (
+              <Talent
+                name={director.name ?? 'Unknown'}
+                role="Director"
+                imageSrc={
+                  director.profile_path
+                    ? getImageUrl(director.profile_path, 'w185')
+                    : undefined
+                }
+                variant="vertical"
+                size="3xl"
+              />
+            )}
+            {writers.map((writer) => (
+              <Talent
+                key={writer.id}
+                name={writer.name ?? 'Unknown'}
+                role={writer.job ?? 'Writer'}
+                imageSrc={
+                  writer.profile_path
+                    ? getImageUrl(writer.profile_path, 'w185')
+                    : undefined
+                }
+                variant="vertical"
+                size="3xl"
+              />
+            ))}
+          </div>
+        </div>
+      </Section>
+    </Container>
   )
 }
 

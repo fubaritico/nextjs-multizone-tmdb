@@ -1,4 +1,8 @@
+export { useMediaCredits } from './useMediaCredits'
+export type { MediaCreditsQueryResult } from './useMediaCredits'
 export { useMediaDetails } from './useMediaDetails'
 export type { MediaDetailsQueryResult } from './useMediaDetails'
+export { useMovieCredits } from './useMovieCredits'
 export { useMovieDetails } from './useMovieDetails'
+export { useTVCredits } from './useTVCredits'
 export { useTVDetails } from './useTVDetails'

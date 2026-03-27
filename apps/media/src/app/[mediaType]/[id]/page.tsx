@@ -17,14 +17,13 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query'
-import { Container, Section } from '@vite-mf-monorepo/layouts'
 import { notFound } from 'next/navigation'
 
 import Cast from '@/components/Cast'
 import Crew from '@/components/Crew'
 import MediaHero from '@/components/MediaHero'
 import Photos from '@/components/Photos'
-import RecommendedCarousel from '@/components/RecommendedSection'
+import { RecommendedSection } from '@/components/RecommendedSection'
 import { SimilarSection } from '@/components/SimilarSection'
 import Synopsis from '@/components/Synopsis'
 import TrailersSection from '@/components/TrailersSection'
@@ -142,7 +141,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * 5. Photos — owns Container + Section
  * 6. Trailers — owns Container + Section
  * 7. Similar — owns Container + Section
- * 8. Recommended — inside Container + Section
+ * 8. Recommended — owns Container + Section
  */
 export default async function MediaPage({ params }: Readonly<Props>) {
   const { mediaType: rawMediaType, id } = await params
@@ -177,11 +176,7 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       <SimilarSection id={contentId} mediaType={mediaType} />
 
       {/* 8. Recommended */}
-      <Container variant="muted">
-        <Section spacing="lg" maxWidth="xl">
-          <RecommendedCarousel id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <RecommendedSection id={contentId} mediaType={mediaType} />
     </HydrationBoundary>
   )
 }

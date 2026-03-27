@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import PhotoViewer from './PhotoViewer'
 
@@ -28,11 +28,13 @@ vi.mock('next/image', () => ({
   ),
 }))
 
-const mockBack = vi.fn()
-
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({ back: mockBack }),
-}))
+// jsdom does not implement <dialog> methods — mock them so RTL finds the dialog
+const showModalMock = vi.fn(() => {
+  screen.getByRole('dialog', { hidden: true }).setAttribute('open', '')
+})
+const closeMock = vi.fn()
+HTMLDialogElement.prototype.showModal = showModalMock
+HTMLDialogElement.prototype.close = closeMock
 
 const IMAGES: TmdbImage[] = [
   { file_path: '/photo1.jpg' },
@@ -46,181 +48,129 @@ afterEach(() => {
 
 describe('PhotoViewer', () => {
   describe('rendering', () => {
-    it('renders the image at initialIndex', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={1} basePath="/movie/278" />
-      )
+    it('opens the modal with all images', () => {
+      const onClose = vi.fn()
 
-      const img = screen.getByRole('img')
-      expect(img).toHaveAttribute(
-        'src',
-        'https://image.tmdb.org/t/p/original/photo2.jpg'
-      )
+      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
+
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+      expect(screen.getAllByRole('img')).toHaveLength(IMAGES.length)
     })
 
-    it('shows the correct counter text', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={0} basePath="/movie/278" />
-      )
+    it('renders correct image src with w1280 size', () => {
+      const onClose = vi.fn()
 
-      expect(screen.getByText('1 / 3')).toBeInTheDocument()
+      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
+
+      const img = screen.getByRole('img', { name: 'Backdrop 1' })
+      expect(img).toHaveAttribute(
+        'src',
+        'https://image.tmdb.org/t/p/w1280/photo1.jpg'
+      )
     })
 
     it('renders nothing when images array is empty', () => {
+      const onClose = vi.fn()
+
       const { container } = render(
-        <PhotoViewer images={[]} initialIndex={0} basePath="/movie/278" />
+        <PhotoViewer images={[]} initialIndex={0} onClose={onClose} />
       )
 
       expect(container).toBeEmptyDOMElement()
     })
-
-    it('clamps initialIndex below 0 to 0', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={-5} basePath="/movie/278" />
-      )
-
-      expect(screen.getByText('1 / 3')).toBeInTheDocument()
-    })
-
-    it('clamps initialIndex beyond last index to last', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={99} basePath="/movie/278" />
-      )
-
-      expect(screen.getByText('3 / 3')).toBeInTheDocument()
-    })
   })
 
-  describe('navigation', () => {
-    it('advances to next image on Next button click', async () => {
-      const user = userEvent.setup()
-
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={0} basePath="/movie/278" />
-      )
-
-      await user.click(screen.getByRole('button', { name: /next photo/i }))
-
-      expect(screen.getByText('2 / 3')).toBeInTheDocument()
-    })
-
-    it('goes back to previous image on Prev button click', async () => {
-      const user = userEvent.setup()
-
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={2} basePath="/movie/278" />
-      )
-
-      await user.click(screen.getByRole('button', { name: /previous photo/i }))
-
-      expect(screen.getByText('2 / 3')).toBeInTheDocument()
-    })
-
-    it('disables Prev button at index 0', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={0} basePath="/movie/278" />
-      )
-
-      expect(
-        screen.getByRole('button', { name: /previous photo/i })
-      ).toBeDisabled()
-    })
-
-    it('disables Next button at last index', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={2} basePath="/movie/278" />
-      )
-
-      expect(screen.getByRole('button', { name: /next photo/i })).toBeDisabled()
-    })
-
-    it('does not disable Prev when not at first index', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={1} basePath="/movie/278" />
-      )
-
-      expect(
-        screen.getByRole('button', { name: /previous photo/i })
-      ).not.toBeDisabled()
-    })
-
-    it('does not disable Next when not at last index', () => {
-      render(
-        <PhotoViewer images={IMAGES} initialIndex={1} basePath="/movie/278" />
-      )
-
-      expect(
-        screen.getByRole('button', { name: /next photo/i })
-      ).not.toBeDisabled()
-    })
-  })
-
-  describe('close button', () => {
-    it('calls onClose when provided', async () => {
+  describe('close', () => {
+    it('calls onClose when close button is clicked', async () => {
       const user = userEvent.setup()
       const onClose = vi.fn()
+
+      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
+
+      await user.click(screen.getByRole('button', { name: /close/i }))
+
+      expect(onClose).toHaveBeenCalledOnce()
+    })
+
+    it('calls onClose when clicking outside the image', async () => {
+      const user = userEvent.setup()
+      const onClose = vi.fn()
+
+      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
+
+      // Click a CarouselItem div (not the img) — should trigger close
+      const carouselItems = screen.getAllByRole('img')
+      const parentDiv = carouselItems[0]?.closest('[class]')?.parentElement
+      if (parentDiv) {
+        await user.click(parentDiv)
+        expect(onClose).toHaveBeenCalled()
+      }
+    })
+  })
+
+  describe('navigation callbacks', () => {
+    it('calls onPrev when prev arrow is clicked', async () => {
+      const user = userEvent.setup()
+      const onPrev = vi.fn()
 
       render(
         <PhotoViewer
           images={IMAGES}
-          initialIndex={0}
-          basePath="/movie/278"
-          onClose={onClose}
+          initialIndex={1}
+          onClose={vi.fn()}
+          onPrev={onPrev}
+          onNext={vi.fn()}
         />
       )
 
-      await user.click(
-        screen.getByRole('button', { name: /close photo viewer/i })
-      )
+      await user.click(screen.getByRole('button', { name: /previous/i }))
 
-      expect(onClose).toHaveBeenCalledOnce()
-      expect(mockBack).not.toHaveBeenCalled()
+      expect(onPrev).toHaveBeenCalledOnce()
     })
 
-    it('calls router.back() when onClose is not provided', async () => {
+    it('calls onNext when next arrow is clicked', async () => {
       const user = userEvent.setup()
+      const onNext = vi.fn()
 
       render(
-        <PhotoViewer images={IMAGES} initialIndex={0} basePath="/movie/278" />
+        <PhotoViewer
+          images={IMAGES}
+          initialIndex={1}
+          onClose={vi.fn()}
+          onPrev={vi.fn()}
+          onNext={onNext}
+        />
       )
 
-      await user.click(
-        screen.getByRole('button', { name: /close photo viewer/i })
-      )
+      await user.click(screen.getByRole('button', { name: /next/i }))
 
-      expect(mockBack).toHaveBeenCalledOnce()
+      expect(onNext).toHaveBeenCalledOnce()
     })
-  })
 
-  describe('keyboard navigation', () => {
-    beforeEach(() => {
+    it('disables prev arrow when onPrev is undefined', () => {
       render(
-        <PhotoViewer images={IMAGES} initialIndex={1} basePath="/movie/278" />
+        <PhotoViewer
+          images={IMAGES}
+          initialIndex={0}
+          onClose={vi.fn()}
+          onNext={vi.fn()}
+        />
       )
+
+      expect(screen.getByRole('button', { name: /previous/i })).toBeDisabled()
     })
 
-    it('navigates to previous image on ArrowLeft', async () => {
-      const user = userEvent.setup()
+    it('disables next arrow when onNext is undefined', () => {
+      render(
+        <PhotoViewer
+          images={IMAGES}
+          initialIndex={2}
+          onClose={vi.fn()}
+          onPrev={vi.fn()}
+        />
+      )
 
-      await user.keyboard('{ArrowLeft}')
-
-      expect(screen.getByText('1 / 3')).toBeInTheDocument()
-    })
-
-    it('navigates to next image on ArrowRight', async () => {
-      const user = userEvent.setup()
-
-      await user.keyboard('{ArrowRight}')
-
-      expect(screen.getByText('3 / 3')).toBeInTheDocument()
-    })
-
-    it('calls router.back() on Escape', async () => {
-      const user = userEvent.setup()
-
-      await user.keyboard('{Escape}')
-
-      expect(mockBack).toHaveBeenCalledOnce()
+      expect(screen.getByRole('button', { name: /next/i })).toBeDisabled()
     })
   })
 })

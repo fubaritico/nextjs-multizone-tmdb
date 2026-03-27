@@ -6,39 +6,45 @@ import {
 } from '@fubar-it-co/tmdb-client'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { use } from 'react'
 
-import PhotoViewer from '@/components/PhotoViewer'
 import { toPhotoId } from '@/types/media'
 
-import type { MediaType } from '@/types/media'
+import PhotoViewer from './PhotoViewer'
 
-/** Props for the photo modal intercepted route page. */
-interface Props {
-  /** Route params — `mediaType`, `id`, and `index` (photo id derived from file_path). */
-  params: Promise<{ mediaType: string; id: string; index: string }>
+import type { MediaType } from '@/types/media'
+import type { FC } from 'react'
+
+/** Props for {@link StandalonePhotoViewer}. */
+interface StandalonePhotoViewerProps {
+  /** TMDB content ID. */
+  id: number
+  /** Whether this is a movie or TV series. */
+  mediaType: MediaType
+  /** URL param — photo id derived from file_path (e.g. "abc123"). */
+  photoId: string
 }
 
 /**
- * Intercepted route page that renders the PhotoViewer as an overlay modal.
+ * Client wrapper for the standalone photo page.
  *
- * Active only during soft (client-side) navigation from the media detail page.
- * Reads images from the already-hydrated TanStack Query cache — no extra fetch.
- * Calls `router.back()` on close to dismiss the modal and restore the detail page.
+ * Reads images from the hydrated TanStack Query cache and provides
+ * close / prev / next navigation via `router.back()` and `router.replace()`.
+ * Resolves the current index from the photo id via `findIndex`, like the legacy.
  */
-export default function PhotoModal({ params }: Readonly<Props>) {
-  const { mediaType: rawMediaType, id, index } = use(params)
-  const mediaType = rawMediaType as MediaType
-  const contentId = Number(id)
+const StandalonePhotoViewer: FC<StandalonePhotoViewerProps> = ({
+  id,
+  mediaType,
+  photoId,
+}) => {
   const router = useRouter()
 
   const movieQuery = useQuery({
-    ...movieImagesOptions({ path: { movie_id: contentId } }),
+    ...movieImagesOptions({ path: { movie_id: id } }),
     enabled: mediaType === 'movie',
   })
 
   const tvQuery = useQuery({
-    ...tvSeriesImagesOptions({ path: { series_id: contentId } }),
+    ...tvSeriesImagesOptions({ path: { series_id: id } }),
     enabled: mediaType === 'tv',
   })
 
@@ -51,10 +57,10 @@ export default function PhotoModal({ params }: Readonly<Props>) {
   if (!backdrops.length) return null
 
   const currentIndex = backdrops.findIndex(
-    (b) => toPhotoId(b.file_path) === index
+    (b) => toPhotoId(b.file_path) === photoId
   )
   const safeIndex = currentIndex === -1 ? 0 : currentIndex
-  const basePath = `/${mediaType}/${id}/photos`
+  const basePath = `/${mediaType}/${String(id)}/photos`
 
   const handleClose = () => {
     router.back()
@@ -86,3 +92,5 @@ export default function PhotoModal({ params }: Readonly<Props>) {
     />
   )
 }
+
+export default StandalonePhotoViewer

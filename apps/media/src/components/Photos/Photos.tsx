@@ -9,6 +9,8 @@ import { Icon, Skeleton, Typography } from '@vite-mf-monorepo/ui'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { toPhotoId } from '@/types/media'
+
 import type { MediaType } from '@/types/media'
 import type { FC } from 'react'
 
@@ -26,7 +28,7 @@ interface PhotosProps {
 /**
  * Displays a bento-grid of up to 4 backdrop images + a CTA tile for a movie or TV series.
  *
- * Each image links to the photo viewer at `/{mediaType}/{id}/photos/{index}`.
+ * Each image links to the photo viewer at `/{mediaType}/{id}/photos/{photoId}`.
  * The first image spans 2 columns and 2 rows on desktop for visual emphasis.
  * The last cell shows the total photo count and links to the viewer.
  *
@@ -89,7 +91,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
       <div className="mda:grid mda:grid-cols-2 mda:md:grid-cols-4 mda:md:grid-rows-2 mda:md:h-72 mda:gap-2">
         {/* Large photo — col-span-2 row-span-2 on desktop */}
         <Link
-          href={`${basePath}/photos/0`}
+          href={`${basePath}/photos/${toPhotoId(photos[0]?.file_path ?? '')}`}
           className="mda:relative mda:col-span-2 mda:md:row-span-2 mda:aspect-video mda:md:aspect-auto mda:overflow-hidden mda:rounded-md mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
           aria-label="View photo 1"
         >
@@ -106,7 +108,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
         {photos.slice(1).map((photo, i) => (
           <Link
             key={photo.file_path}
-            href={`${basePath}/photos/${String(i + 1)}`}
+            href={`${basePath}/photos/${toPhotoId(photo.file_path ?? '')}`}
             className="mda:relative mda:aspect-video mda:md:aspect-auto mda:overflow-hidden mda:rounded-md mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
             aria-label={`View photo ${String(i + 2)}`}
           >
@@ -122,7 +124,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
 
         {/* CTA tile — "X photos" */}
         <Link
-          href={`${basePath}/photos/0`}
+          href={`${basePath}/photos/${toPhotoId(photos[0]?.file_path ?? '')}`}
           className="mda:aspect-video mda:md:aspect-auto mda:flex mda:flex-col mda:items-center mda:justify-center mda:gap-2 mda:rounded-md mda:bg-muted mda:transition-colors hover:mda:bg-muted/70 mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
           aria-label={`View all ${String(total)} photos`}
         >

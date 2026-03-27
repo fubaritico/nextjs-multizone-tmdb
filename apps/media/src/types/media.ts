@@ -20,3 +20,10 @@ export const CACHE_TIME_S = 86400
  * Keep in sync with {@link CACHE_TIME_S}.
  */
 export const CACHE_TIME_MS = 86_400_000
+
+/**
+ * Derives a URL-safe photo id from a TMDB file_path.
+ * Strips leading slash and file extension (e.g. "/abc123.jpg" → "abc123").
+ */
+export const toPhotoId = (filePath: string): string =>
+  filePath.replace(/^\//, '').replace(/\.[^/.]+$/, '')

@@ -159,18 +159,10 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       <MediaHero id={contentId} mediaType={mediaType} />
 
       {/* 2. Synopsis */}
-      <Container variant="default">
-        <Section spacing="lg" maxWidth="xl">
-          <Synopsis id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <Synopsis id={contentId} mediaType={mediaType} />
 
       {/* 3. Crew */}
-      <Container variant="muted">
-        <Section spacing="lg" maxWidth="xl">
-          <Crew id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <Crew id={contentId} mediaType={mediaType} />
 
       {/* 4. Cast */}
       <Container variant="default">

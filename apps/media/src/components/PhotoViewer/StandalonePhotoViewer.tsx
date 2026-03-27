@@ -1,12 +1,8 @@
 'use client'
 
-import {
-  movieImagesOptions,
-  tvSeriesImagesOptions,
-} from '@fubar-it-co/tmdb-client'
-import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
+import { useMediaImages } from '@/hooks'
 import { toPhotoId } from '@/types/media'
 
 import PhotoViewer from './PhotoViewer'
@@ -37,18 +33,7 @@ const StandalonePhotoViewer: FC<StandalonePhotoViewerProps> = ({
   photoId,
 }) => {
   const router = useRouter()
-
-  const movieQuery = useQuery({
-    ...movieImagesOptions({ path: { movie_id: id } }),
-    enabled: mediaType === 'movie',
-  })
-
-  const tvQuery = useQuery({
-    ...tvSeriesImagesOptions({ path: { series_id: id } }),
-    enabled: mediaType === 'tv',
-  })
-
-  const { data } = mediaType === 'movie' ? movieQuery : tvQuery
+  const { data } = useMediaImages(mediaType, id)
 
   const backdrops = (data?.backdrops ?? []).flatMap((b) =>
     b.file_path ? [{ file_path: b.file_path }] : []

@@ -1,14 +1,10 @@
 'use client'
 
-import {
-  movieImagesOptions,
-  tvSeriesImagesOptions,
-} from '@fubar-it-co/tmdb-client'
-import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { use } from 'react'
 
 import PhotoViewer from '@/components/PhotoViewer'
+import { useMediaImages } from '@/hooks'
 import { toPhotoId } from '@/types/media'
 
 import type { MediaType } from '@/types/media'
@@ -31,18 +27,7 @@ export default function PhotoModal({ params }: Readonly<Props>) {
   const mediaType = rawMediaType as MediaType
   const contentId = Number(id)
   const router = useRouter()
-
-  const movieQuery = useQuery({
-    ...movieImagesOptions({ path: { movie_id: contentId } }),
-    enabled: mediaType === 'movie',
-  })
-
-  const tvQuery = useQuery({
-    ...tvSeriesImagesOptions({ path: { series_id: contentId } }),
-    enabled: mediaType === 'tv',
-  })
-
-  const { data } = mediaType === 'movie' ? movieQuery : tvQuery
+  const { data } = useMediaImages(mediaType, contentId)
 
   const backdrops = (data?.backdrops ?? []).flatMap((b) =>
     b.file_path ? [{ file_path: b.file_path }] : []

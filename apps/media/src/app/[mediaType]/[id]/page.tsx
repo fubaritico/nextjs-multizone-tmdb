@@ -136,10 +136,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  *
  * Section render order (matches legacy):
  * 1. MediaHero — full-width, outside Container
- * 2. Synopsis — inside Container + Section
- * 3. Crew — inside Container + Section
- * 4. Photos — inside Container + Section
- * 5. Cast — inside Container + Section
+ * 2. Synopsis — owns Container + Section
+ * 3. Crew — owns Container + Section
+ * 4. Cast — owns Container + Section
+ * 5. Photos — owns Container + Section
  * 6. Trailers — inside Container + Section
  * 7. Similar — inside Container + Section
  * 8. Recommended — inside Container + Section
@@ -168,11 +168,7 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       <Cast id={contentId} mediaType={mediaType} />
 
       {/* 5. Photos */}
-      <Container variant="default">
-        <Section spacing="lg" maxWidth="xl">
-          <Photos id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <Photos id={contentId} mediaType={mediaType} />
 
       {/* 6. Trailers */}
       <Container variant="muted">

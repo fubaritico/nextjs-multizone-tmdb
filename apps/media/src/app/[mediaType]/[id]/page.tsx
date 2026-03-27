@@ -25,7 +25,7 @@ import Crew from '@/components/Crew'
 import MediaHero from '@/components/MediaHero'
 import Photos from '@/components/Photos'
 import RecommendedCarousel from '@/components/RecommendedSection'
-import SimilarCarousel from '@/components/SimilarSection'
+import { SimilarSection } from '@/components/SimilarSection'
 import Synopsis from '@/components/Synopsis'
 import TrailersSection from '@/components/TrailersSection'
 import { CACHE_TIME_MS } from '@/types/media'
@@ -141,7 +141,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * 4. Cast — owns Container + Section
  * 5. Photos — owns Container + Section
  * 6. Trailers — owns Container + Section
- * 7. Similar — inside Container + Section
+ * 7. Similar — owns Container + Section
  * 8. Recommended — inside Container + Section
  */
 export default async function MediaPage({ params }: Readonly<Props>) {
@@ -174,11 +174,7 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       <TrailersSection id={contentId} mediaType={mediaType} />
 
       {/* 7. Similar */}
-      <Container variant="default">
-        <Section spacing="lg" maxWidth="xl">
-          <SimilarCarousel id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <SimilarSection id={contentId} mediaType={mediaType} />
 
       {/* 8. Recommended */}
       <Container variant="muted">

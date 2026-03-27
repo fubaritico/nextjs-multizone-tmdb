@@ -1,1 +1,1 @@
-export { default } from './SimilarCarousel'
+export { default as SimilarSection } from './SimilarSection'

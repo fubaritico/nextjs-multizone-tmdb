@@ -32,22 +32,20 @@ const Cast: FC<CastProps> = ({ id, mediaType }) => {
   if (isLoading) {
     return (
       <Container variant="default">
-        <Section maxWidth="xl" spacing="lg">
-          <section data-testid="cast-section">
-            <Typography variant="h2" className="mda:mb-6">
-              Cast
-            </Typography>
-            <div className="mda:grid mda:grid-cols-2 mda:gap-6">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <Skeleton
-                  key={i}
-                  variant="rectangle"
-                  width="100%"
-                  height="64px"
-                />
-              ))}
-            </div>
-          </section>
+        <Section maxWidth="xl" spacing="lg" data-testid="cast-section">
+          <Typography variant="h2" className="mda:mb-6">
+            Cast
+          </Typography>
+          <div className="mda:grid mda:grid-cols-2 mda:gap-6">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <Skeleton
+                key={i}
+                variant="rectangle"
+                width="100%"
+                height="64px"
+              />
+            ))}
+          </div>
         </Section>
       </Container>
     )
@@ -59,38 +57,36 @@ const Cast: FC<CastProps> = ({ id, mediaType }) => {
 
   return (
     <Container variant="default">
-      <Section maxWidth="xl" spacing="lg">
-        <section data-testid="cast-section">
-          <Typography variant="h2" className="mda:mb-6">
-            Cast
-          </Typography>
-          <div className="mda:grid mda:grid-cols-2 mda:gap-6 mda:mb-8">
-            {topCast.map((actor) => (
-              <Talent
-                key={actor.credit_id}
-                name={actor.name ?? 'Unknown'}
-                role={actor.character ?? ''}
-                imageSrc={
-                  actor.profile_path
-                    ? getImageUrl(actor.profile_path, 'w185')
-                    : undefined
-                }
-                variant="horizontal"
-                size="xl"
-              />
-            ))}
-          </div>
-          <Button
-            as="zone-link"
-            href="#"
-            variant="outline"
-            size="sm"
-            icon="Users"
-            iconPosition="left"
-          >
-            Whole cast
-          </Button>
-        </section>
+      <Section maxWidth="xl" spacing="lg" data-testid="cast-section">
+        <Typography variant="h2" className="mda:mb-6">
+          Cast
+        </Typography>
+        <div className="mda:grid mda:grid-cols-2 mda:gap-6 mda:mb-8">
+          {topCast.map((actor) => (
+            <Talent
+              key={actor.credit_id}
+              name={actor.name ?? 'Unknown'}
+              role={actor.character ?? ''}
+              imageSrc={
+                actor.profile_path
+                  ? getImageUrl(actor.profile_path, 'w185')
+                  : undefined
+              }
+              variant="horizontal"
+              size="xl"
+            />
+          ))}
+        </div>
+        <Button
+          as="zone-link"
+          href="#"
+          variant="outline"
+          size="sm"
+          icon="Users"
+          iconPosition="left"
+        >
+          Whole cast
+        </Button>
       </Section>
     </Container>
   )

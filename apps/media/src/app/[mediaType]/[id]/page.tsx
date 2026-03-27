@@ -140,7 +140,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * 3. Crew — owns Container + Section
  * 4. Cast — owns Container + Section
  * 5. Photos — owns Container + Section
- * 6. Trailers — inside Container + Section
+ * 6. Trailers — owns Container + Section
  * 7. Similar — inside Container + Section
  * 8. Recommended — inside Container + Section
  */
@@ -171,11 +171,7 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       <Photos id={contentId} mediaType={mediaType} />
 
       {/* 6. Trailers */}
-      <Container variant="muted">
-        <Section spacing="lg" maxWidth="xl">
-          <TrailersSection id={contentId} mediaType={mediaType} />
-        </Section>
-      </Container>
+      <TrailersSection id={contentId} mediaType={mediaType} />
 
       {/* 7. Similar */}
       <Container variant="default">

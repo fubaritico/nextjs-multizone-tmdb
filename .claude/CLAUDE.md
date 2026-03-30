@@ -135,11 +135,11 @@ rewrites: {
 ### Completed
 Full history with commit hashes: `.claude/session-history.md`
 
-**Summary**: Phases 1-3 done (project setup, 5 zone apps, home foundation). Batches 1-6 done (home zone complete with 42 tests, media zone complete with 126 tests + 12 todo). E2E fixes done (hydration, asset loading, cross-zone navigation). Upstream packages updated through ui 0.4.12, layouts 0.4.4, tmdb-client 0.0.14. Media zone refactored: unified movie/tv into dynamic `[mediaType]` route, merged Movie/TV component variants into generic components, added barrel index.ts files + utils.
+**Summary**: Phases 1-3 done (project setup, 5 zone apps, home foundation). Batches 1-6 done (home zone complete with 42 tests, media zone complete with 126 tests + 12 todo). E2E fixes done (hydration, asset loading, cross-zone navigation). Upstream packages updated through ui 0.4.12, layouts 0.4.4, tmdb-client 0.0.14. Media zone refactored: unified movie/tv into dynamic `[mediaType]` route, merged Movie/TV component variants into generic components, added barrel index.ts files + utils. Photos renamed from BackdropSection, aligned with legacy bento grid. Cast renamed from CastSection/CastCarousel, replaced carousel with legacy 2-column grid. Page tests rewritten to verify prefetchQuery queryKeys (no component mocking). Added MSW+RTL tests for Cast (7), MediaHero (7), Photos (7) — total 88 tests across home+media. Photo viewer fixed: route interception `(.)photos`, PhotoViewer rewritten with Modal+Carousel lightbox from legacy ui, URL uses photo id (file_path without ext), StandalonePhotoViewer client wrapper for standalone page. Media zone legacy alignment complete: all sections refactored to match legacy file structure. Each section owns its Container+Section wrapper (page.tsx has no layout wrappers). Hooks refactored: replaced dual-query `enabled` anti-pattern with conditional hook selection (`useMedia*` pattern). Split monolith carousels: SimilarCarousel → SimilarMoviesCarousel + SimilarTVCarousel, RecommendedCarousel → RecommendedMoviesCarousel + RecommendedTVCarousel. Total 125 tests (40 home + 85 media). Netlify CI/CD pipeline: 5 deploy workflows (web, home, media, talents, search) with `workflow_run` trigger after CI on main, `dorny/paths-filter` for conditional deploys. CI updated (validate.yml: pnpm version fix, secrets, `pnpm test` via Turborepo). `netlify.toml` per zone with `assetPrefix` redirects. `turbo.json` start task added. CSS on Netlify production fixed via `/<zone>-static/_next/*` → `/_next/:splat` redirects.
 
 ### Next
-1. Continue P-5 manual E2E verification on port 3000: test remaining media sections, photo modal/standalone/back navigation
-2. Post-migration fix: CastSection should be a list, not a carousel (noted during M-7)
+1. Investigate `--mda-color-muted` CSS var not resolving in media globals.css (tokens prefixed in browser but var() fails)
+2. Fix photo viewer prev/next blink (router.replace causes remount)
 3. Resume migration: talents zone (Batch 7+) or search zone
 
 ### Known Issues
@@ -156,7 +156,6 @@ Full history with commit hashes: `.claude/session-history.md`
 - `blurDataURL` React warnings in test stderr are cosmetic — next/image mock passes all props to DOM `<img>` which doesn't recognize `blurDataURL`
 - Do NOT use `@plaiceholder/next` — maintenance mode, Turbopack incompatible, Next.js 16 untested. Use `sharp` directly for server-side blur generation
 - TV mock data gaps: shared/mocks missing tvSeriesCredits, tvSeriesImages, tvSeriesVideos handlers — TV variants for Cast, Photos, Trailers untestable until upstream publishes
-- CastSection (M-7) is implemented as a carousel but should be a list — post-migration fix needed
 - Multi-zones: `assetPrefix` must be **path-based** (e.g. `/home-static`), not a full URL — full URL breaks hydration through orchestrator
 - Multi-zones: orchestrator needs `beforeFiles` rewrites for `/<zone>-static/_next/:path+` to proxy static assets to zone apps
 - Upstream: `@vite-mf-monorepo/ui` must use per-file output (not bundled) to preserve `'use client'` directives — barrel `next/index.ts` needs `'use client'`
@@ -166,6 +165,12 @@ Full history with commit hashes: `.claude/session-history.md`
 - Multi-zones: cross-zone links MUST use `<a>` (or `as="zone-link"`) — `next/link` hangs on routes belonging to other zones
 - `MovieCard`/`Button` with `as="zone-link"` from `ui/next` renders `<a>` for cross-zone nav — use `as="link"` only for same-zone routes
 - `RootLayout` from `layouts/next` needs `crossZoneHome` prop on non-home zones — logo link uses `<a href="/">` instead of `<Link>`
+- Photo viewer prev/next navigation has a visual blink — `router.replace` causes component remount, Carousel re-renders with new `key={initialIndex}`
+- `MovieRecommendationsResponse` from tmdb-client is typed as `{ [key: string]: unknown }` — must cast to `MovieSimilarResponse` (identical structure)
+- `--mda-color-muted` CSS var in media globals.css — tokens are prefixed with `mda` in browser but var() doesn't resolve (needs investigation)
+- Netlify deploys: each zone needs `[[redirects]]` in `netlify.toml` mapping `/<zone>-static/_next/*` → `/_next/:splat` (status 200) — `assetPrefix` makes HTML reference prefixed paths but Netlify CDN serves at `/_next/`
+- Deploy workflows use `workflow_run` trigger — deploys only fire after CI passes on `main`
+- SonarQube disabled in CI — re-enable once deploys are stable
 
 ---
 

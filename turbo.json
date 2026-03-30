@@ -17,6 +17,11 @@
     },
     "test": {
       "dependsOn": ["^test"]
+    },
+    "start": {
+      "persistent": true,
+      "cache": false,
+      "dependsOn": ["build"]
     }
   }
 }

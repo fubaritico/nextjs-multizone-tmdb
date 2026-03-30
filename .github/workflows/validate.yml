@@ -1,0 +1,51 @@
+name: Validate
+
+on:
+  workflow_call:
+    secrets:
+      VITE_TMDB_API_TOKEN:
+        required: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Run lint
+        run: pnpm lint
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Run type check
+        run: pnpm type-check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Run tests
+        run: pnpm test
+
+  build:
+    needs: [lint, type-check, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Build all apps
+        run: pnpm build
+        env:
+          VITE_TMDB_API_TOKEN: ${{ secrets.VITE_TMDB_API_TOKEN }}

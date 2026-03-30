@@ -1,0 +1,75 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'packages/**'
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+      - uses: anthropics/claude-code-action@beta
+        id: claude-review
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          direct_prompt: |
+            This is a monorepo with micro-frontends: apps/home, apps/host, apps/media, apps/photos + packages/storybook.
+
+            This PR touches packages/**. Analyze the diff and:
+            1. List which apps are impacted and why (be specific: which import, which component, which type)
+            2. Flag any renamed exports, changed prop types, or removed APIs that could cause runtime breaks
+               even if TypeScript didn't catch them across module federation boundaries
+            3. Flag any missing story updates in packages/storybook if a UI component changed
+
+            Be concise. Only flag real issues, not style opinions.
+
+            At the very end of your analysis, output exactly one of these two verdicts on its own line:
+            VERDICT: APPROVE
+            VERDICT: REQUEST_CHANGES
+
+      - name: Auto-approve if no issues
+        if: always()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          COMMENT=$(gh pr view ${{ github.event.pull_request.number }} --json comments --jq '.comments[] | select(.author.login == "fubaritico-claude-reviewer[bot]") | .body' | tail -1)
+          if echo "$COMMENT" | grep -q "VERDICT: APPROVE"; then
+            gh pr review ${{ github.event.pull_request.number }} --approve --body "LGTM — no breaking changes detected across module federation boundaries."
+          elif echo "$COMMENT" | grep -q "VERDICT: REQUEST_CHANGES"; then
+            BODY=$(echo "$COMMENT" | sed -n '/Breaking Changes/,/VERDICT/p' | head -n -1)
+            gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$BODY"
+          fi
+
+  pr-description:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+      - uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          direct_prompt: |
+            Write a concise PR description based on the diff.
+            Format: one sentence summary, then bullet points of what changed.
+            Update the PR body with it.

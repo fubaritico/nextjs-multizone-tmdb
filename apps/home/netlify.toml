@@ -1,0 +1,8 @@
+[build]
+  command = "next build"
+  publish = ".next"
+
+[[redirects]]
+  from = "/home-static/_next/*"
+  to = "/_next/:splat"
+  status = 200

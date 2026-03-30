@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate:
+    uses: ./.github/workflows/validate.yml
+    secrets: inherit
+
+  # sonarqube:
+  #   needs: [validate]
+  #   uses: ./.github/workflows/sonarqube.yml
+  #   secrets: inherit
+
+  quality-gate:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    if: always()
+    steps:
+      - name: Check all checks passed
+        run: |
+          if [ "${{ needs.validate.result }}" != "success" ]; then
+            echo "Quality gate failed"
+            exit 1
+          fi
+          echo "All checks passed"

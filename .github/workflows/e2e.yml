@@ -1,0 +1,42 @@
+name: E2E Tests
+
+on:
+  workflow_call:
+    secrets:
+      VITE_TMDB_API_TOKEN:
+        required: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    env:
+      HOST_PORT: 3000
+      REMOTE_HOME_PORT: 3001
+      REMOTE_MOVIE_PORT: 3002
+      REMOTE_PHOTOS_PORT: 3003
+      VITE_HOST_URL: localhost:3000
+      VITE_HOME_URL: http://localhost:3001
+      VITE_MEDIA_URL: http://localhost:3002
+      VITE_PHOTOS_URL: http://localhost:3003
+      VITE_TMDB_API_TOKEN: ${{ secrets.VITE_TMDB_API_TOKEN }}
+      VITE_SENTRY_ENVIRONMENT: ci
+      E2E_HEADLESS: 'true'
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Install Playwright chromium
+        run: pnpm --filter @vite-mf-monorepo/e2e test:install-browsers
+
+      - name: Run E2E tests
+        run: pnpm test:e2e:ci
+
+      - name: Upload E2E reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-reports-${{ github.sha }}
+          path: packages/e2e/src/reports/
+          retention-days: 7

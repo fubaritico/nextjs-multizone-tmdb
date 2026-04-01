@@ -39,13 +39,16 @@ catalog:
 
   # Shared packages (private registry)
   '@fubar-it-co/tmdb-client': 0.0.14
-  '@vite-mf-monorepo/ui': 0.4.22
+  '@vite-mf-monorepo/ui': 0.5.2
   '@vite-mf-monorepo/layouts': 0.4.4
   '@vite-mf-monorepo/shared': 0.0.6
   '@vite-mf-monorepo/tokens': 0.0.4
 
   # Build
   turbo: 2.8.20
+
+  # Image processing (server-side blur generation)
+  sharp: 0.34.1
 
   # Utilities
   clsx: 2.1.1

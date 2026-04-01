@@ -32,6 +32,10 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   }
 })
 
+vi.mock('@/lib/blur', () => ({
+  getBlurDataURL: vi.fn().mockResolvedValue(undefined),
+}))
+
 const mockNotFound = vi.fn()
 vi.mock('next/navigation', () => ({
   notFound: () => {

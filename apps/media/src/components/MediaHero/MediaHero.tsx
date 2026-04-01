@@ -16,6 +16,8 @@ interface MediaHeroProps {
   id: number
   /** Whether this is a movie or TV series. */
   mediaType: MediaType
+  /** Base64 blur data URL for the hero backdrop, generated server-side. */
+  heroBlurDataURL?: string
 }
 
 /**
@@ -24,7 +26,7 @@ interface MediaHeroProps {
  * Unified component handling both Movie and TV series details via the
  * `mediaType` prop and the {@link isMovie} type guard.
  */
-const MediaHero: FC<MediaHeroProps> = ({ id, mediaType }) => {
+const MediaHero: FC<MediaHeroProps> = ({ id, mediaType, heroBlurDataURL }) => {
   const { data: media, isLoading, error } = useMediaDetails(mediaType, id)
 
   if (isLoading) {
@@ -67,7 +69,10 @@ const MediaHero: FC<MediaHeroProps> = ({ id, mediaType }) => {
     <div className="mda:relative mda:w-full">
       {/* Backdrop Image */}
       <div className="mda:relative mda:aspect-[21/9] mda:lg:max-h-[440px] mda:w-full mda:overflow-hidden">
-        <HeroImage backdropPath={media.backdrop_path} />
+        <HeroImage
+          backdropPath={media.backdrop_path}
+          blurDataURL={heroBlurDataURL}
+        />
 
         {/* Gradient Overlay */}
         <div className="mda:absolute mda:inset-0 mda:bg-gradient-to-t mda:from-black/80 mda:via-black/40 mda:to-transparent mda:z-1 mda:top-0 mda:left-0 mda:right-0 mda:bottom-0" />

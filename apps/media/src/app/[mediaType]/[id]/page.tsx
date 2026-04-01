@@ -27,6 +27,7 @@ import { RecommendedSection } from '@/components/RecommendedSection'
 import { SimilarSection } from '@/components/SimilarSection'
 import Synopsis from '@/components/Synopsis'
 import TrailersSection from '@/components/TrailersSection'
+import { getBlurDataURL } from '@/lib/blur'
 import { CACHE_TIME_MS } from '@/types/media'
 
 import type { MediaType } from '@/types/media'
@@ -152,10 +153,31 @@ export default async function MediaPage({ params }: Readonly<Props>) {
   const contentId = Number(id)
   const queryClient = await createPrefetchedQueryClient(mediaType, contentId)
 
+  // Generate blur placeholder for the hero backdrop image
+  interface MediaSummaryForBlur {
+    backdrop_path?: string | null
+  }
+
+  const detailsOpts =
+    mediaType === 'movie'
+      ? movieDetailsOptions({ path: { movie_id: contentId } })
+      : tvSeriesDetailsOptions({ path: { series_id: contentId } })
+
+  const mediaData = queryClient.getQueryData<MediaSummaryForBlur>(
+    detailsOpts.queryKey
+  )
+  const heroBlurDataURL = mediaData?.backdrop_path
+    ? await getBlurDataURL(mediaData.backdrop_path)
+    : undefined
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       {/* 1. Hero — full width, outside Container */}
-      <MediaHero id={contentId} mediaType={mediaType} />
+      <MediaHero
+        id={contentId}
+        mediaType={mediaType}
+        heroBlurDataURL={heroBlurDataURL}
+      />
 
       {/* 2. Synopsis */}
       <Synopsis id={contentId} mediaType={mediaType} />

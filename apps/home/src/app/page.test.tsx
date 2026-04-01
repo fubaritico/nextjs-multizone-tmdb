@@ -20,6 +20,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
     QueryClient: vi.fn().mockImplementation(() => ({
       prefetchQuery: vi.fn().mockResolvedValue(undefined),
       getDefaultOptions: vi.fn().mockReturnValue({}),
+      getQueryData: vi.fn().mockReturnValue(undefined),
     })),
     dehydrate: vi.fn().mockReturnValue({}),
     HydrationBoundary: ({ children }: { children: React.JSX.Element }) => (
@@ -27,6 +28,10 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
     ),
   }
 })
+
+vi.mock('../lib/blur', () => ({
+  getBlurDataMap: vi.fn().mockResolvedValue({}),
+}))
 
 // Mock child section components so this test stays focused on the page shell.
 vi.mock('../components/HeroSection/HeroSection', () => ({

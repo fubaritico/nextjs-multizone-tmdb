@@ -34,8 +34,15 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run tests with coverage
+        run: pnpm coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ github.sha }}
+          path: coverage/
+          retention-days: 1
 
   build:
     needs: [lint, type-check, test]

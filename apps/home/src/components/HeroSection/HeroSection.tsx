@@ -10,9 +10,15 @@ import {
 } from '@vite-mf-monorepo/ui'
 import { HeroImage } from '@vite-mf-monorepo/ui/next'
 
+import type { BlurDataMap } from '../../lib/blur'
 import type { MovieNowPlayingListResponse } from '@fubar-it-co/tmdb-client'
 import type { UseQueryResult } from '@tanstack/react-query'
 import type { FC } from 'react'
+
+interface HeroSectionProps {
+  /** TMDB backdrop_path → base64 blur data URL, generated server-side */
+  heroBlurMap?: BlurDataMap
+}
 
 /**
  * HeroSection displays an auto-rotating carousel of now-playing movies as a
@@ -25,7 +31,7 @@ import type { FC } from 'react'
  * parent Server Component (page.tsx) — on first render the cache is always a
  * HIT so no loading state is shown to the user.
  */
-const HeroSection: FC = () => {
+const HeroSection: FC<HeroSectionProps> = ({ heroBlurMap }) => {
   const { data, isLoading, error } = useQuery(
     movieNowPlayingListOptions()
   ) as UseQueryResult<MovieNowPlayingListResponse>
@@ -60,7 +66,15 @@ const HeroSection: FC = () => {
             className="hm:block hm:no-underline"
           >
             <div className="hm:relative hm:aspect-[21/9] hm:lg:max-h-[440px] hm:w-full hm:overflow-hidden">
-              <HeroImage backdropPath={item.backdrop_path} title={item.title} />
+              <HeroImage
+                backdropPath={item.backdrop_path}
+                title={item.title}
+                blurDataURL={
+                  item.backdrop_path
+                    ? heroBlurMap?.[item.backdrop_path]
+                    : undefined
+                }
+              />
 
               {/* Content Overlay */}
               <div className="hm:absolute hm:left-1/2 hm:-translate-x-1/2 hm:z-2 hm:w-full hm:max-w-screen-xl hm:px-4 hm:sm:px-5 hm:md:px-5 hm:lg:px-5 hm:bottom-8 hm:sm:bottom-8 hm:md:bottom-8 hm:lg:bottom-10 hm:flex hm:justify-start hm:items-end">

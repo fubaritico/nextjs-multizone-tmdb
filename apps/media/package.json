@@ -26,7 +26,8 @@
     "clsx": "catalog:",
     "next": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "sharp": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",

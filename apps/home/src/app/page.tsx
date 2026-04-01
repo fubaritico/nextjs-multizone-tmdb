@@ -17,6 +17,7 @@ import FreeToWatchSection from '../components/FreeToWatchSection/FreeToWatchSect
 import HeroSection from '../components/HeroSection/HeroSection'
 import PopularSection from '../components/PopularSection/PopularSection'
 import TrendingSection from '../components/TrendingSection/TrendingSection'
+import { getBlurDataMap } from '../lib/blur'
 import {
   CACHE_TIME_MS,
   DEFAULT_FREE_TO_WATCH_MEDIA_TYPE,
@@ -24,6 +25,7 @@ import {
   DEFAULT_TRENDING_TIME_WINDOW,
 } from '../types/home'
 
+import type { MovieNowPlayingListResponse } from '@fubar-it-co/tmdb-client'
 import type { Metadata } from 'next'
 
 /** 24h ISR — must match CACHE_TIME_S from types/home.ts */
@@ -81,10 +83,18 @@ async function getQueryClient() {
 export default async function HomePage() {
   const queryClient = await getQueryClient()
 
+  // Generate blur placeholders for hero backdrop images (LCP optimisation)
+  const nowPlaying = queryClient.getQueryData<MovieNowPlayingListResponse>(
+    movieNowPlayingListOptions().queryKey
+  )
+  const heroBlurMap = await getBlurDataMap(
+    nowPlaying?.results?.slice(0, 6).map((m) => m.backdrop_path) ?? []
+  )
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       {/* Hero Section - Full width, no container */}
-      <HeroSection />
+      <HeroSection heroBlurMap={heroBlurMap} />
 
       {/* Trending Section - White background */}
       <Container variant="default">

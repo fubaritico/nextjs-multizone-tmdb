@@ -67,6 +67,24 @@ describe('PopularMovieCarousel', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    server.use(popularHandlers.popularMoviesLoading)
+
+    renderWithReactQuery(<PopularMovieCarousel />)
+
+    expect(screen.getByTestId('carousel-loading')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(popularHandlers.popularMoviesError)
+
+    renderWithReactQuery(<PopularMovieCarousel />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders links to movie detail pages', async () => {
     server.use(popularHandlers.popularMovies)
 

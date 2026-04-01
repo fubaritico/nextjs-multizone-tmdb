@@ -82,6 +82,24 @@ describe('TrendingCarousel', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    server.use(trendingHandlers.trendingDayLoading)
+
+    renderWithReactQuery(<TrendingCarousel timeWindow="day" />)
+
+    expect(screen.getByTestId('carousel-loading')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(trendingHandlers.trendingDayError)
+
+    renderWithReactQuery(<TrendingCarousel timeWindow="day" />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders links with correct movie/tv routes', async () => {
     server.use(trendingHandlers.trendingDay)
 

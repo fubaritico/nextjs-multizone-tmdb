@@ -67,6 +67,24 @@ describe('FreeToWatchMovieCarousel', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    server.use(freeToWatchHandlers.freeToWatchMoviesLoading)
+
+    renderWithReactQuery(<FreeToWatchMovieCarousel />)
+
+    expect(screen.getByTestId('carousel-loading')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(freeToWatchHandlers.freeToWatchMoviesError)
+
+    renderWithReactQuery(<FreeToWatchMovieCarousel />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders links to movie detail pages', async () => {
     server.use(freeToWatchHandlers.freeToWatchMovies)
 

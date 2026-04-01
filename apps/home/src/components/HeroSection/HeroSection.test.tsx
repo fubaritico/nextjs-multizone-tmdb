@@ -68,6 +68,24 @@ describe('HeroSection', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    server.use(nowPlayingHandlers.nowPlayingMoviesLoading)
+
+    renderWithReactQuery(<HeroSection />)
+
+    expect(screen.getByTestId('skeleton')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(nowPlayingHandlers.nowPlayingMoviesError)
+
+    renderWithReactQuery(<HeroSection />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders the movie overview text', async () => {
     server.use(nowPlayingHandlers.nowPlayingMovies)
 

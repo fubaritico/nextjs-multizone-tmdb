@@ -16,6 +16,8 @@ jobs:
 
       - name: Run tests with coverage
         run: pnpm coverage
+        env:
+          VITE_TMDB_API_TOKEN: ${{ secrets.VITE_TMDB_API_TOKEN }}
 
       - name: Initialize SonarCloud with main branch
         uses: SonarSource/sonarqube-scan-action@v6

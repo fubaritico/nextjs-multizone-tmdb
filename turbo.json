@@ -18,6 +18,10 @@
     "test": {
       "dependsOn": ["^test"]
     },
+    "coverage": {
+      "dependsOn": ["^coverage"],
+      "outputs": ["coverage/**"]
+    },
     "start": {
       "persistent": true,
       "cache": false,

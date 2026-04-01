@@ -17,7 +17,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-${{ github.sha }}
-          path: coverage/
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6

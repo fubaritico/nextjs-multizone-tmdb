@@ -13,7 +13,7 @@
     "type-check": "turbo type-check",
     "test": "turbo test",
     "test:watch": "vitest",
-    "coverage": "vitest run --coverage",
+    "coverage": "turbo coverage",
     "reset": "./scripts/reset-project.sh",
     "generate-mcp": "tsx scripts/generate-mcp.ts",
     "prepare": "husky"

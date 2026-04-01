@@ -1,7 +1,9 @@
 import { screen, waitFor } from '@testing-library/react'
 import {
   mockMovieDetails,
+  mockTVSeriesDetails,
   movieDetailsHandlers,
+  tvSeriesDetailsHandlers,
 } from '@vite-mf-monorepo/shared/mocks'
 import { renderWithReactQuery } from '@vite-mf-monorepo/shared/test-utils'
 import { setupServer } from 'msw/node'
@@ -128,6 +130,44 @@ describe('MediaHero', () => {
       expect(
         screen.getByText('Failed to load media details')
       ).toBeInTheDocument()
+    })
+  })
+
+  it('renders TV series title', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetails)
+
+    renderWithReactQuery(<MediaHero id={549} mediaType="tv" />)
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(mockTVSeriesDetails.name ?? '')
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('renders season count for TV series', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetails)
+
+    renderWithReactQuery(<MediaHero id={549} mediaType="tv" />)
+
+    const seasons = mockTVSeriesDetails.number_of_seasons ?? 0
+    const label = `${String(seasons)} Season${seasons > 1 ? 's' : ''}`
+
+    await waitFor(() => {
+      expect(screen.getByText(label)).toBeInTheDocument()
+    })
+  })
+
+  it('renders episode count for TV series', async () => {
+    server.use(tvSeriesDetailsHandlers.tvSeriesDetails)
+
+    renderWithReactQuery(<MediaHero id={549} mediaType="tv" />)
+
+    const episodes = mockTVSeriesDetails.number_of_episodes ?? 0
+    const label = `${String(episodes)} Episode${episodes > 1 ? 's' : ''}`
+
+    await waitFor(() => {
+      expect(screen.getByText(label)).toBeInTheDocument()
     })
   })
 })

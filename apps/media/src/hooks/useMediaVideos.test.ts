@@ -1,7 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react'
 import {
   mockMovieVideos,
+  mockTVSeriesVideos,
   movieVideosHandlers,
+  tvSeriesVideosHandlers,
 } from '@vite-mf-monorepo/shared/mocks'
 import { ReactQueryWrapper } from '@vite-mf-monorepo/shared/test-utils'
 import { setupServer } from 'msw/node'
@@ -9,6 +11,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 
 import { useMediaVideos } from './useMediaVideos'
 import { useMovieVideos } from './useMovieVideos'
+import { useTVVideos } from './useTVVideos'
 
 const server = setupServer()
 
@@ -40,6 +43,24 @@ describe('useMovieVideos', () => {
   })
 })
 
+describe('useTVVideos', () => {
+  it('fetches TV series videos', async () => {
+    server.use(tvSeriesVideosHandlers.tvSeriesVideos)
+
+    const { result } = renderHook(() => useTVVideos(549), {
+      wrapper: ReactQueryWrapper,
+    })
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true)
+    })
+
+    expect(result.current.data?.results?.[0]?.key).toBe(
+      mockTVSeriesVideos.results?.[0]?.key
+    )
+  })
+})
+
 describe('useMediaVideos', () => {
   it('returns movie videos when mediaType is movie', async () => {
     server.use(movieVideosHandlers.movieVideos)
@@ -54,6 +75,22 @@ describe('useMediaVideos', () => {
 
     expect(result.current.data?.results?.[0]?.key).toBe(
       mockMovieVideos.results?.[0]?.key
+    )
+  })
+
+  it('returns TV videos when mediaType is tv', async () => {
+    server.use(tvSeriesVideosHandlers.tvSeriesVideos)
+
+    const { result } = renderHook(() => useMediaVideos('tv', 549), {
+      wrapper: ReactQueryWrapper,
+    })
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true)
+    })
+
+    expect(result.current.data?.results?.[0]?.key).toBe(
+      mockTVSeriesVideos.results?.[0]?.key
     )
   })
 })

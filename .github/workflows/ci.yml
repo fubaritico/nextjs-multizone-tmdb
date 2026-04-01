@@ -11,19 +11,20 @@ jobs:
     uses: ./.github/workflows/validate.yml
     secrets: inherit
 
-  # sonarqube:
-  #   needs: [validate]
-  #   uses: ./.github/workflows/sonarqube.yml
-  #   secrets: inherit
+  sonarqube:
+    needs: [validate]
+    uses: ./.github/workflows/sonarqube.yml
+    secrets: inherit
 
   quality-gate:
     runs-on: ubuntu-latest
-    needs: [validate]
+    needs: [validate, sonarqube]
     if: always()
     steps:
       - name: Check all checks passed
         run: |
-          if [ "${{ needs.validate.result }}" != "success" ]; then
+          if [ "${{ needs.validate.result }}" != "success" ] || \
+             [ "${{ needs.sonarqube.result }}" != "success" ]; then
             echo "Quality gate failed"
             exit 1
           fi

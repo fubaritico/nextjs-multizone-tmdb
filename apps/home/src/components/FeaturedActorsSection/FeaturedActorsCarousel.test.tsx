@@ -76,6 +76,29 @@ describe('FeaturedActorsCarousel', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    server.use(http.get('*/person/popular*', () => new Promise(() => {})))
+
+    renderWithReactQuery(<FeaturedActorsCarousel />)
+
+    expect(screen.getByTestId('carousel-loading')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(
+      http.get('*/person/popular*', () =>
+        HttpResponse.json({ status_message: 'Server error' }, { status: 500 })
+      )
+    )
+
+    renderWithReactQuery(<FeaturedActorsCarousel />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders links to actor detail pages', async () => {
     renderWithReactQuery(<FeaturedActorsCarousel />)
 

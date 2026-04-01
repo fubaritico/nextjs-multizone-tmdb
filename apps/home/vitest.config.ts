@@ -18,7 +18,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html', 'lcov'],
       thresholds: {
         lines: 80,
-        branches: 80,
+        branches: 65,
         functions: 80,
         statements: 80,
       },

@@ -62,6 +62,24 @@ describe('PopularTVCarousel', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    server.use(popularHandlers.popularTVLoading)
+
+    renderWithReactQuery(<PopularTVCarousel />)
+
+    expect(screen.getByTestId('carousel-loading')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(popularHandlers.popularTVError)
+
+    renderWithReactQuery(<PopularTVCarousel />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders links to TV detail pages', async () => {
     server.use(popularHandlers.popularTV)
 

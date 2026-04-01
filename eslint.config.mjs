@@ -16,7 +16,7 @@ export default defineConfig([
     'out/**',
     'build/**',
     'dist/**',
-    'coverage/**',
+    '**/coverage/**',
     '**/next-env.d.ts',
     'pnpm-lock.yaml',
     'commitlint.config.js',

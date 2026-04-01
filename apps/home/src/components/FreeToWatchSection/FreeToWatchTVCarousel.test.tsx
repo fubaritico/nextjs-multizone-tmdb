@@ -65,6 +65,24 @@ describe('FreeToWatchTVCarousel', () => {
     })
   })
 
+  it('shows loading skeleton while fetching', () => {
+    server.use(freeToWatchHandlers.freeToWatchTVLoading)
+
+    renderWithReactQuery(<FreeToWatchTVCarousel />)
+
+    expect(screen.getByTestId('carousel-loading')).toBeInTheDocument()
+  })
+
+  it('shows error message on fetch failure', async () => {
+    server.use(freeToWatchHandlers.freeToWatchTVError)
+
+    renderWithReactQuery(<FreeToWatchTVCarousel />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('carousel-error')).toBeInTheDocument()
+    })
+  })
+
   it('renders links to TV detail pages', async () => {
     server.use(freeToWatchHandlers.freeToWatchTV)
 

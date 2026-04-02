@@ -80,14 +80,14 @@ const PhotoViewer: FC<PhotoViewerProps> = ({
         />
 
         {/* Image */}
-        <div className="mda:relative mda:z-[1] mda:w-full mda:h-[80vh] mda:max-w-[1280px]">
+        <div className="mda:relative mda:z-[1] mda:w-full mda:h-[80vh] mda:max-w-[1280px] mda:pointer-events-none">
           <Image
             src={`https://image.tmdb.org/t/p/w1280${image.file_path}`}
             alt={`Backdrop ${String(currentIndex + 1)}`}
             fill
             loading="eager"
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="mda:object-contain"
+            className="mda:object-contain mda:rounded-md"
           />
         </div>
 

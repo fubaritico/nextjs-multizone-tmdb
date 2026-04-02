@@ -57,7 +57,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /**
  * Standalone page for a single backdrop photo.
+ *
  * Hard-navigation target when visiting /{mediaType}/{id}/photos/{index} directly.
+ * Renders with a black background so the modal overlay doesn't reveal an empty page.
  */
 export default async function PhotoPage({ params }: Readonly<Props>) {
   const { mediaType: rawMediaType, id, index } = await params

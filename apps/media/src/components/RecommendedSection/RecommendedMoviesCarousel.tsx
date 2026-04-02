@@ -1,6 +1,5 @@
 'use client'
 
-import { getImageUrl } from '@vite-mf-monorepo/shared'
 import {
   Carousel,
   CarouselItem,
@@ -45,9 +44,7 @@ const RecommendedMoviesCarousel: FC<RecommendedMoviesCarouselProps> = ({
   return (
     <Carousel rounded={false}>
       {data.results.slice(0, 20).map((item) => {
-        const posterUrl = item.poster_path
-          ? getImageUrl(item.poster_path, 'w92')
-          : ''
+        const posterUrl = item.poster_path ?? ''
         const year = item.release_date
           ? new Date(item.release_date).getFullYear()
           : null

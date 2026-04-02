@@ -18,15 +18,13 @@ const RecommendedSection: FC<RecommendedSectionProps> = ({ id, mediaType }) => {
   return (
     <Container variant="default">
       <Section maxWidth="xl" spacing="md">
-        <div className="mda:flex mda:flex-col mda:gap-4">
-          <Typography variant="h2">Recommended for you</Typography>
+        <Typography variant="h2">Recommended for you</Typography>
 
-          {mediaType === 'movie' ? (
-            <RecommendedMoviesCarousel id={id} />
-          ) : (
-            <RecommendedTVCarousel id={id} />
-          )}
-        </div>
+        {mediaType === 'movie' ? (
+          <RecommendedMoviesCarousel id={id} />
+        ) : (
+          <RecommendedTVCarousel id={id} />
+        )}
       </Section>
     </Container>
   )

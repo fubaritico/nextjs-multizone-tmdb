@@ -28,17 +28,15 @@ const Crew: FC<CrewProps> = ({ id, mediaType }) => {
 
   if (isLoading) {
     return (
-      <Container variant="muted">
-        <Section maxWidth="xl" spacing="lg">
-          <div data-testid="crew">
-            <Typography variant="h2" className="mda:mb-6">
-              Crew
-            </Typography>
-            <div className="mda:flex mda:gap-6">
-              <Skeleton variant="circle" width="80px" height="80px" />
-              <Skeleton variant="circle" width="80px" height="80px" />
-              <Skeleton variant="circle" width="80px" height="80px" />
-            </div>
+      <Container variant="default">
+        <Section maxWidth="xl" spacing="lg" data-testid="crew">
+          <Typography variant="h2" className="mda:mb-6">
+            Crew
+          </Typography>
+          <div className="mda:flex mda:gap-6">
+            <Skeleton variant="circle" width="80px" height="80px" />
+            <Skeleton variant="circle" width="80px" height="80px" />
+            <Skeleton variant="circle" width="80px" height="80px" />
           </div>
         </Section>
       </Container>
@@ -59,41 +57,39 @@ const Crew: FC<CrewProps> = ({ id, mediaType }) => {
   }
 
   return (
-    <Container variant="muted">
-      <Section maxWidth="xl" spacing="lg">
-        <div data-testid="crew">
-          <Typography variant="h2" className="mda:mb-6">
-            Crew
-          </Typography>
-          <div className="mda:flex mda:flex-row mda:flex-wrap mda:gap-6 mda:justify-start">
-            {director && (
-              <Talent
-                name={director.name ?? 'Unknown'}
-                role="Director"
-                imageSrc={
-                  director.profile_path
-                    ? getImageUrl(director.profile_path, 'w185')
-                    : undefined
-                }
-                variant="vertical"
-                size="3xl"
-              />
-            )}
-            {writers.map((writer) => (
-              <Talent
-                key={writer.id}
-                name={writer.name ?? 'Unknown'}
-                role={writer.job ?? 'Writer'}
-                imageSrc={
-                  writer.profile_path
-                    ? getImageUrl(writer.profile_path, 'w185')
-                    : undefined
-                }
-                variant="vertical"
-                size="3xl"
-              />
-            ))}
-          </div>
+    <Container variant="default">
+      <Section maxWidth="xl" spacing="lg" data-testid="crew">
+        <Typography variant="h2" className="mda:mb-6">
+          Crew
+        </Typography>
+        <div className="mda:flex mda:flex-row mda:flex-wrap mda:gap-6 mda:justify-start">
+          {director && (
+            <Talent
+              name={director.name ?? 'Unknown'}
+              role="Director"
+              imageSrc={
+                director.profile_path
+                  ? getImageUrl(director.profile_path, 'w185')
+                  : undefined
+              }
+              variant="vertical"
+              size="3xl"
+            />
+          )}
+          {writers.map((writer) => (
+            <Talent
+              key={writer.id}
+              name={writer.name ?? 'Unknown'}
+              role={writer.job ?? 'Writer'}
+              imageSrc={
+                writer.profile_path
+                  ? getImageUrl(writer.profile_path, 'w185')
+                  : undefined
+              }
+              variant="vertical"
+              size="3xl"
+            />
+          ))}
         </div>
       </Section>
     </Container>

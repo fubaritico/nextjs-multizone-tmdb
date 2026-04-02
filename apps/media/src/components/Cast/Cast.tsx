@@ -39,7 +39,7 @@ const Cast: FC<CastProps> = ({ id, mediaType }) => {
           <div className="mda:grid mda:grid-cols-2 mda:gap-6">
             {Array.from({ length: 10 }).map((_, i) => (
               <Skeleton
-                key={i}
+                key={String(i) + '-cast-skeleton'}
                 variant="rectangle"
                 width="100%"
                 height="64px"
@@ -77,16 +77,18 @@ const Cast: FC<CastProps> = ({ id, mediaType }) => {
             />
           ))}
         </div>
-        <Button
-          as="zone-link"
-          href="#"
-          variant="outline"
-          size="sm"
-          icon="Users"
-          iconPosition="left"
-        >
-          Whole cast
-        </Button>
+        <footer>
+          <Button
+            as="zone-link"
+            href="#"
+            variant="outline"
+            size="sm"
+            icon="Users"
+            iconPosition="left"
+          >
+            Whole cast
+          </Button>
+        </footer>
       </Section>
     </Container>
   )

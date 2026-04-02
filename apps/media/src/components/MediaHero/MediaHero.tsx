@@ -74,9 +74,6 @@ const MediaHero: FC<MediaHeroProps> = ({ id, mediaType, heroBlurDataURL }) => {
           blurDataURL={heroBlurDataURL}
         />
 
-        {/* Gradient Overlay */}
-        <div className="mda:absolute mda:inset-0 mda:bg-gradient-to-t mda:from-black/80 mda:via-black/40 mda:to-transparent mda:z-1 mda:top-0 mda:left-0 mda:right-0 mda:bottom-0" />
-
         {/* Content Overlay */}
         <div
           className={clsx(

@@ -27,17 +27,12 @@ const Synopsis: FC<SynopsisProps> = ({ id, mediaType }) => {
   if (isLoading) {
     return (
       <Container variant="default">
-        <Section spacing="lg" maxWidth="xl">
-          <div
-            data-testid="synopsis"
-            className="mda:flex mda:flex-col mda:gap-4"
-          >
-            <Typography variant="h2">Synopsis</Typography>
-            <div className="mda:flex mda:flex-col mda:gap-2">
-              <Skeleton variant="line" width="100%" />
-              <Skeleton variant="line" width="100%" />
-              <Skeleton variant="line" width="75%" />
-            </div>
+        <Section spacing="lg" maxWidth="xl" data-testid="synopsis">
+          <Typography variant="h2">Synopsis</Typography>
+          <div className="mda:flex mda:flex-col mda:gap-2">
+            <Skeleton variant="line" width="100%" />
+            <Skeleton variant="line" width="100%" />
+            <Skeleton variant="line" width="75%" />
           </div>
         </Section>
       </Container>
@@ -48,11 +43,9 @@ const Synopsis: FC<SynopsisProps> = ({ id, mediaType }) => {
 
   return (
     <Container variant="default">
-      <Section spacing="lg" maxWidth="xl">
-        <div data-testid="synopsis" className="mda:flex mda:flex-col mda:gap-4">
-          <Typography variant="h2">Synopsis</Typography>
-          <Typography variant="body">{data.overview}</Typography>
-        </div>
+      <Section spacing="lg" maxWidth="xl" data-testid="synopsis">
+        <Typography variant="h2">Synopsis</Typography>
+        <Typography variant="body">{data.overview}</Typography>
       </Section>
     </Container>
   )

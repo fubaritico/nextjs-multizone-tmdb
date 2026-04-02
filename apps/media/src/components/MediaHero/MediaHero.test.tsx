@@ -1,7 +1,9 @@
 import { screen, waitFor } from '@testing-library/react'
 import {
+  mockMovieCredits,
   mockMovieDetails,
   mockTVSeriesDetails,
+  movieCreditsHandlers,
   movieDetailsHandlers,
   tvSeriesDetailsHandlers,
 } from '@vite-mf-monorepo/shared/mocks'
@@ -168,6 +170,43 @@ describe('MediaHero', () => {
 
     await waitFor(() => {
       expect(screen.getByText(label)).toBeInTheDocument()
+    })
+  })
+
+  it('renders the director name and role label', async () => {
+    server.use(
+      movieDetailsHandlers.movieDetails,
+      movieCreditsHandlers.movieCredits
+    )
+
+    renderWithReactQuery(<MediaHero id={278} mediaType="movie" />)
+
+    const director = mockMovieCredits.crew?.find((c) => c.job === 'Director')
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(director?.name ?? '').length
+      ).toBeGreaterThanOrEqual(1)
+      expect(screen.getByText('Director')).toBeInTheDocument()
+    })
+  })
+
+  it('renders writer roles', async () => {
+    server.use(
+      movieDetailsHandlers.movieDetails,
+      movieCreditsHandlers.movieCredits
+    )
+
+    renderWithReactQuery(<MediaHero id={278} mediaType="movie" />)
+
+    const writers = mockMovieCredits.crew
+      ?.filter((c) => c.department === 'Writing')
+      .slice(0, 2)
+
+    await waitFor(() => {
+      for (const writer of writers ?? []) {
+        expect(screen.getByText(writer.job ?? '')).toBeInTheDocument()
+      }
     })
   })
 })

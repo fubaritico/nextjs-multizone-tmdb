@@ -4,7 +4,6 @@
 @import '@vite-mf-monorepo/ui/styles.css';
 
 @layer components {
-    /* Alterner les backgrounds des sections dans la page Media */
     .media-section:nth-of-type(odd) {
         background-color: var(--mda-color-muted);
     }

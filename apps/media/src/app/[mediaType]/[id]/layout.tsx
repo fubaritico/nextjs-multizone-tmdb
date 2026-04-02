@@ -12,8 +12,8 @@ interface MediaLayoutProps {
  * Layout for the media detail route (`/movie/[id]` or `/tv/[id]`).
  *
  * Renders both the main content and the parallel `@modal` slot so that
- * intercepted photo routes can display the PhotoViewer as an overlay without
- * unmounting the underlying page.
+ * photo routes display the PhotoViewer as an overlay without unmounting
+ * the underlying page.
  */
 export default function MediaLayout({
   children,

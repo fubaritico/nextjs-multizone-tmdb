@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useCallback, useMemo } from 'react'
 
 import { useMediaImages } from '@/hooks'
 import { toPhotoId } from '@/types/media'
@@ -24,8 +25,7 @@ interface StandalonePhotoViewerProps {
  * Client wrapper for the standalone photo page.
  *
  * Reads images from the hydrated TanStack Query cache and provides
- * close / prev / next navigation via `router.back()` and `router.replace()`.
- * Resolves the current index from the photo id via `findIndex`, like the legacy.
+ * URL-synced navigation. Prev/next push new URLs to browser history.
  */
 const StandalonePhotoViewer: FC<StandalonePhotoViewerProps> = ({
   id,
@@ -35,45 +35,53 @@ const StandalonePhotoViewer: FC<StandalonePhotoViewerProps> = ({
   const router = useRouter()
   const { data } = useMediaImages(mediaType, id)
 
-  const backdrops = (data?.backdrops ?? []).flatMap((b) =>
-    b.file_path ? [{ file_path: b.file_path }] : []
+  const backdrops = useMemo(
+    () =>
+      (data?.backdrops ?? []).flatMap((b) =>
+        b.file_path ? [{ file_path: b.file_path }] : []
+      ),
+    [data?.backdrops]
   )
+
+  const currentIndex = useMemo(() => {
+    const idx = backdrops.findIndex((b) => toPhotoId(b.file_path) === photoId)
+    return idx === -1 ? 0 : idx
+  }, [backdrops, photoId])
+
+  const canPrev = currentIndex > 0
+  const canNext = currentIndex < backdrops.length - 1
+
+  /** Navigates to the previous photo by pushing its URL to history. */
+  const handlePrev = useCallback(() => {
+    if (!canPrev) return
+    const prevId = toPhotoId(backdrops[currentIndex - 1].file_path)
+    router.push(`/${mediaType}/${String(id)}/photos/${prevId}`)
+  }, [canPrev, backdrops, currentIndex, mediaType, id, router])
+
+  /** Navigates to the next photo by pushing its URL to history. */
+  const handleNext = useCallback(() => {
+    if (!canNext) return
+    const nextId = toPhotoId(backdrops[currentIndex + 1].file_path)
+    router.push(`/${mediaType}/${String(id)}/photos/${nextId}`)
+  }, [canNext, backdrops, currentIndex, mediaType, id, router])
+
+  /** Closes the viewer by navigating back to the media detail page. */
+  const handleClose = useCallback(() => {
+    router.push(`/${mediaType}/${String(id)}`)
+  }, [router, mediaType, id])
 
   if (!backdrops.length) return null
-
-  const currentIndex = backdrops.findIndex(
-    (b) => toPhotoId(b.file_path) === photoId
-  )
-  const safeIndex = currentIndex === -1 ? 0 : currentIndex
-  const basePath = `/${mediaType}/${String(id)}/photos`
-
-  const handleClose = () => {
-    router.back()
-  }
-
-  const handlePrev =
-    safeIndex > 0
-      ? () => {
-          const prevId = toPhotoId(backdrops[safeIndex - 1].file_path)
-          router.replace(`${basePath}/${prevId}`)
-        }
-      : undefined
-
-  const handleNext =
-    safeIndex < backdrops.length - 1
-      ? () => {
-          const nextId = toPhotoId(backdrops[safeIndex + 1].file_path)
-          router.replace(`${basePath}/${nextId}`)
-        }
-      : undefined
 
   return (
     <PhotoViewer
       images={backdrops}
-      initialIndex={safeIndex}
-      onClose={handleClose}
+      currentIndex={currentIndex}
+      canPrev={canPrev}
+      canNext={canNext}
       onPrev={handlePrev}
       onNext={handleNext}
+      onClose={handleClose}
+      opaqueBackdrop
     />
   )
 }

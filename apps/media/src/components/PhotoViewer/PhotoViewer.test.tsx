@@ -47,33 +47,39 @@ afterEach(() => {
 })
 
 describe('PhotoViewer', () => {
-  describe('rendering', () => {
-    it('opens the modal with all images', () => {
-      const onClose = vi.fn()
+  const defaultProps = {
+    images: IMAGES,
+    currentIndex: 0,
+    canPrev: false,
+    canNext: true,
+    onPrev: vi.fn(),
+    onNext: vi.fn(),
+    onClose: vi.fn(),
+  }
 
-      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
+  describe('rendering', () => {
+    it('renders the image at currentIndex', () => {
+      render(<PhotoViewer {...defaultProps} currentIndex={1} canPrev canNext />)
 
       expect(screen.getByRole('dialog')).toBeInTheDocument()
-      expect(screen.getAllByRole('img')).toHaveLength(IMAGES.length)
+      expect(screen.getByRole('img', { name: 'Backdrop 2' })).toHaveAttribute(
+        'src',
+        'https://image.tmdb.org/t/p/w1280/photo2.jpg'
+      )
     })
 
     it('renders correct image src with w1280 size', () => {
-      const onClose = vi.fn()
+      render(<PhotoViewer {...defaultProps} />)
 
-      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
-
-      const img = screen.getByRole('img', { name: 'Backdrop 1' })
-      expect(img).toHaveAttribute(
+      expect(screen.getByRole('img', { name: 'Backdrop 1' })).toHaveAttribute(
         'src',
         'https://image.tmdb.org/t/p/w1280/photo1.jpg'
       )
     })
 
     it('renders nothing when images array is empty', () => {
-      const onClose = vi.fn()
-
       const { container } = render(
-        <PhotoViewer images={[]} initialIndex={0} onClose={onClose} />
+        <PhotoViewer {...defaultProps} images={[]} />
       )
 
       expect(container).toBeEmptyDOMElement()
@@ -85,41 +91,37 @@ describe('PhotoViewer', () => {
       const user = userEvent.setup()
       const onClose = vi.fn()
 
-      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
+      render(<PhotoViewer {...defaultProps} onClose={onClose} />)
 
-      await user.click(screen.getByRole('button', { name: /close/i }))
+      await user.click(screen.getByRole('button', { name: 'Close' }))
 
       expect(onClose).toHaveBeenCalledOnce()
     })
-
-    it('calls onClose when clicking outside the image', async () => {
-      const user = userEvent.setup()
-      const onClose = vi.fn()
-
-      render(<PhotoViewer images={IMAGES} initialIndex={0} onClose={onClose} />)
-
-      // Click a CarouselItem div (not the img) — should trigger close
-      const carouselItems = screen.getAllByRole('img')
-      const parentDiv = carouselItems[0]?.closest('[class]')?.parentElement
-      if (parentDiv) {
-        await user.click(parentDiv)
-        expect(onClose).toHaveBeenCalled()
-      }
-    })
   })
 
-  describe('navigation callbacks', () => {
+  describe('navigation', () => {
+    it('calls onNext when next arrow is clicked', async () => {
+      const user = userEvent.setup()
+      const onNext = vi.fn()
+
+      render(<PhotoViewer {...defaultProps} onNext={onNext} />)
+
+      await user.click(screen.getByRole('button', { name: /next/i }))
+
+      expect(onNext).toHaveBeenCalledOnce()
+    })
+
     it('calls onPrev when prev arrow is clicked', async () => {
       const user = userEvent.setup()
       const onPrev = vi.fn()
 
       render(
         <PhotoViewer
-          images={IMAGES}
-          initialIndex={1}
-          onClose={vi.fn()}
+          {...defaultProps}
+          currentIndex={2}
+          canPrev
+          canNext={false}
           onPrev={onPrev}
-          onNext={vi.fn()}
         />
       )
 
@@ -128,49 +130,56 @@ describe('PhotoViewer', () => {
       expect(onPrev).toHaveBeenCalledOnce()
     })
 
-    it('calls onNext when next arrow is clicked', async () => {
-      const user = userEvent.setup()
-      const onNext = vi.fn()
-
-      render(
-        <PhotoViewer
-          images={IMAGES}
-          initialIndex={1}
-          onClose={vi.fn()}
-          onPrev={vi.fn()}
-          onNext={onNext}
-        />
-      )
-
-      await user.click(screen.getByRole('button', { name: /next/i }))
-
-      expect(onNext).toHaveBeenCalledOnce()
-    })
-
-    it('disables prev arrow when onPrev is undefined', () => {
-      render(
-        <PhotoViewer
-          images={IMAGES}
-          initialIndex={0}
-          onClose={vi.fn()}
-          onNext={vi.fn()}
-        />
-      )
+    it('disables prev arrow when canPrev is false', () => {
+      render(<PhotoViewer {...defaultProps} canPrev={false} />)
 
       expect(screen.getByRole('button', { name: /previous/i })).toBeDisabled()
     })
 
-    it('disables next arrow when onNext is undefined', () => {
+    it('disables next arrow when canNext is false', () => {
+      render(<PhotoViewer {...defaultProps} currentIndex={2} canNext={false} />)
+
+      expect(screen.getByRole('button', { name: /next/i })).toBeDisabled()
+    })
+
+    it('calls onNext on ArrowRight key', async () => {
+      const user = userEvent.setup()
+      const onNext = vi.fn()
+
+      render(<PhotoViewer {...defaultProps} onNext={onNext} />)
+
+      await user.keyboard('{ArrowRight}')
+
+      expect(onNext).toHaveBeenCalledOnce()
+    })
+
+    it('calls onPrev on ArrowLeft key', async () => {
+      const user = userEvent.setup()
+      const onPrev = vi.fn()
+
       render(
         <PhotoViewer
-          images={IMAGES}
-          initialIndex={2}
-          onClose={vi.fn()}
-          onPrev={vi.fn()}
+          {...defaultProps}
+          currentIndex={1}
+          canPrev
+          onPrev={onPrev}
         />
       )
 
-      expect(screen.getByRole('button', { name: /next/i })).toBeDisabled()
+      await user.keyboard('{ArrowLeft}')
+
+      expect(onPrev).toHaveBeenCalledOnce()
+    })
+
+    it('does not call onPrev on ArrowLeft when canPrev is false', async () => {
+      const user = userEvent.setup()
+      const onPrev = vi.fn()
+
+      render(<PhotoViewer {...defaultProps} canPrev={false} onPrev={onPrev} />)
+
+      await user.keyboard('{ArrowLeft}')
+
+      expect(onPrev).not.toHaveBeenCalled()
     })
   })
 })

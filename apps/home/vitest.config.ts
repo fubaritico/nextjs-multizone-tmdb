@@ -28,6 +28,7 @@ export default defineConfig({
         'coverage/',
         '*.config.*',
         '**/*.d.ts',
+        'src/app/layout.tsx',
       ],
     },
     server: {

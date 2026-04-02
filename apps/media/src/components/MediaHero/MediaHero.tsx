@@ -20,7 +20,7 @@ interface MediaHeroProps {
   heroBlurDataURL?: string
 }
 
-/**
+/**pnpm
  * Full-width hero banner with backdrop image, title, metadata, and genre badges.
  *
  * Unified component handling both Movie and TV series details via the

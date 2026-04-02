@@ -185,11 +185,11 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       {/* 3. Crew */}
       <Crew id={contentId} mediaType={mediaType} />
 
-      {/* 4. Cast */}
-      <Cast id={contentId} mediaType={mediaType} />
-
-      {/* 5. Photos */}
+      {/* 4. Photos */}
       <Photos id={contentId} mediaType={mediaType} />
+
+      {/* 5. Cast */}
+      <Cast id={contentId} mediaType={mediaType} />
 
       {/* 6. Trailers */}
       <TrailersSection id={contentId} mediaType={mediaType} />

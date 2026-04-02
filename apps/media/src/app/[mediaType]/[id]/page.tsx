@@ -20,7 +20,6 @@ import {
 import { notFound } from 'next/navigation'
 
 import Cast from '@/components/Cast'
-import Crew from '@/components/Crew'
 import MediaHero from '@/components/MediaHero'
 import Photos from '@/components/Photos'
 import { RecommendedSection } from '@/components/RecommendedSection'
@@ -135,14 +134,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * Handles both `/movie/[id]` and `/tv/[id]` via the `[mediaType]` segment.
  *
  * Section render order (matches legacy):
- * 1. MediaHero — full-width, outside Container
+ * 1. MediaHero — full-width, outside Container (includes crew text)
  * 2. Synopsis — owns Container + Section
- * 3. Crew — owns Container + Section
+ * 3. Photos — owns Container + Section
  * 4. Cast — owns Container + Section
- * 5. Photos — owns Container + Section
- * 6. Trailers — owns Container + Section
- * 7. Similar — owns Container + Section
- * 8. Recommended — owns Container + Section
+ * 5. Trailers — owns Container + Section
+ * 6. Similar — owns Container + Section
+ * 7. Recommended — owns Container + Section
  */
 export default async function MediaPage({ params }: Readonly<Props>) {
   const { mediaType: rawMediaType, id } = await params
@@ -182,22 +180,19 @@ export default async function MediaPage({ params }: Readonly<Props>) {
       {/* 2. Synopsis */}
       <Synopsis id={contentId} mediaType={mediaType} />
 
-      {/* 3. Crew */}
-      <Crew id={contentId} mediaType={mediaType} />
-
-      {/* 4. Photos */}
+      {/* 3. Photos */}
       <Photos id={contentId} mediaType={mediaType} />
 
-      {/* 5. Cast */}
+      {/* 4. Cast */}
       <Cast id={contentId} mediaType={mediaType} />
 
-      {/* 6. Trailers */}
+      {/* 5. Trailers */}
       <TrailersSection id={contentId} mediaType={mediaType} />
 
-      {/* 7. Similar */}
+      {/* 6. Similar */}
       <SimilarSection id={contentId} mediaType={mediaType} />
 
-      {/* 8. Recommended */}
+      {/* 7. Recommended */}
       <RecommendedSection id={contentId} mediaType={mediaType} />
     </HydrationBoundary>
   )

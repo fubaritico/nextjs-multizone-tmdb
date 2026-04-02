@@ -104,7 +104,7 @@ export default async function HomePage() {
       </Container>
 
       {/* What's Popular Section - Gray background */}
-      <Container variant="muted">
+      <Container variant="default">
         <Section spacing="lg" maxWidth="xl">
           <PopularSection initialMediaType={DEFAULT_POPULAR_MEDIA_TYPE} />
         </Section>

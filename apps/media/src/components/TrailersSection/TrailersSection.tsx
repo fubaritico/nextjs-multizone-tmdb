@@ -31,15 +31,15 @@ const TrailersSection: FC<TrailersSectionProps> = ({ id, mediaType }) => {
 
   if (isLoading) {
     return (
-      <Container variant="muted">
+      <Container variant="default">
         <Section maxWidth="xl" spacing="lg" data-testid="trailers-section">
           <Typography variant="h2" className="mda:mb-6">
             Trailers
           </Typography>
           <div className="mda:grid mda:gap-4 mda:grid-cols-1 mda:md:grid-cols-2 mda:lg:grid-cols-3">
-            {Array.from({ length: MAX_TRAILERS }).map((_, index) => (
+            {Array.from({ length: MAX_TRAILERS }).map((_, i) => (
               <Skeleton
-                key={index}
+                key={String(i) + '-trailer-skeleton'}
                 className="mda:aspect-video mda:w-full mda:rounded-lg"
               />
             ))}
@@ -64,7 +64,7 @@ const TrailersSection: FC<TrailersSectionProps> = ({ id, mediaType }) => {
   if (trailers.length === 0) return null
 
   return (
-    <Container variant="muted">
+    <Container variant="default">
       <Section maxWidth="xl" spacing="lg" data-testid="trailers-section">
         <Typography variant="h2" className="mda:mb-6">
           Trailers

@@ -2,6 +2,7 @@
 
 import { Container, Section } from '@vite-mf-monorepo/layouts'
 import { Icon, Skeleton, Typography } from '@vite-mf-monorepo/ui'
+import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -114,7 +115,12 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
           {/* CTA tile — "X photos" */}
           <Link
             href={`${basePath}/photos/${toPhotoId(photos[0]?.file_path ?? '')}`}
-            className="mda:aspect-video mda:md:aspect-auto mda:flex mda:flex-col mda:items-center mda:justify-center mda:gap-2 mda:rounded-md mda:bg-muted mda:transition-colors hover:mda:bg-muted/70 mda:focus-visible:outline-none mda:focus-visible:ring-2 mda:focus-visible:ring-ring"
+            className={clsx(
+              'mda:aspect-video mda:md:aspect-auto mda:flex mda:flex-col',
+              'mda:items-center mda:justify-center mda:gap-2 mda:rounded-md mda:bg-muted',
+              'mda:transition-colors hover:mda:bg-muted/70 mda:focus-visible:outline-none',
+              'mda:focus-visible:ring-2 mda:focus-visible:ring-ring mda:[.media-section:nth-of-type(odd)_&]:bg-white'
+            )}
             aria-label={`View all ${String(total)} photos`}
           >
             <Icon
@@ -126,7 +132,7 @@ const Photos: FC<PhotosProps> = ({ id, mediaType }) => {
               variant="body"
               className="mda:text-badge-foreground mda:font-semibold"
             >
-              {total} photos
+              {total} photo{total > 1 && 's'}
             </Typography>
           </Link>
         </div>

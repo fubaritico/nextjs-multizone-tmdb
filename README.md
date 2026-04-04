@@ -57,6 +57,10 @@ Next.js Multi-Zones achieve the same micro-frontend benefits — **team autonomy
 
 The key insight: **HTTP rewrites replace JavaScript runtime loading**. The orchestrator (`apps/web`) routes requests to zone apps via URL rewriting — no shared JS bundles, no runtime federation, no `remoteEntry.js`. Each zone is a full Next.js app that works standalone.
 
+[⬆ Back to top](#table-of-contents)
+
+---
+
 ## Architecture
 
 ```
@@ -97,6 +101,10 @@ rewrites() {
 }
 ```
 
+[⬆ Back to top](#table-of-contents)
+
+---
+
 ## Zone Structure
 
 | Zone | Port | Prefix | Responsibility |
@@ -106,6 +114,10 @@ rewrites() {
 | `apps/media` | 3002 | `mda:` | Movie/TV detail, Cast, Crew, Photos |
 | `apps/talents` | 3003 | `tl:` | Actor/Director detail, Filmography, Photos |
 | `apps/search` | 3004 | `sr:` | Search, Filters, Advanced Discovery |
+
+[⬆ Back to top](#table-of-contents)
+
+---
 
 ## Getting Started
 
@@ -146,6 +158,10 @@ Each zone also runs standalone:
 - [http://localhost:3003](http://localhost:3003) — Talents
 - [http://localhost:3004](http://localhost:3004) — Search
 
+[⬆ Back to top](#table-of-contents)
+
+---
+
 ## Environment Variables
 
 ### Root `.env.local` (apps/web)
@@ -164,6 +180,10 @@ Each zone also runs standalone:
 | `NEXT_PUBLIC_ASSET_PREFIX` | Zone origin URL (e.g. `http://localhost:3001`) — required for multi-zone asset loading |
 | `VITE_TMDB_API_TOKEN` | TMDB API bearer token (`VITE_` prefix for http-client compatibility) |
 | `VITE_USE_NETLIFY_CDN` | Use Netlify Image CDN for TMDB images (`false` in dev) |
+
+[⬆ Back to top](#table-of-contents)
+
+---
 
 ## Development
 
@@ -204,6 +224,10 @@ Each zone app:
         └── page.tsx        Page component
 ```
 
+[⬆ Back to top](#table-of-contents)
+
+---
+
 ## Shared Packages
 
 All UI and utility packages are consumed from npm (published from the legacy [vite-mf-monorepo](https://github.com/fubaritico/vite-mf-monorepo) project):
@@ -216,6 +240,10 @@ All UI and utility packages are consumed from npm (published from the legacy [vi
 | `@fubar-it-co/tmdb-client` | TMDB heyAPI generated client + TanStack Query option factories |
 
 > To update a package: edit in vite-mf-monorepo, republish to npm, bump version here.
+
+[⬆ Back to top](#table-of-contents)
+
+---
 
 ## CSS Architecture
 
@@ -238,6 +266,10 @@ Tailwind v4 with **per-zone CSS prefixes** for style isolation — each zone's c
 | UI components | `ui:` |
 | Layouts | `layout:` |
 
+[⬆ Back to top](#table-of-contents)
+
+---
+
 ## Tech Stack
 
 | Category | Technology |
@@ -254,6 +286,10 @@ Tailwind v4 with **per-zone CSS prefixes** for style isolation — each zone's c
 | Linting | ESLint 9 (flat config) + Prettier |
 | Commits | Conventional Commits (commitlint + husky) |
 | Deployment | Netlify |
+
+[⬆ Back to top](#table-of-contents)
+
+---
 
 ## CI/CD
 
@@ -297,6 +333,10 @@ Deploys use `netlify deploy --build --prod` (OpenNext adapter builds Next.js out
 | `NEXT_PUBLIC_MEDIA_URL` | Production URL of media zone |
 | `NEXT_PUBLIC_TALENTS_URL` | Production URL of talents zone |
 | `NEXT_PUBLIC_SEARCH_URL` | Production URL of search zone |
+
+[⬆ Back to top](#table-of-contents)
+
+---
 
 ## Netlify
 
@@ -353,6 +393,10 @@ The legacy project uses Vite + Module Federation with `netlify deploy --no-build
 | Asset handling | Static `dist/` folder | `assetPrefix` + redirect in `netlify.toml` |
 | Orchestration | Module Federation runtime | HTTP rewrites via `NEXT_PUBLIC_*_URL` |
 
+[⬆ Back to top](#table-of-contents)
+
+---
+
 ## Claude Code + Legacy RAG
 
 This project uses a local RAG system ([vite-mf-monorepo-rag](https://github.com/fubaritico/vite-mf-monorepo-rag)) to give Claude Code semantic access to the legacy codebase. Claude Code calls `recall("how was X implemented?")` and gets back the most relevant legacy code chunks — components, hooks, patterns, API calls — ranked by meaning.
@@ -403,3 +447,7 @@ cd ../vite-mf-monorepo-rag && pnpm index
 ### How Claude Code uses it
 
 Claude Code calls `recall` proactively before implementing any feature that may have a legacy equivalent — no manual intervention needed once connected.
+
+[⬆ Back to top](#table-of-contents)
+
+---

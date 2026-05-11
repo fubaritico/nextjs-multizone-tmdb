@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@fontsource/inter": "catalog:",
+    "@sentry/nextjs": "catalog:",
     "@fontsource/roboto": "catalog:",
     "@fontsource/roboto-condensed": "catalog:",
     "@fubar-it-co/tmdb-client": "catalog:",

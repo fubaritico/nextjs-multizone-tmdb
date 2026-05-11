@@ -50,5 +50,8 @@ catalog:
   # Image processing (server-side blur generation)
   sharp: 0.34.1
 
+  # Monitoring
+  '@sentry/nextjs': 10.52.0
+
   # Utilities
   clsx: 2.1.1

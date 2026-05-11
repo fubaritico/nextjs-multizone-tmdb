@@ -1,9 +1,12 @@
+import { withSentryConfig } from '@sentry/nextjs'
+
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   assetPrefix: '/talents-static',
   env: {
     VITE_TMDB_API_TOKEN: process.env.VITE_TMDB_API_TOKEN,
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
   images: {
     remotePatterns: [
@@ -16,4 +19,9 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+})

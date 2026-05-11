@@ -1,6 +1,8 @@
 'use client'
 
+import * as Sentry from '@sentry/nextjs'
 import { Button, Typography } from '@vite-mf-monorepo/ui'
+import { useEffect } from 'react'
 
 /** Props for the error boundary. */
 interface ErrorPageProps {
@@ -11,6 +13,10 @@ interface ErrorPageProps {
 }
 
 export default function ErrorPage({ error, reset }: Readonly<ErrorPageProps>) {
+  useEffect(() => {
+    Sentry.captureException(error)
+  }, [error])
+
   return (
     <div className="mda:flex mda:flex-col mda:items-center mda:gap-4 mda:py-20">
       <Typography variant="h2">Something went wrong</Typography>

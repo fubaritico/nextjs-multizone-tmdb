@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   assetPrefix: '/media-static',
   env: {
     VITE_TMDB_API_TOKEN: process.env.VITE_TMDB_API_TOKEN,
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
   images: {
     remotePatterns: [

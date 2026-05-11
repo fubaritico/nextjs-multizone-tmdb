@@ -63,4 +63,6 @@ jobs:
           NEXT_PUBLIC_MEDIA_URL: ${{ secrets.NEXT_PUBLIC_MEDIA_URL }}
           NEXT_PUBLIC_TALENTS_URL: ${{ secrets.NEXT_PUBLIC_TALENTS_URL }}
           NEXT_PUBLIC_SEARCH_URL: ${{ secrets.NEXT_PUBLIC_SEARCH_URL }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          NEXT_PUBLIC_SENTRY_ENVIRONMENT: production
           DEPLOY_MESSAGE: "${{ github.event.workflow_run.head_commit.message }} (${{ github.event.workflow_run.head_sha }})"

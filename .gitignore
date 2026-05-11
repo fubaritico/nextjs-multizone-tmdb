@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env
+.env.bck
 .env.local
 .env.production
 
@@ -50,6 +51,9 @@ files
 explore-legacy.md
 .mcp.json
 .workflow/
+.claude/media-alignment-plan.md
+.claude/session-history.md
+.claude/settings.local.json
 
 # IDE
 .idea

@@ -60,4 +60,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID_SEARCH: ${{ secrets.NETLIFY_SITE_ID_SEARCH }}
           VITE_TMDB_API_TOKEN: ${{ secrets.VITE_TMDB_API_TOKEN }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          NEXT_PUBLIC_SENTRY_ENVIRONMENT: production
           DEPLOY_MESSAGE: "${{ github.event.workflow_run.head_commit.message }} (${{ github.event.workflow_run.head_sha }})"

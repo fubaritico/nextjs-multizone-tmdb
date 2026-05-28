@@ -45,7 +45,7 @@ catalog:
   '@vite-mf-monorepo/tokens': 0.0.4
 
   # Build
-  turbo: 2.8.20
+  turbo: 2.9.14
 
   # Image processing (server-side blur generation)
   sharp: 0.34.1
